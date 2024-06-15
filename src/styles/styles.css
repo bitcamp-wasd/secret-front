@@ -1,0 +1,20 @@
+body {
+    font-family: 'Glory', sans-serif;
+    font-weight: 300; /* 기본 두께를 설정 */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .font-light {
+    font-weight: 300;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  

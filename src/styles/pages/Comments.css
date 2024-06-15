@@ -1,0 +1,68 @@
+.comments-grid {
+  margin-top: 20px;
+}
+
+.comments-header {
+  display: grid;
+  grid-template-columns: 3fr 6fr 2fr;
+  background-color: #5b718f;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+
+.comment-row {
+  display: grid;
+  grid-template-columns: 3fr 6fr 2fr;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.delete-all-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ff6347;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.delete-all-button:hover {
+  background-color: #d63e28;
+}
+
+/* DeleteComments 특화 스타일 */
+.delete-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-delete-button {
+  padding: 10px;
+  background-color: #ddd;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.cancel-delete-button:hover {
+  background-color: #ccc;
+}
+
+.confirm-delete-button {
+  padding: 10px;
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-delete-button:hover {
+  background-color: #d63e28;
+}

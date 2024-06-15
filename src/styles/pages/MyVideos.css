@@ -1,0 +1,12 @@
+.videos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .videos-container h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
