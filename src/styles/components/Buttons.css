@@ -1,9 +1,9 @@
 .button {
-  background-color: #ffe500 !important;
+  background-color: var(--btn-color) !important;
   border: none;
   border-radius: 15px;
   padding: 15px 18px !important; /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
-  color: #000;
+  color: var(--black);
   font-size: 20px;
   cursor: pointer;
   text-align: center;
