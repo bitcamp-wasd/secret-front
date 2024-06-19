@@ -1,3 +1,47 @@
+/*반응형웹디자인, 픽셀의 크기를 절대적으로 관리하지 않고
+상대적으로 관리하기 위해 rem단위를 사용*/
+:root {
+  font-size: 16px; /* 1rem = 16px */
+  --padding: 32px;
+  --content-max-width: 1440px;
+
+  /*색상*/
+  --black: #000;
+  --white: #fff;
+  --btn-color: #FFE500;
+  --banner-color: rgba(241, 239, 209, 0.25); 
+  --border-color: #ddd;
+  --box-color: #f9f9f9; 
+  --box-border-color: #ccc;
+
+  /*폰트사이즈*/
+  --f12: 0.75rem; /* 12px */
+  --f16: 1rem;    /* 16px */
+  --f20: 1.25rem; /* 20px */
+  --f24: 1.5rem; /* 24px */
+
+
+
+}
+
+
+
+ /*반응형*/
+@media (max-width: 1440px) {
+  
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 768px) {
+  /* 545
+  350 */
+}
+
+
+
 /* flex-layout
  div안에서의 요소 스타일 설정 가능
 */
@@ -15,6 +59,7 @@
 /* position-layout */
 .pos-relative {position: relative;}
 .pos-absolute {position: absolute;}
+
 
 /* padding, margin */
 .pdx15 {padding: 0 15px;}
@@ -40,7 +85,6 @@
 .w20p {width: 20% !important;}
 .w10p {width: 10% !important;}
 
-
 /* height */
 .h100p {height:100% !important;}
 .h600 {height: 600px !important;}
@@ -52,8 +96,17 @@
 .h260 {height: 260px !important;}
 .h190 {height: 190px !important;}
 
+/*화면전체를 감쌀 메인 컨테이너 박스*/
+.main-container{
+  width: 100%;
+  max-width: var(--content-max-width);
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 
-
+}
 
 
 /*로그인,회원가입의 메인박스*/
@@ -61,9 +114,9 @@
   max-width: 480px;
   margin: 0 auto;
   padding: 2rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--box-color);
 }
 
 /*가로 810크기의 박스*/
@@ -71,9 +124,9 @@
   max-width: 810px;
   margin: 0 auto;
   padding: 2rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 0px;
-  background-color: #f9f9f9;
+  background-color: var(--box-color);
 }
 
 /*가로 1150크기의 박스*/
@@ -81,7 +134,7 @@
   max-width: 1150px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--box-color);
   border: none;
   border-radius: 8px;
 }
@@ -91,7 +144,7 @@
   width: 276px;
   border: none;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--white);
   padding: 0px;
   box-sizing: border-box;
   text-align: center;
@@ -115,7 +168,7 @@
   width: 317px;
   border: 1px solid #A5A5A5;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--white);
   padding: 0px;
   box-sizing: border-box;
   text-align: center;
@@ -138,7 +191,7 @@
   width: 340px;
   border: 1px solid #A5A5A5;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--white);
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
@@ -147,7 +200,7 @@
 }
 
 .best-challenges h2 {
-  font-size: 24px;
+  font-size: var(--f24);
   margin-bottom: 20px;
 }
 
