@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/components/Layout.css'
+import "../assets/css/style.css";
 import logo from '../assets/images/header_logo.svg';
 import mypage from '../assets/images/header_mypage.svg';
 import logout from '../assets/images/header_logout.svg';

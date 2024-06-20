@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../../components/Layout';
 import Button from '../../components/Button';
-import '../../styles/pages/Auth.css';
-import "../../styles/common.css"
+import "../../assets/css/style.css";
 
 const SignUp = () => {
   const [email, setEmail] = useState('');

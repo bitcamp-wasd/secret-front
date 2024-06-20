@@ -1,6 +1,5 @@
 import React from "react";
-import "../../styles/pages/MyPage.css";
-import "../../styles/common.css";
+import "../../assets/css/style.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout_banner_my";
