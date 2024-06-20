@@ -9,13 +9,8 @@ const Layout = ({ children, showHeader = true, showFooter = true }) => {
     <div className="layout">
       {showHeader && <Header />}
       <div className="main-content">
-      
         <div className="main-container">
-        
-          <div className="content">
-            
-            {children}
-          </div>
+          <div className="content">{children}</div>
         </div>
       </div>
       {showFooter && <Footer />}

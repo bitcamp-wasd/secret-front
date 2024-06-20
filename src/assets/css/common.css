@@ -86,9 +86,9 @@ label {
 
 body {
   font-family: "Glory", sans-serif;
-  font-weight: 300; /* 기본 두께를 설정 */
-  font-size: 1rem;
-  box-sizing: border-box;
+  font-weight: 500; /* 기본 두께를 설정 */
+  font-size: 16px;
+  
 }
 
 .font-light {
