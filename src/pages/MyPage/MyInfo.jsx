@@ -3,15 +3,15 @@ import "../../styles/pages/MyPage.css";
 import "../../styles/common.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
-import Layout from "../../components/Layout";
-import Banner from "../../components/Banner";
+import Layout from "../../components/Layout_banner_my";
+
 
 const MyInfo = () => {
 
     
   return (
-    <Layout>
-      <Banner />
+    <Layout showFooter={false}>
+      
       <div className="main-box-810">
         <div className="flex space-between align-center">
           <h2>내 정보</h2>

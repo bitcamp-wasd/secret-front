@@ -14,7 +14,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <Layout showHeader={false}>
       <div className="auth-container">
         <h2 className="font-medium">Login</h2>
         <form onSubmit={handleSubmit}>

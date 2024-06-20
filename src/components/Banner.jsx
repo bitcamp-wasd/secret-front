@@ -4,16 +4,17 @@
 import React from 'react';
 import Button from './Button';
 import '../styles/components/Banner.css';
+import question from '../assets/images/question.svg';
 
 const Banner = () => {
   return (
     <div className="banner">
-      <h1>김융님의 등급은 거장입니다</h1>
+      <h1>김융님의 등급은 거장입니다<img src={question} /></h1>
       <div className='banner-buttons'>
-      <Button size="banner">정보</Button>
-      <Button size="banner">내 동영상</Button>
-      <Button size="banner">내 댓글</Button>
-      <Button size="banner">좋아요</Button>
+      <Button size="middle">정보</Button>
+      <Button size="middle">내 동영상</Button>
+      <Button size="middle">내 댓글</Button>
+      <Button size="middle">좋아요</Button>
       </div>
     </div>
   );
