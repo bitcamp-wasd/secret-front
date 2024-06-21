@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../styles/pages/MyVideos.css';
 import VideoBox from '../../components/VideoBox';
 import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';

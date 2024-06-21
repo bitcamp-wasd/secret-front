@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/pages/Comments.css';
-import "../../styles/common.css";
+import "../../assets/css/style.css";
 import Layout from '../../components/Layout';
 import Banner from '../../components/Banner';
 import Button from "../../components/Button";

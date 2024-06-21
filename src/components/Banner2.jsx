@@ -1,8 +1,8 @@
 /*챌린지,배틀에서 사용할 배너*/
 import React from "react";
 import Button from "./Button";
-import "../styles/common.css";
-import "../styles/components/Banner.css";
+import "../assets/css/style.css";
+
 
 const Banner = () => {
   return (

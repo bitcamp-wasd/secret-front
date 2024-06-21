@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/common.css';
+import "../assets/css/style.css";
 
 const VideoBox = ({ thumbnail, title }) => {
   return (

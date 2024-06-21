@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import "../../styles/common.css";
+import "../../assets/css/style.css";
 import Banner from "../../components/Banner2";
 
 const ChallengeList = () => {

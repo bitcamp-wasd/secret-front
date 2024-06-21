@@ -1,0 +1,465 @@
+/*반응형웹디자인, 픽셀의 크기를 절대적으로 관리하지 않고
+상대적으로 관리하기 위해 rem단위를 사용*/
+:root {
+  font-size: 16px; /* 1rem = 16px */
+  --padding: 0px;
+  --content-max-width: 1440px;
+
+  /*색상*/
+  --black: #000;
+  --white: #fff;
+  --btn-color: #FFE500;
+  --banner-color: rgba(241, 239, 209, 0.25); 
+  --border-color: #ddd;
+  --box-color: #f9f9f9; 
+  --box-border-color: #ccc;
+
+  /*폰트사이즈*/
+  --f12: 0.75rem; /* 12px */
+  --f16: 1rem;    /* 16px */
+  --f20: 1.25rem; /* 20px */
+  --f24: 1.5rem; /* 24px */
+
+
+
+}
+
+
+
+ /*반응형*/
+@media (max-width: 1440px) {
+  
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 768px) {
+  /* 545
+  350 */
+}
+
+
+
+/* flex-layout
+ div안에서의 요소 스타일 설정 가능
+*/
+.inline-flex {display: inline-flex; flex-wrap: wrap;}
+.flex {display: flex; flex-wrap: wrap;}
+.justify-center {display: flex; justify-content: center;}
+.space-between {display: flex; justify-content: space-between;}
+.flex-end {display: flex; justify-content: flex-end;}
+.align-center {display: flex; align-items: center;}
+.align-start {display: flex; align-items: flex-start !important;}
+.column-direction {display: flex; flex-direction: column;}
+.row-direction {display: flex; flex-direction: row;}
+.flex-grow {flex: 1 1;}
+
+/* position-layout */
+.pos-relative {position: relative;}
+.pos-absolute {position: absolute;}
+
+
+/* padding, margin */
+.pdx15 {padding: 0 15px;}
+.pdx20 {padding: 0 20px;}
+.pdx25 {padding: 0 25px;}
+.pdx30 {padding: 0 30px;}
+.pdx55 {padding: 0 55px;}
+
+.mt8 {margin-top: 8px;}
+.mt10 {margin-top: 10px;}
+.mb0 {margin-bottom: 0px !important;}
+.mb8 {margin-bottom: 8px;}
+.ml8 {margin-left: 8px;}
+
+/* width */
+.w100p {width: 100% !important;}
+.w70p {width: 70% !important;}
+.w66p {width: 66.66% !important;}
+.w50p {width: 50% !important;}
+.w33p {width: 33.33% !important;}
+.w30p {width: 30% !important;}
+.w25p {width: 25% !important;}
+.w20p {width: 20% !important;}
+.w10p {width: 10% !important;}
+
+/* height */
+.h100p {height:100% !important;}
+.h600 {height: 600px !important;}
+.h530 {height: 530px !important;}
+.h500 {height: 500px !important;}
+.h400 {height: 400px !important;}
+.h320 {height: 320px !important;}
+.h300 {height: 300px !important;}
+.h260 {height: 260px !important;}
+.h190 {height: 190px !important;}
+
+
+/*박스 레이아웃*/
+
+/*화면전체를 감쌀 메인 컨테이너 박스*/
+.main-container{
+    width: 100%;
+    max-width: var(--content-max-width);    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  
+  }
+
+/*로그인,회원가입의 메인박스*/
+.auth-container {
+    width: 480px;
+    margin: 0 auto;
+    
+  }
+
+  /*로그인박스 스타일*/
+.auth-box{
+  
+  padding: 16px;
+  border: 1px solid black;
+  background-color: var(--box-color);
+  
+}
+
+/*가로 810크기의 박스*/
+.main-container-810 {
+  max-width: 810px;
+  margin: 0 auto;
+  
+}
+
+.main-container-810-box{
+  padding: 16px;
+  background-color: var(--box-color);
+}
+
+/*가로 1150크기의 박스*/
+.main-container-1150 {
+  max-width: 1150px;
+  margin: 0 auto;
+  
+}
+
+.main-container-1150-box{
+  padding: 16px;
+  background-color: var(--box-color);
+  border: none;
+  border-radius: 8px;
+}
+
+/*비디오 1개의 박스(276px)*/
+.video-box {
+  width: 276px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--white);
+  padding: 0px;
+  box-sizing: border-box;
+  text-align: center;
+  
+}
+
+.video-box img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 276 / 155.25;
+  border-radius: 4px;
+}
+
+.video-box p {
+  margin: 10px 0 0;
+  
+}
+
+/*챌린지, 배틀페이지에서 비디오박스를 감쌀 박스*/
+.sub-box-317 {
+  width: 317px;
+  border: 1px solid #A5A5A5;
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px;
+  display: flex; /* 플렉스박스 사용 */
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.challenge-container {
+  display: flex;
+  justify-content: center;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px; 
+}
+
+.best-challenges {
+  width: 340px;
+  border: 1px solid #A5A5A5;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 10px;
+  
+}
+
+.best-challenges h2 {
+  font-size: var(--f24);
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/*버튼*/
+.button {
+  background-color: var(--btn-color) !important;
+  
+  border-radius: 15px;
+  padding: 15px 18px !important; /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
+  color: var(--black);
+  font-size: 20px;
+  
+  text-align: center;
+  display: inline-flex; /* 텍스트 길이에 맞게 버튼 길이 조정 */
+  justify-content: center;
+  align-items: center;
+  width: auto; /* 너비를 자동으로 설정하여 텍스트 길이에 맞춤 */
+  max-width: 100%; /* 부모 요소의 최대 너비를 넘지 않도록 설정 */
+  white-space: nowrap; /*줄넘김 방지*/
+}
+
+.button.large {
+  height: 55px;
+  width: 300px;
+  border-radius: 4px;
+}
+  
+.button.middle {
+  height: 50px;
+}
+
+.button.confirm {
+  height: 40px;
+  font-size: 20px;
+}
+
+.button.tag {
+  height: 35px;
+  font-size: 16px;
+}
+
+.button.comment {
+  height: 30px;
+  font-size: 16px;
+}
+
+
+.button:hover {
+  background-color: #ffd700; /* hover 효과 */
+}
+
+
+/*레이아웃(헤더,메인,푸터)*/
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+
+.main-content {
+  
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.content {
+  /* padding: 1rem; */
+}
+
+
+/* 헤더 */
+.header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 60px 0 0px; /* 오른쪽에만 패딩 */
+background-color: var(--white); /* 헤더 배경색 */
+}
+
+.logo {
+margin-right: 84px; /* 로고와 내비게이션 사이의 간격 */
+}
+
+.nav {
+flex-grow: 1; /* 내비게이션이 가운데에 위치하도록 */
+}
+
+.nav-list {
+display: flex;
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+.nav-list li {
+margin-right: 50px; /* 버튼들 사이의 간격 */
+}
+
+.nav-list li:last-child {
+margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+.header img.mypage {
+margin-right: 50px; /* 마이페이지 이미지와 로그아웃 이미지 사이의 간격 */
+}
+
+.header img.logout {
+margin-left: auto; /* 로그아웃 이미지를 오른쪽 끝에 고정 */
+}
+
+.header button{
+font-size: 20px;
+font-weight: 700;
+background-color: inherit;
+color: black; /* 버튼 텍스트 색상 */
+}
+
+
+
+
+
+footer {
+  background: var(--white);
+  color: var(--black);
+  padding: 1rem;
+  text-align: center;
+  border-top: solid 1px var(--black);
+}
+
+
+
+/*배너*/
+.banner {
+  width: 100%;
+  height: 189px;
+  background: var(--banner-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0; /* 부모 요소와의 여백 제거 */
+  padding: 0; /* 내부 여백 제거 */
+  background-image: url('../../assets/images/banner_image.svg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: right center;
+
+}
+
+.banner h1 {
+  margin: 0 0 20px 0; /* 아래쪽 여백 추가 */
+  font-size: var(--f24);
+  font-weight: 700;
+  width: 810px;
+
+}
+
+/*배너 내부의 버튼 안의 간격*/
+.banner-buttons-box {
+  display: flex;
+  gap: 24px; /* 버튼 간격 추가 */
+  width: 810px;
+
+}
+
+
+/*내정보 css*/
+
+.myinfo-box{
+  display: flex;
+  flex-direction: column;
+  width: 810px;
+  gap: 31px;
+}
+
+.myinfo-headline{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px black;
+  padding-bottom: 15px;
+}
+
+.info-box {
+  
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.info-item label{
+  width: 13.7% !important;
+}
+
+.info-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/*내정보-댓글*/
+.comments-grid {
+  margin-top: 20px;
+}
+
+.comments-header {
+  display: grid;
+  grid-template-columns: 3fr 6fr 2fr;
+  background: rgba(255, 229, 0, 0.3);
+  color: var(--black);
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+
+.comment-row {
+  display: grid;
+  grid-template-columns: 3fr 6fr 2fr;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid var(--box-border-color);
+}
+
+
+/*비디오스타일*/
+.videos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.videos-container h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}

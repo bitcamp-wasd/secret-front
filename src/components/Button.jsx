@@ -1,6 +1,6 @@
 /*버튼 컴포넌트*/
 import React from 'react';
-import '../styles/components/Buttons.css';
+import "../assets/css/style.css";
 
 const Button = ({ size, children, onClick }) => {
   return (

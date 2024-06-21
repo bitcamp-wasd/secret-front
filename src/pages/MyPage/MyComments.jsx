@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/pages/Comments.css";
-import "../../styles/common.css";
-import Layout from "../../components/Layout";
+import "../../assets/css/style.css";
+import Layout from "../../components/Layout_banner_my";
 import Banner from "../../components/Banner";
 import Button from "../../components/Button";
 
@@ -17,8 +16,9 @@ const MyComments = () => {
 
   return (
     <Layout>
-      <Banner />
-      <div className="main-box-1150">
+      
+      <div class="main-container-1150">
+        <div class="main-container-1150-box">
         <div className="comments-grid">
           <div className="comments-header">
             <span>동영상 제목</span>
@@ -36,6 +36,7 @@ const MyComments = () => {
             <Button size="confirm">삭제하기</Button>
           </div>
         </div>
+      </div>
       </div>
     </Layout>
   );
