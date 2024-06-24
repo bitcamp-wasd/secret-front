@@ -256,6 +256,8 @@
 .button.tag {
   height: 35px;
   font-size: 16px;
+  margin-right: 15px;
+  background-color: rgba(255, 229, 0, 0.3);
 }
 
 .button.comment {
