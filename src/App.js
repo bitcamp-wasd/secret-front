@@ -4,6 +4,7 @@ import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
 import MainPage from './pages/Main/MainPage';
 import MyInfo from './pages/MyPage/MyInfo';
+import MyInfoEdit from './pages/MyPage/MyInfoEdit';
 import MyVideos from './pages/MyPage/MyVideos';
 import MyLikes from './pages/MyPage/MyLikes';
 import MyComments from './pages/MyPage/MyComments';
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage/myinfo" element={<MyInfo />} />
+        <Route path="/mypage/myinfoedit" element={<MyInfoEdit />} />
         <Route path="/mypage/myvideos" element={<MyVideos />} />
         <Route path="/mypage/mylikes" element={<MyLikes />} />
         <Route path="/mypage/mycomments" element={<MyComments />} />

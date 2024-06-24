@@ -1,7 +1,6 @@
 import React from "react";
 import "../../assets/css/style.css";
 import "../../components/Layout";
-import Tag from "../../components/Tag";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout_banner_my";
 import UserIcon from "../../assets/images/user_icon.svg";
@@ -9,10 +8,7 @@ import UserIcon from "../../assets/images/user_icon.svg";
 const MyInfo = () => {
   return (
     <Layout showFooter={false}>
-      
-      <Tag/>
-
-      <div className="main-box-810">
+      <div className="main-box-810 mt120">
         <div class="myinfo-box">
           <div class="myinfo-headline">
             <div class="flex align-center">
@@ -26,16 +22,20 @@ const MyInfo = () => {
             <div className="info-item">
               <label>닉네임</label>
               <div className="info-content">
-                <span>사용자 닉네임</span>
+                <span>백브레이커</span>
               </div>
             </div>
             <div className="info-item">
               <label>이메일</label>
-              <span>user@example.com</span>
+              <div className="info-content">
+                <span>noton0@naver.com</span>
+              </div>
             </div>
             <div className="info-item">
               <label>포인트</label>
-              <span>12345</span>
+              <div className="info-content">
+                <span>1500</span>
+              </div>
             </div>
           </div>
         </div>

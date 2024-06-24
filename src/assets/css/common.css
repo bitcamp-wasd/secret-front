@@ -71,10 +71,7 @@ button {
 hr {
   display: none;
 }
-input {
-  border: none;
-  outline: none;
-}
+
 
 input,
 textarea,

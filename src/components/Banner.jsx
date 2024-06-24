@@ -9,7 +9,7 @@ import question from '../assets/images/question.svg';
 const Banner = () => {
   return (
     <div className="banner">
-      <h1>김융님의 등급은 거장입니다<img src={question} /></h1>
+      <h1>김융님의 등급은 높은음자리표 입니다<img src={question} /></h1>
       <div className='banner-buttons-box'>
       <Button size="middle">정보</Button>
       <Button size="middle">내 동영상</Button>
