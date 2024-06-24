@@ -70,8 +70,11 @@
 
 .mt8 {margin-top: 8px;}
 .mt10 {margin-top: 10px;}
+.mt20 {margin-top: 20px;}
+.mt120 {margin-top: 120px;}
 .mb0 {margin-bottom: 0px !important;}
 .mb8 {margin-bottom: 8px;}
+.mb20 {margin-bottom: 20px;}
 .ml8 {margin-left: 8px;}
 
 /* width */
@@ -106,7 +109,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    
     
   
   }
@@ -222,7 +225,7 @@
 
 /*버튼*/
 .button {
-  background-color: var(--btn-color) !important;
+  background-color: var(--btn-color) ;
   
   border-radius: 15px;
   padding: 15px 18px !important; /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
@@ -298,6 +301,7 @@
 /* 헤더 */
 .header {
 display: flex;
+max-height: 80px;
 align-items: center;
 justify-content: space-between;
 padding: 0 60px 0 0px; /* 오른쪽에만 패딩 */
@@ -349,9 +353,9 @@ color: black; /* 버튼 텍스트 색상 */
 footer {
   background: var(--white);
   color: var(--black);
-  padding: 1rem;
+  padding: 12px;
   text-align: center;
-  border-top: solid 1px var(--black);
+  border-top: solid 1px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -367,11 +371,25 @@ footer {
   flex-direction: column;
   margin: 0; /* 부모 요소와의 여백 제거 */
   padding: 0; /* 내부 여백 제거 */
+  position: relative;
+  
+
+}
+
+/*배너내부 이미지 투명도설정*/
+.banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background-image: url('../../assets/images/banner_image.svg');
   background-size: auto;
   background-repeat: no-repeat;
   background-position: right center;
-
+  opacity: 0.05; /* 투명도 설정 */
+  z-index: -1; /* 배너 콘텐츠보다 뒤로 보내기 */
 }
 
 .banner h1 {
@@ -393,14 +411,14 @@ footer {
 
 /*내정보 css*/
 
-.myinfo-box{
+.myinfo-box {
   display: flex;
   flex-direction: column;
   width: 810px;
   gap: 31px;
 }
 
-.myinfo-headline{
+.myinfo-headline {
   display: flex;
   justify-content: space-between;
   border-bottom: solid 1px black;
@@ -408,26 +426,43 @@ footer {
 }
 
 .info-box {
-  
   display: flex;
   flex-direction: column;
   gap: 36px;
-  
+  font-size: 20px;
 }
 
 .info-item {
   display: flex;
   align-items: center;
+  position: relative; /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
 }
 
-.info-item label{
-  width: 13.7% !important;
+.info-item label {
+  width: 22%; 
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
-.info-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.info-content{
+  margin-left: 18px;
+}
+
+.info-item input {
+  width: 30%;
+  border: solid 1px black;
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: inherit;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px; 
+  margin-top: 5px; 
+  margin-left: 160px; 
+  position: absolute; /* 절대 위치 설정 */
+  bottom: -24px; 
 }
 
 /*내정보-댓글*/
