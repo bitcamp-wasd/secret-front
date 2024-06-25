@@ -24,7 +24,7 @@ const Tag = () => {
     };
 
     return (
-        <div className="tag align-center mb8">
+        <div className="tag-box align-center">
             <button
                 className={`button tag ${selected.includes(0) ? 'selected' : ''}`}
                 onClick={() => handleClick(0)}
@@ -35,37 +35,56 @@ const Tag = () => {
                 className={`button tag ${selected.includes(1) ? 'selected' : ''}`}
                 onClick={() => handleClick(1)}
             >
-                <img src={View} alt="view" />조회수
+                <span className='icon-wrapper'>
+                <img src={View} alt="view" />
+                </span>
+                조회수
+                
             </button>
             <button
                 className={`button tag ${selected.includes(2) ? 'selected' : ''}`}
                 onClick={() => handleClick(2)}
             >
-                 <img src={Like} alt="piano" />좋아요
+                <span className='icon-wrapper'>
+                 <img src={Like} alt="piano" />
+                 </span>
+                 좋아요
             </button>
             <button
                 className={`button tag ${selected.includes(3) ? 'selected' : ''}`}
                 onClick={() => handleClick(3)}
             >
-                <img src={Piano} alt="piano" /> 피아노
+                <span className='icon-wrapper'>
+                <img src={Piano} alt="piano" />
+                </span>
+                피아노
             </button>
             <button
                 className={`button tag ${selected.includes(4) ? 'selected' : ''}`}
                 onClick={() => handleClick(4)}
             >
-                <img src={Violin} alt="violin" /> 바이올린
+                <span className='icon-wrapper'>
+                <img src={Violin} alt="violin" /> 
+                </span>
+                바이올린
             </button>
             <button
                 className={`button tag ${selected.includes(5) ? 'selected' : ''}`}
                 onClick={() => handleClick(5)}
             >
-                <img src={Guitar} alt="guitar" /> 기타
+                <span className='icon-wrapper'>
+                <img src={Guitar} alt="guitar" /> 
+                </span>
+                기타
             </button>
             <button
                 className={`button tag ${selected.includes(6) ? 'selected' : ''}`}
                 onClick={() => handleClick(6)}
             >
-                <img src={Drum} alt="drum" /> 드럼
+                <span className='icon-wrapper'>
+                <img src={Drum} alt="drum" /> 
+                </span>
+                드럼
             </button>
         </div>
     );

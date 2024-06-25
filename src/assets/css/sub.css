@@ -1,0 +1,26 @@
+.tag-main-right {
+    display: flex;
+    align-items: center;
+    
+}
+
+.tag-main-right input {
+  width: 200px;
+  border: solid 2px #FFE500;
+  border-radius: 15px;
+  padding: 8px 17px;
+  margin-left: 25px;
+  font-size: inherit;
+  text-align: center;
+  background-image: url('../../assets/images/search.svg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: left 12px center;
+  
+}
+
+.tag-main-right button{
+    padding: 10px !important;
+}
+
+

@@ -62,6 +62,7 @@
 
 
 /* padding, margin */
+.pdx10 {padding: 0 10px;}
 .pdx15 {padding: 0 15px;}
 .pdx20 {padding: 0 20px;}
 .pdx25 {padding: 0 25px;}
@@ -71,10 +72,13 @@
 .mt8 {margin-top: 8px;}
 .mt10 {margin-top: 10px;}
 .mt20 {margin-top: 20px;}
+.mt80 {margin-top: 80px !important;} 
 .mt120 {margin-top: 120px;}
 .mb0 {margin-bottom: 0px !important;}
 .mb8 {margin-bottom: 8px;}
 .mb20 {margin-bottom: 20px;}
+.mb50 {margin-bottom: 50px;}
+
 .ml8 {margin-left: 8px;}
 
 /* width */
@@ -159,12 +163,11 @@
 /*비디오 1개의 박스(276px)*/
 .video-box {
   width: 276px;
-  border: none;
   border-radius: 4px;
   background-color: var(--white);
   padding: 0px;
   box-sizing: border-box;
-  text-align: center;
+  
   
 }
 
@@ -178,6 +181,10 @@
 .video-box p {
   margin: 10px 0 0;
   
+}
+
+.video-box-detail{
+  gap:15px;
 }
 
 /*챌린지, 배틀페이지에서 비디오박스를 감쌀 박스*/
@@ -223,12 +230,18 @@
   border-radius: 5px;
 }
 
+/*아이콘을 감쌀 박스*/
+.icon-wrapper{
+  display: inline-flex;
+  margin-right: 8px;
+}
+
 /*버튼*/
 .button {
   background-color: var(--btn-color) ;
   
   border-radius: 15px;
-  padding: 15px 18px !important; /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
+  padding: 15px 18px; /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
   color: var(--black);
   font-size: 20px;
   
@@ -256,12 +269,26 @@
   font-size: 20px;
 }
 
+
 .button.tag {
   height: 35px;
   font-size: 16px;
+  
+}
+
+/*태그 박스에 들어갈 버튼 스타일*/
+.tag-box button{
+  padding: 10px !important;
   margin-right: 15px;
   background-color: rgba(255, 229, 0, 0.3);
 }
+
+.tag-box button:last-child {
+  margin-left: auto;
+  margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+  }
+
+
 
 .button.comment {
   height: 30px;
@@ -306,6 +333,7 @@ align-items: center;
 justify-content: space-between;
 padding: 0 60px 0 0px; /* 오른쪽에만 패딩 */
 background-color: var(--white); /* 헤더 배경색 */
+border-bottom: solid 1px #EFF3F6;
 }
 
 .logo {
@@ -318,9 +346,6 @@ flex-grow: 1; /* 내비게이션이 가운데에 위치하도록 */
 
 .nav-list {
 display: flex;
-list-style: none;
-margin: 0;
-padding: 0;
 }
 
 .nav-list li {
@@ -500,3 +525,25 @@ footer {
   font-weight: 700;
   margin-bottom: 20px;
 }
+
+/*동영상 리스트 출력*/
+.movie-small {
+  flex-grow: 1; /* 내비게이션이 가운데에 위치하도록 */
+  
+  }
+  
+  .movie-small-list {
+  font-size:12px;
+  display: flex;
+  align-items: center;
+  padding-top: 7px;
+  }
+  
+  .movie-small-list li {
+  margin-right: 10px; /* 버튼들 사이의 간격 */
+  }
+  
+  .movie-small-list li:last-child {
+  margin-left: auto;
+  margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+  }
