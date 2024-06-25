@@ -1,0 +1,79 @@
+.video-play {
+    width: 810px;
+    border-radius: 4px;
+    background-color: var(--white);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.video-play img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 276 / 155.25;
+    border-radius: 4px;
+}
+
+.play-infobox {
+    font-size: var(--f20);
+}
+
+.video-info {
+    font-size: var(--f16);
+}
+
+.video-info-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 15px 9px 15px;
+    background-color: rgb(250, 250, 250);
+    border: none;
+    border-radius: 20px;
+}
+
+.video-info-content {
+    margin-top: 12px;
+    display: flex;
+    background-color: rgb(250, 250, 250);
+    height: 80px;
+    padding: 9px 15px 9px 15px;
+    border-radius: 20px;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.mt90 {
+    margin-top: 90px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.button-container>*:not(:last-child) {
+    margin-right: 20px;
+}
+
+.button-container {
+    height: 40px;
+}
+
+.comment input {
+    margin-top: 12px;
+    display: flex;
+    height: 80px;
+    padding: 9px 15px 9px 15px;
+    border: 1px;
+    border-radius: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.comment-content {
+    margin-top: 10px;
+    border-bottom: 1px solid #ccc;
+    /* 아래쪽 선 스타일링 */
+    padding-bottom: 10px;
+    /* 선과 텍스트 사이 간격 조절 */
+}
