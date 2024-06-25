@@ -77,7 +77,8 @@ input,
 textarea,
 button,
 legend,
-label {
+label
+ {
   font-family: "Glory", sans-serif !important;
 }
 
