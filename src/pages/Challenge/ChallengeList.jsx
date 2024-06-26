@@ -1,44 +1,95 @@
 import React from "react";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Layout_Ch";
 import "../../assets/css/style.css";
-import Banner from "../../components/Banner2";
+import chbest from "../../assets/images/chbest.svg"
+import Tag from "../../components/Tag";
+import VideoBox from "../../components/VideoBox";
+import one from "../../assets/images/1.svg";
+import two from "../../assets/images/2.svg";
+import three from "../../assets/images/3.svg";
 
 const ChallengeList = () => {
+  // 더미 데이터 생성
+  const dummyVideos = Array.from({ length: 12 }, (_, index) => ({
+    id: index + 1,
+    title: `Video ${index + 1
+      } 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
+    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1
+      }`,
+    author: "홍길동",
+  }));
+
+  const dummyVideo = {
+    id: 1,
+    title: `Video 1 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
+    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
+    author: "홍길동",
+  };
+
   return (
-    <Layout>
-      <Banner />
-      
+    <Layout showFooter={false}>
+
       <div className="challenge-container">
-        <div className="best-challenges">
-          <h2>챌린지 BEST 3</h2>
-          <p>챌린지의 최고 순위를 차지한 동영상입니다.</p>
+
+        <div className="best-challenge">
+          <img src={chbest} />
+          <div className="text-overlay">캐논변주곡 <br />챌린지 BEST3</div>
         </div>
         <div className="sub-box-317">
-          <div className="video-box">
-            <img
-              src="https://via.placeholder.com/276x155"
-              alt="Best Challenge 1"
+          <div className="video-box" style={{ position: "relative" }}>
+            <VideoBox
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
             />
-            <p>1등 동영상</p>
+            <img className="video-overlay" src={one} alt="One 이미지" />
           </div>
         </div>
         <div className="sub-box-317">
-          <div className="video-box">
-            <img
-              src="https://via.placeholder.com/276x155"
-              alt="Best Challenge 2"
+          <div className="video-box" style={{ position: "relative" }}>
+            <VideoBox
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
             />
-            <p>2등 동영상</p>
+            <img className="video-overlay" src={two} />
           </div>
         </div>
+
+
         <div className="sub-box-317">
-          <div className="video-box">
-            <img
-              src="https://via.placeholder.com/276x155"
-              alt="Best Challenge 3"
+          <div className="video-box" style={{ position: "relative" }}>
+            <VideoBox
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
             />
-            <p>3등 동영상</p>
+
+            <img className="video-overlay" src={three} />
           </div>
+        </div>
+      </div>
+
+      <div className="main-container-1150 mt80">
+        <div class="row-direction space-between mb50">
+
+
+          <Tag />
+
+
+        </div>
+        <div className="videos-grid">
+          {dummyVideos.map((video) => (
+            <VideoBox
+              key={video.id}
+              thumbnail={video.thumbnail}
+              title={video.title}
+              author={video.author}
+            />
+          ))}
         </div>
       </div>
     </Layout>

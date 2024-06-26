@@ -17,7 +17,7 @@ const PlayVideo = () => {
     return (
         <Layout>
             {/* 동영상 */}
-            <div className="main-box-810">
+            <div className="main-container-810">
                 <div className="videos-grid mt90">
                     <VideoPlay thumbnail={dummyVideo.thumbnail} />
                 </div>
@@ -62,7 +62,7 @@ const PlayVideo = () => {
                 {/* 댓글등록 */}
                 <div className="comment mt90">
                     <div>댓글 254개</div>
-                    <input type="text" className="input-text" placeholder="댓글을 입력하세요." />
+                    <textarea type="text" placeholder="댓글을 입력하세요." />
                 </div>
                 <div className="flex-end mt10 button-container">
                     <Button>등록</Button>
