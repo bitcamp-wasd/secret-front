@@ -71,7 +71,9 @@ button {
 hr {
   display: none;
 }
-
+input::placeholder {
+  text-align: center;
+}
 
 input,
 textarea,
