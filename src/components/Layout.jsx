@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Banner from "./Banner";
 import "../assets/css/style.css";
 
 const Layout = ({ children, showHeader = true, showFooter = true }) => {

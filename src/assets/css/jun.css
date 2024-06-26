@@ -43,6 +43,10 @@
     margin-top: 40px;
 }
 
+.mt60 {
+    margin-top: 60px;
+}
+
 .mt90 {
     margin-top: 90px;
 }
@@ -76,4 +80,81 @@
     /* 아래쪽 선 스타일링 */
     padding-bottom: 10px;
     /* 선과 텍스트 사이 간격 조절 */
+}
+
+.ch-day {
+    font-size: var(--f16);
+}
+
+.ch-banner h1 {
+    font-size: 42px;
+}
+
+.ch-banner Button {
+    padding: 15px 35px 15px 35px;
+}
+
+.best-challenge {
+    position: relative;
+    display: inline-block;
+}
+
+.text-overlay {
+    width: 300px;
+    position: absolute;
+    top: 35%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    font-size: 38px
+}
+
+.video-overlay {
+    position: absolute;
+    top: 65%;
+    left: 93%;
+    transform: translate(-50%, -50%)
+}
+
+.title {
+    font-size: 20px;
+}
+
+.regtitle-text {
+    margin-top: 12px;
+    display: flex;
+    height: 40px;
+    padding: 9px 15px 9px 15px;
+    border: 1px;
+    border-radius: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.regcontent-text {
+    margin-top: 12px;
+    display: flex;
+    height: 350px;
+    padding: 9px 15px 9px 15px;
+    border-radius: 20px;
+    min-height: 350px;
+    max-width: 810px;
+    min-width: 810px;
+    width: 100%;
+    border: 1px solid #ccc;
+    white-space: normal;
+}
+
+.sheetmusic-upload {
+    width: 810px;
+    height: 350px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.sheetmusic {
+    width: 200px;
+    height: 250px;
+    border-radius: 20px;
+    margin: 25px;
+    background-color: #ccc;
 }

@@ -24,32 +24,7 @@ const Tag = () => {
     };
 
     return (
-        <div className="tag-box align-center">
-            <button
-                className={`button tag ${selected.includes(0) ? 'selected' : ''}`}
-                onClick={() => handleClick(0)}
-            >
-                전체
-            </button>
-            <button
-                className={`button tag ${selected.includes(1) ? 'selected' : ''}`}
-                onClick={() => handleClick(1)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={View} alt="view" />
-                </span>
-                조회수
-
-            </button>
-            <button
-                className={`button tag ${selected.includes(2) ? 'selected' : ''}`}
-                onClick={() => handleClick(2)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Like} alt="piano" />
-                </span>
-                좋아요
-            </button>
+        <div className="tag-box align-center mt10">
             <button
                 className={`button tag ${selected.includes(3) ? 'selected' : ''}`}
                 onClick={() => handleClick(3)}

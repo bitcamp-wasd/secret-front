@@ -5,10 +5,10 @@ const VideoBox = ({ thumbnail, title }) => {
   return (
     <div className="video-box">
       <img src={thumbnail} alt={title} />
-      
+
       <div class="row-direction space-between pdx30">
         <div class="movie-small">
-        <span>{title}</span>
+          <span>{title}</span>
           <ul class="movie-small-list">
             <li>
               <span>조회수 2536</span>
