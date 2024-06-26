@@ -127,10 +127,10 @@
 
   /*로그인박스 스타일*/
 .auth-box{
-  
-  padding: 16px;
   border: 1px solid black;
   background-color: var(--box-color);
+  justify-content: center;
+  align-content: center;
   
 }
 
