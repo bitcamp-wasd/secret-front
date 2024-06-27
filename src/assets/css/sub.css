@@ -1,3 +1,4 @@
+/*메인동영상 리스트에서 사용하는 태그의 오른쪽 기능(업로드,검색) 스타일*/
 .tag-main-right {
     display: flex;
     align-items: center;
@@ -24,3 +25,144 @@
 }
 
 
+/*로그인 화면 로고*/
+.auth-site-logo{
+  display: flex;
+  width: 100%;
+  margin-top: 25px;
+  justify-content: center;
+}
+
+
+/*로그인 화면의 사이트명*/
+.auth-site-name {
+  display: flex;
+  width: 100%;
+  margin: 25px 0 62px 0;
+  justify-content: center;
+}
+
+.auth-site-name h1{
+  font-size: 40px;
+}
+
+
+/*로그인 박스 내부 요소 스타일*/
+
+.auth-box-info {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+}
+
+.auth-box-info-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
+  margin-bottom: 23px; /* 기본 간격 */
+}
+
+.auth-box-info input {
+  width: 260px;
+  border: solid 1px black;
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: 20px;
+}
+
+.auth-code-input {
+  flex: 1;
+}
+
+.auth-error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 5px;
+  position: absolute; /* 절대 위치 설정 */
+  top: -35px; /* 이메일 input 상단으로 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+
+.auth-box-info-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  /* 부모 요소의 전체 너비 사용 */
+  
+}
+
+.auth-box-info-social img {
+  max-width: 300px;
+  width: 300px;
+  max-height: 40px;
+  height: 40px;
+ object-fit: cover; /*이미지 비율 유지하며 박스에 맞게*/
+}
+
+.auth-box-info-signup{
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 90px;
+}
+
+/* 간격 설정 */
+.mt60{
+  margin-top: 60px;
+}
+
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.mb-6 {
+  margin-bottom: 6px;
+}
+
+.mb-21 {
+  margin-bottom: 21px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-60 {
+  margin-bottom: 60px;
+}
+
+.signup-button-box{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px; /* input과 버튼 사이의 간격 */
+  width: 100%;
+  
+  
+}
+
+.signup-error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 5px;
+  position: absolute; /* 절대 위치 설정 */
+  top: 35px; /* 이메일 input 상단으로 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.mt70{
+  margin-top: 70px;
+}
+
+.mb80{
+  margin-bottom: 80px;
+}

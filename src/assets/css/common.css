@@ -80,7 +80,13 @@ hr {
   display: none;
 }
 
+
 /* 
+input::placeholder {
+  text-align: center;
+}
+
+*/
 input,
 textarea,
 button,
@@ -88,7 +94,7 @@ legend,
 label
  {
   font-family: "Glory", sans-serif !important;
-} */
+} 
 
 body {
   font-family: "Glory", sans-serif;
