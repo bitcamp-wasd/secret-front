@@ -74,6 +74,7 @@
     border: 1px solid #ccc;
     resize: none;
     overflow: hidden;
+    outline: none;
 }
 
 .comment-content {
@@ -110,8 +111,8 @@
 
 .video-overlay {
     position: absolute;
-    top: 65%;
-    left: 93%;
+    top: 50%;
+    left: 94%;
     transform: translate(-50%, -50%)
 }
 
@@ -142,6 +143,12 @@
     width: 100%;
     border: 1px solid #ccc;
     white-space: normal;
+    outline: none;
+}
+
+.regtitle-text::placeholder,
+.regcontent-text::placeholder {
+    text-align: left;
     overflow: hidden;
     resize: none;
 }
@@ -159,4 +166,32 @@
     border-radius: 20px;
     margin: 25px;
     background-color: #ccc;
+}
+
+.video-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.video-author {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.likes-number {
+    font-size: 20px;
+}
+
+.vs {
+    margin: 0px 40px 0px 40px;
+}
+
+.h370 {
+    height: 370px;
+}
+
+.centered-content {
+    text-align: center;
+    margin-top: 10px;
 }

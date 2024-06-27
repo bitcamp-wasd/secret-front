@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import VideoPlay from "../../components/VideoPlay";
+import VideoBox from "../../components/VideoBox_hart";
 import "../../assets/css/style.css";
 import "../../assets/css/jun.css";
 import SheetMusic from "../../assets/images/Sheet_Music.svg";
@@ -41,7 +42,6 @@ const PlayVideo = () => {
         </div>
 
         {/* 설명 */}
-        {/* 추후에 mt40으로 변경 */}
         <div class="video-info mt40">
           <div class="video-info-title">
             <div>조회수 7500회</div>
@@ -66,7 +66,7 @@ const PlayVideo = () => {
         {/* 댓글등록 */}
         <div className="comment mt90">
           <div>댓글 254개
-            
+
           </div>
           <textarea type="text" placeholder="댓글을 입력하세요." />
         </div>

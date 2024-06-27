@@ -7,6 +7,7 @@ import VideoBox from "../../components/VideoBox";
 import one from "../../assets/images/1.svg";
 import two from "../../assets/images/2.svg";
 import three from "../../assets/images/3.svg";
+import VideoBox_hart from "../../components/VideoBox_hart";
 
 const ChallengeList = () => {
   // 더미 데이터 생성
@@ -37,7 +38,7 @@ const ChallengeList = () => {
         </div>
         <div className="sub-box-317">
           <div className="video-box" style={{ position: "relative" }}>
-            <VideoBox
+            <VideoBox_hart
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
@@ -48,7 +49,7 @@ const ChallengeList = () => {
         </div>
         <div className="sub-box-317">
           <div className="video-box" style={{ position: "relative" }}>
-            <VideoBox
+            <VideoBox_hart
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
@@ -61,7 +62,7 @@ const ChallengeList = () => {
 
         <div className="sub-box-317">
           <div className="video-box" style={{ position: "relative" }}>
-            <VideoBox
+            <VideoBox_hart
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
@@ -76,9 +77,7 @@ const ChallengeList = () => {
       <div className="main-container-1150 mt80">
         <div class="row-direction space-between mb50">
 
-
           <Tag />
-
 
         </div>
         <div className="videos-grid">
