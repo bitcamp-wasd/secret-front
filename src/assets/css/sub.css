@@ -72,6 +72,10 @@
   font-size: 20px;
 }
 
+.auth-code-input {
+  flex: 1;
+}
+
 .auth-error-message {
   color: red;
   font-size: 16px;
@@ -131,4 +135,34 @@
 
 .mb-60 {
   margin-bottom: 60px;
+}
+
+.signup-button-box{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px; /* input과 버튼 사이의 간격 */
+  width: 100%;
+  
+  
+}
+
+.signup-error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 5px;
+  position: absolute; /* 절대 위치 설정 */
+  top: 35px; /* 이메일 input 상단으로 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.mt70{
+  margin-top: 70px;
+}
+
+.mb80{
+  margin-bottom: 80px;
 }
