@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout_banner_my";
-import Banner from "../../components/Banner";
 import Button from "../../components/Button";
 
 const MyComments = () => {
@@ -16,27 +15,26 @@ const MyComments = () => {
 
   return (
     <Layout>
-      
-      <div class="main-container-1150">
-        <div class="main-container-1150-box">
+      <div class="main-container-810 mt80">
         <div className="comments-grid">
           <div className="comments-header">
+            <span></span>
             <span>동영상 제목</span>
             <span>댓글 내용</span>
             <span>작성일</span>
           </div>
           {dummyComments.map((comment) => (
             <div key={comment.id} className="comment-row">
+              <span></span>
               <span>{comment.videoTitle}</span>
               <span>{comment.comment}</span>
               <span>{comment.date}</span>
             </div>
           ))}
-          <div className="felx flex-end">
+          <div className="flex flex-end mt10">
             <Button size="confirm">삭제하기</Button>
           </div>
         </div>
-      </div>
       </div>
     </Layout>
   );
