@@ -4,7 +4,7 @@ import VideoBox from '../../components/VideoBox';
 import Layout from '../../components/Layout_banner_my';
 
 
-const MyLikes = () => {
+const MyChallenges = () => {
   // 더미 데이터 생성
   const dummyVideos = Array.from({ length: 12 }, (_, index) => ({
     id: index + 1,
@@ -35,4 +35,4 @@ const MyLikes = () => {
     </Layout>
   );
 };
-export default MyLikes;
+export default MyChallenges;

@@ -7,6 +7,7 @@ import MyInfo from './pages/MyPage/MyInfo';
 import MyInfoEdit from './pages/MyPage/MyInfoEdit';
 import MyVideos from './pages/MyPage/MyVideos';
 import MyLikes from './pages/MyPage/MyLikes';
+import MyChallenges from './pages/MyPage/MyChallenges';
 import MyComments from './pages/MyPage/MyComments';
 import DeleteComment from './pages/MyPage/DeleteComments';
 import RegisterVideo from './pages/Video/RegisterVideo';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/mypage/myinfoedit" element={<MyInfoEdit />} />
         <Route path="/mypage/myvideos" element={<MyVideos />} />
         <Route path="/mypage/mylikes" element={<MyLikes />} />
+        <Route path="/mypage/mychallenges" element={<MyChallenges />} />
         <Route path="/mypage/mycomments" element={<MyComments />} />
         <Route path="/mypage/deletecomments" element={<DeleteComment />} />
         <Route path="/video/register" element={<RegisterVideo />} />
