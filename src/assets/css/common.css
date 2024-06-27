@@ -19,13 +19,16 @@ a {
   text-decoration: none;
   display: inline-block;
 }
+
 a:link {
   color: #39435c;
   text-decoration: none;
 }
+
 a:hover {
   color: #39435c;
 }
+
 a:active {
   color: #39435c;
   text-decoration: underline;
@@ -37,6 +40,7 @@ input {
   border: none;
   outline: none;
 }
+
 img,
 fieldset {
   border: none;
@@ -46,6 +50,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 legend {
   position: absolute;
   width: 0;
@@ -55,6 +60,7 @@ legend {
   text-indent: -9999px;
   overflow: hidden;
 }
+
 table caption {
   position: absolute;
   width: 0;
@@ -63,18 +69,24 @@ table caption {
   font-size: 0;
   overflow: hidden;
 }
+
 button {
   border: none;
   background: none;
   cursor: pointer;
 }
+
 hr {
   display: none;
 }
+
+
+/* 
 input::placeholder {
   text-align: center;
 }
 
+*/
 input,
 textarea,
 button,
@@ -82,13 +94,14 @@ legend,
 label
  {
   font-family: "Glory", sans-serif !important;
-}
+} 
 
 body {
   font-family: "Glory", sans-serif;
-  font-weight: 500; /* 기본 두께를 설정 */
+  font-weight: 500;
+  /* 기본 두께를 설정 */
   font-size: 16px;
-  
+
 }
 
 .font-light {

@@ -665,6 +665,12 @@ footer {
 }
 
 .info-item {
+  
+  
+  font-size: inherit;
+}
+
+.info-item input{
   width: 30%;
   border: solid 1px black;
   border-radius: 20px;
@@ -676,7 +682,7 @@ footer {
   color: red;
   font-size: 16px;
   margin-top: 5px;
-  margin-left: 160px;
+  margin-left: 180px;
   position: absolute;
   /* 절대 위치 설정 */
   bottom: -24px;

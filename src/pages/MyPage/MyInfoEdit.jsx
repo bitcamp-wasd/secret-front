@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../../assets/css/style.css";
-import "../../components/Layout";
 import Layout from "../../components/Layout_banner_my";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
@@ -42,7 +41,7 @@ const MyInfoEdit = () => {
 
   return (
     <Layout showFooter={false}>
-      <div className="main-box-810 mt120">
+      <div className="main-box-810 mt123">
         <div className="myinfo-box">
           <div className="myinfo-headline">
             <div class="flex align-center">
