@@ -5,7 +5,7 @@ import '../../assets/css/jun.css';
 import Button from "../../components/Button";
 import RegTag from '../../components/RegTag';
 
-const ChallengeRegister = () => {
+const ChallengeModify = () => {
     const dummyVideo = {
         id: 1,
         thumbnail: 'https://via.placeholder.com/810x455.6?text=Thumbnail+1',
@@ -47,4 +47,4 @@ const ChallengeRegister = () => {
     )
 }
 
-export default ChallengeRegister;
+export default ChallengeModify;
