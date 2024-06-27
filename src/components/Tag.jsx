@@ -14,6 +14,18 @@ const Tag = () => {
     const handleClick = (index) => {
         if (index === 0) {
             setSelected([0]);
+        } else if (index === 1) {
+            if (selected.includes(1)) {
+                setSelected(selected.filter(i => i !== 1));
+            } else {
+                setSelected([0, 1]);
+            }
+        } else if (index === 2) {
+            if (selected.includes(2)) {
+                setSelected(selected.filter(i => i !== 2));
+            } else {
+                setSelected([0, 2]);
+            }
         } else {
             if (selected.includes(index)) {
                 setSelected(selected.filter(i => i !== index));
@@ -22,6 +34,7 @@ const Tag = () => {
             }
         }
     };
+
 
     return (
         <div className="tag-box align-center">
