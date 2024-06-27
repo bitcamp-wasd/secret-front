@@ -11,6 +11,7 @@ import MyChallenges from './pages/MyPage/MyChallenges';
 import MyBettles from './pages/MyPage/MyBettles';
 import MyComments from './pages/MyPage/MyComments';
 import DeleteComment from './pages/MyPage/DeleteComments';
+import Administer from './pages/MyPage/Administer';
 import RegisterVideo from './pages/Video/RegisterVideo';
 import PlayVideo from './pages/Video/PlayVideo';
 import ChallengeList from './pages/Challenge/ChallengeList';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/mypage/mybettles" element={<MyBettles />} />
         <Route path="/mypage/mycomments" element={<MyComments />} />
         <Route path="/mypage/deletecomments" element={<DeleteComment />} />
+        <Route path="/mypage/administer" element={<Administer />} />
         <Route path="/video/register" element={<RegisterVideo />} />
         <Route path="/video/play" element={<PlayVideo />} />
         <Route path="/challenge/list" element={<ChallengeList />} />
