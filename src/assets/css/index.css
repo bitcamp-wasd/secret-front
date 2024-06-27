@@ -299,9 +299,8 @@
 
 /*가로 810크기의 박스*/
 .main-container-810 {
-  max-width: 810px;
-  margin: 0 auto;
-
+  width: 810px;
+  
 }
 
 .main-container-810-box {
@@ -690,23 +689,28 @@ footer {
 
 /*내정보-댓글*/
 .comments-grid {
-  margin-top: 20px;
+  
 }
 
 .comments-header {
   display: grid;
-  grid-template-columns: 3fr 6fr 2fr;
+  height: 50px;
+  align-items: center;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
   background: rgba(255, 229, 0, 0.3);
   color: var(--black);
-  padding: 10px;
-  border-radius: 8px 8px 0 0;
+  border-top: solid 2px black;
+  border-bottom: solid 1px black;
+  font-size : 20px;
+  font-weight: 700;
+
 }
 
 .comment-row {
   display: grid;
-  grid-template-columns: 3fr 6fr 2fr;
+  height: 40px;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
   align-items: center;
-  padding: 10px;
   border-bottom: 1px solid var(--box-border-color);
 }
 

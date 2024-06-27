@@ -7,7 +7,7 @@ import UserIcon from "../../assets/images/user_icon.svg";
 const MyInfo = () => {
   return (
     <Layout showFooter={false}>
-      <div className="main-box-810 mt120">
+      <div className="main-container-810 mt120">
         <div class="myinfo-box">
           <div class="myinfo-headline">
             <div class="flex align-center">
