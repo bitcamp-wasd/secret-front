@@ -4,10 +4,11 @@ import Footer from "./Footer";
 import Banner from "./Banner";
 import "../assets/css/style.css";
 
+
 const Layout = ({ children, showHeader = true, showFooter = true }) => {
   return (
     <div className="layout">
-      <Header/>
+      {showHeader && <Header />}
       <Banner/>
       <div className="main-content">
       
@@ -19,7 +20,7 @@ const Layout = ({ children, showHeader = true, showFooter = true }) => {
           </div>
         </div>
       </div>
-      <Footer/>
+      {showFooter && <Footer />}
     </div>
   );
 };
