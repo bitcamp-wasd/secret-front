@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout_banner_my";
 import Button from "../../components/Button";
@@ -10,11 +11,18 @@ const MyInfoEdit = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nicknameError, setNicknameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const email = "user@example.com"; // 이메일은 고정된 값
+  const navigate = useNavigate();
+  const email = "user@example.com";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let valid = true;
+
+    // 모든 필드가 채워졌는지 확인
+    if (!nickname || !password || !confirmPassword) {
+      alert("빈 칸이 있으면 안됩니다.");
+      valid = false;
+    }
 
     // 닉네임 중복 체크 (홍길동)
     if (nickname === "홍길동") {
@@ -32,12 +40,11 @@ const MyInfoEdit = () => {
       setPasswordError("");
     }
 
+    /*유효한 데이터 입력시*/
     if (valid) {
-      // 폼 제출 후 처리할 내용을 추가가능
+      navigate("/mypage/myinfo");
     }
   };
-
-  
 
   return (
     <Layout showFooter={false}>
@@ -91,9 +98,9 @@ const MyInfoEdit = () => {
               )}
             </div>
             <div className="info-item justify-center mt20">
-            <Button size="large" onClick={handleSubmit}>
-              수정 완료
-            </Button>
+              <Button size="large" onClick={handleSubmit}>
+                수정 완료
+              </Button>
             </div>
           </div>
         </div>

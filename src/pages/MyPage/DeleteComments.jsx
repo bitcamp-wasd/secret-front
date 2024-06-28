@@ -98,11 +98,18 @@ const MyComments = () => {
           ))}
         </div>
         <div className="flex flex-end mt10" style={{ gap: "24px" }}>
-          <Button size="confirm">취소</Button>
-          <Button size="confirm">삭제 완료</Button>
+          <Button size="confirm" to="/mypage/mycomments">
+            취소
+          </Button>
+          <Button size="confirm" to="/mypage/mycomments">
+            삭제 완료
+          </Button>
         </div>
         <div className="mycomments-pagenation">
-        <button onClick={handlePreviousPageRange} disabled={pageRange[0] === 1}>
+          <button
+            onClick={handlePreviousPageRange}
+            disabled={pageRange[0] === 1}
+          >
             {"<"}
           </button>
           {Array.from({ length: totalPages }, (_, index) => index + 1)
@@ -111,12 +118,15 @@ const MyComments = () => {
               <button
                 key={pageNumber}
                 onClick={() => paginate(pageNumber)}
-                className={currentPage === pageNumber ? 'active' : ''}
+                className={currentPage === pageNumber ? "active" : ""}
               >
                 {pageNumber}
               </button>
             ))}
-          <button onClick={handleNextPageRange} disabled={pageRange[1] >= totalPages}>
+          <button
+            onClick={handleNextPageRange}
+            disabled={pageRange[1] >= totalPages}
+          >
             {">"}
           </button>
         </div>

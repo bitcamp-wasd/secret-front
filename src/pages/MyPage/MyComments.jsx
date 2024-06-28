@@ -32,7 +32,9 @@ const MyComments = () => {
             </div>
           ))}
           <div className="flex flex-end mt10">
-            <Button size="confirm">삭제하기</Button>
+          
+            <Button size="confirm" to="/mypage/deletecomments">삭제하기</Button>
+            
           </div>
         </div>
       </div>

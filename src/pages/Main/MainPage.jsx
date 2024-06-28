@@ -1,4 +1,9 @@
+
+import React from "react";
+import { Link } from "react-router-dom";
+
 import React, { useState, useEffect } from "react";
+
 import "../../assets/css/style.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
@@ -6,7 +11,6 @@ import Layout from "../../components/Layout";
 import Tag from "../../components/Tag";
 import VideoBox from "../../components/VideoBox";
 import Upload from "../../assets/images/upload.svg";
-import Search from "../../assets/images/search.svg"
 
 const MainPage = () => {
   const allVideos = Array.from({ length: 100 }, (_, index) => ({
@@ -47,15 +51,19 @@ const MainPage = () => {
   return (
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
+
+        
         <div className="row-direction space-between mb50">
           <Tag />
+
           <div className="tag-main-right">
-            <Button size="tag">
+            <Button size="tag" to="/video/register">
               <span className="icon-wrapper">
                 <img src={Upload} alt="upload" />
               </span>
               동영상 업로드
             </Button>
+
             <input
               type="text"
               placeholder="검색"

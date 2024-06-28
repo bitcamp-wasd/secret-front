@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -63,12 +64,13 @@ const Login = () => {
             </div>
 
             <div className="auth-box-info-item mb-6">
-              <Button size="large" onClick={handleSubmit}>
+              <Button size="large" to="/" onClick={handleSubmit}>
                 로그인
               </Button>
             </div>
+            <Link to="/signup">
             <span className="auth-box-info-signup mb-21">회원가입</span>
-
+            </Link>  
             <span className="auth-box-info-social mb-20">
               <img src={Naver} alt="naver" />
             </span>
