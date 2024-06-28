@@ -14,27 +14,25 @@ const Tag = () => {
     const handleClick = (index) => {
         if (index === 0) {
             setSelected([0]);
-        } else if (index === 1) {
-            if (selected.includes(1)) {
-                setSelected(selected.filter(i => i !== 1));
-            } else {
-                setSelected([0, 1]);
-            }
-        } else if (index === 2) {
-            if (selected.includes(2)) {
-                setSelected(selected.filter(i => i !== 2));
-            } else {
-                setSelected([0, 2]);
-            }
+        } else if (index === 1 || index === 2) {
+            setSelected((prevSelected) => {
+                const otherIndex = index === 1 ? 2 : 1;
+                if (prevSelected.includes(index)) {
+                    return prevSelected.filter(i => i !== index && i !== 0);
+                } else {
+                    return [...prevSelected.filter(i => i !== otherIndex && i !== 0), index];
+                }
+            });
         } else {
-            if (selected.includes(index)) {
-                setSelected(selected.filter(i => i !== index));
-            } else {
-                setSelected(selected.filter(i => i !== 0).concat(index));
-            }
+            setSelected((prevSelected) => {
+                if (prevSelected.includes(index)) {
+                    return prevSelected.filter(i => i !== index);
+                } else {
+                    return [...prevSelected.filter(i => i !== 0), index];
+                }
+            });
         }
     };
-
 
     return (
         <div className="tag-box align-center">
@@ -52,14 +50,13 @@ const Tag = () => {
                     <img src={View} alt="view" />
                 </span>
                 조회수
-
             </button>
             <button
                 className={`button tag ${selected.includes(2) ? 'selected' : ''}`}
                 onClick={() => handleClick(2)}
             >
                 <span className='icon-wrapper'>
-                    <img src={Like} alt="piano" />
+                    <img src={Like} alt="like" />
                 </span>
                 좋아요
             </button>

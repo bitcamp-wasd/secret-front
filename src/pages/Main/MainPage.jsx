@@ -1,5 +1,9 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
+
+import React, { useState, useEffect } from "react";
+
 import "../../assets/css/style.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
@@ -9,29 +13,47 @@ import VideoBox from "../../components/VideoBox";
 import Upload from "../../assets/images/upload.svg";
 
 const MainPage = () => {
-  // 더미 데이터 생성
-  const dummyVideos = Array.from({ length: 12 }, (_, index) => ({
+  const allVideos = Array.from({ length: 100 }, (_, index) => ({
     id: index + 1,
-    title: `Video ${
-      index + 1
-    } 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${
-      index + 1
-    }`,
+    title: `Video ${index + 1} 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
+    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
     author: "홍길동",
   }));
 
+  const [visibleVideos, setVisibleVideos] = useState(12);
+  const [videos, setVideos] = useState(allVideos.slice(0, visibleVideos));
+
   const handleSearch = (event) => {
     if (event.key === "Enter") {
-      // 검색 이벤트 처리
       console.log("검색어:", event.target.value);
     }
   };
 
+  const loadMoreVideos = () => {
+    setVisibleVideos((prevVisibleVideos) => {
+      const newVisibleVideos = prevVisibleVideos + 12;
+      setVideos(allVideos.slice(0, newVisibleVideos));
+      return newVisibleVideos;
+    });
+  };
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 50) {
+      loadMoreVideos();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
-        <div class="row-direction space-between mb50">
+
+        
+        <div className="row-direction space-between mb50">
           <Tag />
 
           <div className="tag-main-right">
@@ -51,7 +73,7 @@ const MainPage = () => {
           </div>
         </div>
         <div className="videos-grid">
-          {dummyVideos.map((video) => (
+          {videos.map((video) => (
             <VideoBox
               key={video.id}
               thumbnail={video.thumbnail}
