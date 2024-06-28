@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../assets/css/style.css";
 import VideoBox from '../../components/VideoBox';
-import Layout from '../../components/Layout_banner_my';
+import Layout from '../../components/Layout';
 
 
 const MyVideos = () => {
@@ -18,7 +18,7 @@ const MyVideos = () => {
   }));
 
   return (
-    <Layout showFooter={false}>
+    <Layout showFooter={false} bannerType="my">
       
       <div className="main-container-1150 mt65">
         <div className="videos-grid">

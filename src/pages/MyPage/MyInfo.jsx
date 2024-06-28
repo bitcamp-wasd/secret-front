@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
-import Layout from "../../components/Layout_banner_my";
+import Layout from "../../components/Layout";
 import UserIcon from "../../assets/images/user_icon.svg";
 
 const MyInfo = () => {
   return (
-    <Layout showFooter={false}>
+    <Layout showFooter={true} bannerType="my">
       <div className="main-container-810 mt120">
         <div class="myinfo-box">
           <div class="myinfo-headline">

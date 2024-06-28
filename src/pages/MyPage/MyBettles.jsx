@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../assets/css/style.css";
 import VideoBox from "../../components/VideoBox_hart";
-import Layout from '../../components/Layout_banner_my';
+import Layout from '../../components/Layout';
 import vs from "../../assets/images/vs.svg"
 
 
@@ -14,7 +14,7 @@ const MyBettles = () => {
 };
 
   return (
-    <Layout showFooter={false}>
+    <Layout showFooter={false} bannerType="my">
       
       <div className="main-container-810">
                 <div className="main-container-810 mt60">

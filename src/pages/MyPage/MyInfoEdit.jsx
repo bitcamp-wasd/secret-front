@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
-import Layout from "../../components/Layout_banner_my";
+import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
 
@@ -47,7 +47,7 @@ const MyInfoEdit = () => {
   };
 
   return (
-    <Layout showFooter={false}>
+    <Layout showFooter={false} bannerType="my">
       <div className="main-box-810 mt123">
         <div className="myinfo-box">
           <div className="myinfo-headline">
