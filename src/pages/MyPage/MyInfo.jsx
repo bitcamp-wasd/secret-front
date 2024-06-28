@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout_banner_my";
@@ -14,7 +15,9 @@ const MyInfo = () => {
               <img src={UserIcon} alt="usericon" className="usericon" />
               <h2 class="ml8">내 정보</h2>
             </div>
-            <Button size="tag">수정하기</Button>
+            
+            <Button size="tag" to="/mypage/myinfoedit">수정하기</Button>
+            
           </div>
 
           <div className="info-box">

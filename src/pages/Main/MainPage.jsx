@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../assets/css/style.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
@@ -6,7 +7,6 @@ import Layout from "../../components/Layout";
 import Tag from "../../components/Tag";
 import VideoBox from "../../components/VideoBox";
 import Upload from "../../assets/images/upload.svg";
-import Search from "../../assets/images/search.svg"
 
 const MainPage = () => {
   // 더미 데이터 생성
@@ -32,27 +32,22 @@ const MainPage = () => {
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
         <div class="row-direction space-between mb50">
-        
-        
           <Tag />
-          
+
           <div className="tag-main-right">
-            <Button size="tag">
+            <Button size="tag" to="/video/register">
               <span className="icon-wrapper">
                 <img src={Upload} alt="upload" />
               </span>
               동영상 업로드
             </Button>
 
-            
-              <input
-                type="text"
-                placeholder="검색"
-                onKeyDown={handleSearch}
-                className="search-input"
-              />
-              
-            
+            <input
+              type="text"
+              placeholder="검색"
+              onKeyDown={handleSearch}
+              className="search-input"
+            />
           </div>
         </div>
         <div className="videos-grid">
