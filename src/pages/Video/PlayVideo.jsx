@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import VideoPlay from "../../components/VideoPlay";
 import VideoBox from "../../components/VideoBox_hart";
@@ -6,6 +6,7 @@ import "../../assets/css/style.css";
 import "../../assets/css/jun.css";
 import SheetMusic from "../../assets/images/Sheet_Music.svg";
 import heart from "../../assets/images/heart.svg";
+import heart_fill from "../../assets/images/heart_fill.svg"
 import grade from "../../assets/images/grade.svg";
 import Button from "../../components/Button";
 
@@ -13,6 +14,12 @@ const PlayVideo = () => {
   const dummyVideo = {
     id: 1,
     thumbnail: "https://via.placeholder.com/810x455.6?text=Thumbnail+1",
+  };
+
+  const [isHeartFilled, setIsHeartFilled] = useState(false);
+
+  const handleHeartClick = () => {
+    setIsHeartFilled(!isHeartFilled);
   };
 
   return (
@@ -24,8 +31,8 @@ const PlayVideo = () => {
         </div>
 
         {/* 정보 */}
-        <div class="play-infobox mt20">
-          <div class="flex align-center space-between">
+        <div className="play-infobox mt20">
+          <div className="flex align-center space-between">
             <div>캐논 변주곡</div>
             <div>#기타</div>
           </div>
@@ -34,20 +41,20 @@ const PlayVideo = () => {
               <img src={grade} className="mr10" />
               김융
             </div>
-            <div className="flex align-center">
-              <img src={heart} className="mr10" />
+            <div className="flex align-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
+              <img src={isHeartFilled ? heart_fill : heart} className="mr10" />
               2574
             </div>
           </div>
         </div>
 
         {/* 설명 */}
-        <div class="video-info mt40">
-          <div class="video-info-title">
+        <div className="video-info mt40">
+          <div className="video-info-title">
             <div>조회수 7500회</div>
             <div>24.05.26 17:14</div>
           </div>
-          <div class="video-info-content">
+          <div className="video-info-content">
             기타로 연주한 캐논 변주곡입니다 부족한 실력이지만 열심히 했습니다.
           </div>
         </div>
@@ -65,9 +72,7 @@ const PlayVideo = () => {
 
         {/* 댓글등록 */}
         <div className="comment mt90">
-          <div>댓글 254개
-
-          </div>
+          <div>댓글 254개</div>
           <textarea type="text" placeholder="댓글을 입력하세요." />
         </div>
         <div className="flex-end mt10 button-container">
