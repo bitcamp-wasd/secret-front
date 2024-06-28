@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import "../assets/css/style.css";
 import View from "../assets/images/tag_view.svg";
@@ -33,6 +33,13 @@ const Tag = () => {
             });
         }
     };
+
+    // selected가 모두 해제되었을때 전체버튼이 selected되게함
+    useEffect(() => {
+        if (selected.length === 0) {
+            setSelected([0]);
+        }
+    }, [selected]);
 
     return (
         <div className="tag-box align-center">
