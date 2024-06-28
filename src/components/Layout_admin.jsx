@@ -1,0 +1,22 @@
+import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+import "../assets/css/style.css";
+import Banner from "./Banner_admin";
+
+const Layout = ({ children, showHeader = true, showFooter = true }) => {
+  return (
+    <div className="layout">
+      {showHeader && <Header />}
+      <Banner />
+      <div className="main-content">
+        <div className="main-container">
+          <div className="content">{children}</div>
+        </div>
+      </div>
+      {showFooter && <Footer />}
+    </div>
+  );
+};
+
+export default Layout;
