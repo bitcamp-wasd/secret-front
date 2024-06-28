@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../../components/Layout_Ch";
+import Layout from "../../components/Layout";
 import "../../assets/css/style.css";
 import chbest from "../../assets/images/chbest.svg"
 import Tag from "../../components/Tag";
@@ -28,7 +28,7 @@ const ChallengeList = () => {
   };
 
   return (
-    <Layout showFooter={false}>
+    <Layout showFooter={false} bannerType="challenge">
 
       <div className="challenge-container">
 

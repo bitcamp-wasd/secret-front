@@ -1,5 +1,5 @@
 import React from "react";
-import Layout_Ba from "../../components/Layout_Ba";
+import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
 import "../../assets/css/style.css";
 import vs from "../../assets/images/vs.svg"
@@ -13,7 +13,7 @@ const BattleList = () => {
     };
 
     return (
-        <Layout_Ba showFooter={false}>
+        <Layout showFooter={false} bannerType="battle">
 
             <div className="main-container-810">
                 <div className="main-container-810 mt70">
@@ -121,7 +121,7 @@ const BattleList = () => {
                 </div>
 
             </div>
-        </Layout_Ba>
+        </Layout>
     )
 }
 

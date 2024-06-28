@@ -4,7 +4,7 @@ import Button from "./Button";
 import "../assets/css/style.css";
 
 
-const Banner = () => {
+const BannerBattle = () => {
     return (
         <div className="banner">
             <div className="main-container-1150">
@@ -17,4 +17,4 @@ const Banner = () => {
     );
 };
 
-export default Banner;
+export default BannerBattle;

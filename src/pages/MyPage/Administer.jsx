@@ -1,11 +1,11 @@
 import React from "react";
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
-import Layout from "../../components/Layout_admin";
+import Layout from "../../components/Layout";
 
 const Administer = () => {
     return (
-      <Layout showFooter={true}>
+      <Layout showFooter={true} bannerType="admin">
         <div className="main-box-810 mt123">
         <div className="myinfo-box">
           <div className="myinfo-headline">
