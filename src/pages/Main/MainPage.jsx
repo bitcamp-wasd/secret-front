@@ -1,9 +1,4 @@
-
-import React from "react";
-import { Link } from "react-router-dom";
-
 import React, { useState, useEffect } from "react";
-
 import "../../assets/css/style.css";
 import "../../components/Layout";
 import Button from "../../components/Button";
