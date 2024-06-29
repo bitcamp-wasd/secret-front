@@ -1,0 +1,202 @@
+.video-play {
+    width: 810px;
+    border-radius: 4px;
+    background-color: var(--white);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.video-play img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 276 / 155.25;
+    border-radius: 4px;
+}
+
+.play-infobox {
+    font-size: var(--f20);
+}
+
+.video-info {
+    font-size: var(--f16);
+}
+
+.video-info-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 15px 9px 15px;
+    background-color: rgb(250, 250, 250);
+    border: none;
+    border-radius: 20px;
+}
+
+.video-info-content {
+    margin-top: 12px;
+    display: flex;
+    background-color: rgb(250, 250, 250);
+    height: 80px;
+    padding: 9px 15px 9px 15px;
+    border-radius: 20px;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.mt60 {
+    margin-top: 60px;
+}
+
+.mt90 {
+    margin-top: 90px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.button-container>*:not(:last-child) {
+    margin-right: 20px;
+}
+
+.button-container {
+    height: 40px;
+}
+
+.comment textarea {
+    margin-top: 12px;
+    display: flex;
+    height: 80px;
+    padding: 9px 15px 9px 15px;
+    border: 1px;
+    border-radius: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+    resize: none;
+    overflow: hidden;
+    outline: none;
+}
+
+.comment-content {
+    margin-top: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.ch-day {
+    font-size: var(--f16);
+}
+
+.ch-banner h1 {
+    font-size: 42px;
+}
+
+.ch-banner Button {
+    padding: 15px 35px 15px 35px;
+}
+
+.best-challenge {
+    position: relative;
+    display: inline-block;
+}
+
+.text-overlay {
+    width: 300px;
+    position: absolute;
+    top: 35%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    font-size: 38px
+}
+
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 94%;
+    transform: translate(-50%, -50%)
+}
+
+.title {
+    font-size: 20px;
+}
+
+.regtitle-text {
+    margin-top: 12px;
+    display: flex;
+    height: 40px;
+    padding: 9px 15px 9px 15px;
+    border: 1px;
+    border-radius: 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.regcontent-text {
+    margin-top: 12px;
+    display: flex;
+    height: 350px;
+    padding: 9px 15px 9px 15px;
+    border-radius: 20px;
+    min-height: 350px;
+    max-width: 810px;
+    min-width: 810px;
+    width: 100%;
+    border: 1px solid #ccc;
+    white-space: normal;
+    outline: none;
+}
+
+.regtitle-text::placeholder,
+.regcontent-text::placeholder {
+    text-align: left;
+    overflow: hidden;
+    resize: none;
+}
+
+.sheetmusic-upload {
+    width: 810px;
+    height: 350px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.sheetmusic {
+    width: 200px;
+    height: 250px;
+    border-radius: 20px;
+    margin: 25px;
+    background-color: #ccc;
+}
+
+.video-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.video-author {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.likes-number {
+    font-size: 20px;
+}
+
+.vs {
+    margin: 0px 40px 0px 40px;
+}
+
+.h370 {
+    height: 370px;
+}
+
+.centered-content {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.button.tag.selected {
+    background-color: rgba(255, 184, 0, 0.5);
+    outline: 2px solid rgb(255, 184, 0);
+}

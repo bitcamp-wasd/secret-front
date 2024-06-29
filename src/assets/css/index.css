@@ -1,0 +1,754 @@
+/*반응형웹디자인, 픽셀의 크기를 절대적으로 관리하지 않고
+상대적으로 관리하기 위해 rem단위를 사용*/
+:root {
+  font-size: 16px;
+  /* 1rem = 16px */
+  --padding: 0px;
+  --content-max-width: 1440px;
+
+  /*색상*/
+  --black: #000;
+  --white: #fff;
+  --btn-color: #FFE500;
+  --banner-color: rgba(241, 239, 209, 0.25);
+  --border-color: #ddd;
+  --box-color: #f9f9f9;
+  --box-border-color: #ccc;
+
+  /*폰트사이즈*/
+  --f12: 0.75rem;
+  /* 12px */
+  --f16: 1rem;
+  /* 16px */
+  --f20: 1.25rem;
+  /* 20px */
+  --f24: 1.5rem;
+  /* 24px */
+
+
+
+}
+
+
+
+/*반응형*/
+@media (max-width: 1440px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 768px) {
+  /* 545
+  350 */
+}
+
+
+
+/* flex-layout
+ div안에서의 요소 스타일 설정 가능
+*/
+.inline-flex {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.align-start {
+  display: flex;
+  align-items: flex-start !important;
+}
+
+.column-direction {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-direction {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-grow {
+  flex: 1 1;
+}
+
+/* position-layout */
+.pos-relative {
+  position: relative;
+}
+
+.pos-absolute {
+  position: absolute;
+}
+
+
+/* padding, margin */
+.pdx10 {
+  padding: 0 10px;
+}
+
+.pdx15 {
+  padding: 0 15px;
+}
+
+.pdx20 {
+  padding: 0 20px;
+}
+
+.pdx25 {
+  padding: 0 25px;
+}
+
+.pdx30 {
+  padding: 0 30px;
+}
+
+.pdx55 {
+  padding: 0 55px;
+}
+
+.mt8 {
+  margin-top: 8px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt80 {
+  margin-top: 80px !important;
+}
+
+.mt120 {
+  margin-top: 120px;
+}
+
+.mb0 {
+  margin-bottom: 0px !important;
+}
+
+.mb8 {
+  margin-bottom: 8px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mb50 {
+  margin-bottom: 50px;
+}
+
+.ml8 {
+  margin-left: 8px;
+}
+
+/* width */
+.w100p {
+  width: 100% !important;
+}
+
+.w70p {
+  width: 70% !important;
+}
+
+.w66p {
+  width: 66.66% !important;
+}
+
+.w50p {
+  width: 50% !important;
+}
+
+.w33p {
+  width: 33.33% !important;
+}
+
+.w30p {
+  width: 30% !important;
+}
+
+.w25p {
+  width: 25% !important;
+}
+
+.w20p {
+  width: 20% !important;
+}
+
+.w10p {
+  width: 10% !important;
+}
+
+/* height */
+.h100p {
+  height: 100% !important;
+}
+
+.h600 {
+  height: 600px !important;
+}
+
+.h530 {
+  height: 530px !important;
+}
+
+.h500 {
+  height: 500px !important;
+}
+
+.h400 {
+  height: 400px !important;
+}
+
+.h320 {
+  height: 320px !important;
+}
+
+.h300 {
+  height: 300px !important;
+}
+
+.h260 {
+  height: 260px !important;
+}
+
+.h190 {
+  height: 190px !important;
+}
+
+
+/*박스 레이아웃*/
+
+/*화면전체를 감쌀 메인 컨테이너 박스*/
+.main-container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+
+}
+
+/*로그인,회원가입의 메인박스*/
+.auth-container {
+  width: 480px;
+  margin: 0 auto;
+
+}
+
+/*로그인박스 스타일*/
+.auth-box {
+
+  
+  border: 1px solid black;
+  background-color: var(--box-color);
+
+}
+
+.main-container-690 {
+  max-width: 690px;
+  margin: 0 auto;
+}
+
+.main-container-690-box {
+  padding: 16px;
+  background-color: var(--box-color);
+  width: 480px;
+  margin: 0 auto;
+    
+  }
+
+  /*로그인박스 스타일*/
+.auth-box{
+  border: 1px solid black;
+  background-color: var(--box-color);
+  justify-content: center;
+  align-content: center;
+  
+}
+
+/*가로 810크기의 박스*/
+.main-container-810 {
+  width: 810px;
+  
+}
+
+.main-container-810-box {
+  padding: 16px;
+  background-color: var(--box-color);
+}
+
+/*가로 1150크기의 박스*/
+.main-container-1150 {
+  max-width: 1150px;
+  margin: 0 auto;
+
+}
+
+.main-container-1150-box {
+  padding: 16px;
+  background-color: var(--box-color);
+  border: none;
+  border-radius: 8px;
+}
+
+/*비디오 1개의 박스(276px)*/
+.video-box {
+  width: 276px;
+  border-radius: 4px;
+  background-color: var(--white);
+  padding: 0px;
+  box-sizing: border-box;
+
+
+}
+
+.video-box img {
+  /* width: 100%; */
+  height: auto;
+  /* aspect-ratio: 276 / 155.25; */
+  border-radius: 4px;
+}
+
+.video-box p {
+  margin: 10px 0 0;
+
+}
+
+.video-box-detail {
+  gap: 15px;
+}
+
+/*챌린지, 배틀페이지에서 비디오박스를 감쌀 박스*/
+.sub-box-317 {
+  width: 317px;
+  border: 1px solid #A5A5A5;
+  border-radius: 5px;
+  background-color: white;
+  margin: 10px;
+  display: flex;
+  /* 플렉스박스 사용 */
+  justify-content: center;
+  /* 수평 가운데 정렬 */
+  align-items: center;
+  /* 수직 가운데 정렬 */
+}
+
+.challenge-container {
+  display: flex;
+  justify-content: center;
+  width: 1350px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* .best-challenges {
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  width: 340px;
+  border: 1px solid #A5A5A5;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 10px;
+
+} */
+
+.best-challenges h2 {
+  font-size: var(--f24);
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/*아이콘을 감쌀 박스*/
+.icon-wrapper {
+  display: inline-flex;
+  margin-right: 8px;
+}
+
+/*버튼*/
+.button {
+  background-color: var(--btn-color);
+
+  border-radius: 15px;
+  padding: 15px 18px;
+  /* 좌우 여백을 줘서 가변적인 가로 길이 처리 */
+  color: var(--black);
+  font-size: 20px;
+
+  text-align: center;
+  display: inline-flex;
+  /* 텍스트 길이에 맞게 버튼 길이 조정 */
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  /* 너비를 자동으로 설정하여 텍스트 길이에 맞춤 */
+  max-width: 100%;
+  /* 부모 요소의 최대 너비를 넘지 않도록 설정 */
+  white-space: nowrap;
+  /*줄넘김 방지*/
+}
+
+.button.large {
+  height: 55px;
+  width: 300px;
+  border-radius: 4px;
+}
+
+.button.middle {
+  height: 50px;
+}
+
+.button.confirm {
+  height: 40px;
+  font-size: 20px;
+}
+
+
+.button.tag {
+  height: 35px;
+  font-size: 16px;
+
+}
+
+/*태그 박스에 들어갈 버튼 스타일*/
+.tag-box button {
+  padding: 10px !important;
+  margin-right: 15px;
+  background-color: rgba(255, 229, 0, 0.3);
+}
+
+.tag-box button:last-child {
+  margin-right: 0;
+  /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+
+
+.button.comment {
+  height: 30px;
+  font-size: 16px;
+}
+
+
+.button:hover {
+  background-color: #ffd700;
+  /* hover 효과 */
+}
+
+
+/*레이아웃(헤더,메인,푸터)*/
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+
+.main-content {
+
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.content {
+  /* padding: 1rem; */
+}
+
+
+/* 헤더 */
+.header {
+  display: flex;
+  max-height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px 0 0px;
+  /* 오른쪽에만 패딩 */
+  background-color: var(--white);
+  /* 헤더 배경색 */
+  border-bottom: solid 1px #EFF3F6;
+}
+
+.logo {
+  margin-right: 84px;
+  /* 로고와 내비게이션 사이의 간격 */
+}
+
+.nav {
+  flex-grow: 1;
+  /* 내비게이션이 가운데에 위치하도록 */
+}
+
+.nav-list {
+  display: flex;
+}
+
+.nav-list li {
+  margin-right: 50px;
+  /* 버튼들 사이의 간격 */
+}
+
+.nav-list li:last-child {
+  margin-right: 0;
+  /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+.header img.mypage {
+  margin-right: 50px;
+  /* 마이페이지 이미지와 로그아웃 이미지 사이의 간격 */
+}
+
+.header img.logout {
+  margin-left: auto;
+  /* 로그아웃 이미지를 오른쪽 끝에 고정 */
+}
+
+.header button {
+  font-size: 20px;
+  font-weight: 700;
+  background-color: inherit;
+  color: black;
+  /* 버튼 텍스트 색상 */
+}
+
+
+
+
+
+footer {
+  background: var(--white);
+  color: var(--black);
+  padding: 12px;
+  text-align: center;
+  border-top: solid 1px rgba(0, 0, 0, 0.25);
+}
+
+
+
+/*배너*/
+.banner {
+  width: 100%;
+  height: 189px;
+  background: var(--banner-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  /* 부모 요소와의 여백 제거 */
+  padding: 0;
+  /* 내부 여백 제거 */
+  position: relative;
+
+
+}
+
+/*배너내부 이미지 투명도설정*/
+.banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('../../assets/images/banner_image.svg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: right center;
+  opacity: 0.05;
+  /* 투명도 설정 */
+  z-index: -1;
+  /* 배너 콘텐츠보다 뒤로 보내기 */
+}
+
+.banner h1 {
+  margin: 0 0 20px 0;
+  /* 아래쪽 여백 추가 */
+  font-size: var(--f24);
+  font-weight: 700;
+  width: 810px;
+
+}
+
+/*배너 내부의 버튼 안의 간격*/
+.banner-buttons-box {
+  display: flex;
+  gap: 24px;
+  /* 버튼 간격 추가 */
+  width: 810px;
+
+}
+
+
+/*내정보 css*/
+
+.myinfo-box {
+  display: flex;
+  flex-direction: column;
+  width: 810px;
+  gap: 31px;
+}
+
+.myinfo-headline {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px black;
+  padding-bottom: 15px;
+}
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  font-size: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
+}
+
+.info-item label {
+  width: 22%;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.info-content {
+  margin-left: 18px;
+}
+
+.info-item {
+  
+  
+  font-size: inherit;
+}
+
+.info-item input{
+  width: 30%;
+  border: solid 1px black;
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: inherit;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 180px;
+  position: absolute;
+  /* 절대 위치 설정 */
+  bottom: -24px;
+}
+
+/*내정보-댓글*/
+.comments-grid {
+  
+}
+
+.comments-header {
+  display: grid;
+  height: 50px;
+  align-items: center;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  background: rgba(255, 229, 0, 0.3);
+  color: var(--black);
+  border-top: solid 2px black;
+  border-bottom: solid 1px black;
+  font-size : 20px;
+  font-weight: 700;
+
+}
+
+.comment-row {
+  display: grid;
+  height: 40px;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  align-items: center;
+  border-bottom: 1px solid var(--box-border-color);
+}
+
+
+/*비디오스타일*/
+.videos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.videos-container h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/*동영상 리스트 출력*/
+.movie-small {
+  flex-grow: 1;
+  /* 내비게이션이 가운데에 위치하도록 */
+
+}
+
+.movie-small-list {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  padding-top: 7px;
+}
+
+.movie-small-list li {
+  margin-right: 10px;
+  /* 버튼들 사이의 간격 */
+}
+
+.movie-small-list li:last-child {
+  margin-left: auto;
+  margin-right: 0;
+  /* 마지막 버튼의 오른쪽 여백 제거 */
+}
