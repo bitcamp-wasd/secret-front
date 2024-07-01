@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 
 const MyComments = () => {
+  const [comments, setComments] = useState([]);
+  const [selectedComments, setSelectedComments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageRange, setPageRange] = useState([1, 5]);
+  const commentsPerPage = 10;
+  
+  useEffect(() => {
   // 더미 데이터 생성
-  const dummyComments = Array.from({ length: 110 }, (_, index) => ({
+  const dummyComments = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
     videoTitle: `비디오 ${index + 1}번째`,
     comment: `내용 ${index + 1}번째`,
     date: `2023-06-1${index % 10}`,
   }));
 
-  const [selectedComments, setSelectedComments] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageRange, setPageRange] = useState([1, 5]);
-  const commentsPerPage = 10;
+  // API 호출
+  // fetch('/api/user/auth/comments')
+  //   .then(response => response.json())
+  //   .then(data => setComments(data))
+  //   .catch(error => console.error('Error fetching data:', error));  
+
+  setComments(dummyComments);
+}, []);
 
   // 전체 선택 혹은 해제
   const handleSelectAll = (event) => {
@@ -38,19 +49,38 @@ const MyComments = () => {
     }
   };
 
+  //삭제기능
   const handleDelete = () => {
     console.log("Deleting selected comments:", selectedComments);
-    // 삭제기능 구현
+    // 삭제 API 호출
+    // fetch('/api/user/auth/comments', {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ commentIds: selectedComments }),
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   // 삭제 후 데이터 업데이트
+    //   setComments(comments.filter(comment => !selectedComments.includes(comment.id)));
+    //   setSelectedComments([]);
+    // })
+    // .catch(error => console.error('Error deleting comments:', error));
+  
+    // 더미 데이터에서 삭제
+    setComments(comments.filter(comment => !selectedComments.includes(comment.id)));
+    setSelectedComments([]);
   };
 
   // 페이지네이션
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const displayedComments = dummyComments.slice(
+  const displayedComments = comments.slice(
     indexOfFirstComment,
     indexOfLastComment
   );
-  const totalPages = Math.ceil(dummyComments.length / commentsPerPage);
+  const totalPages = Math.ceil(comments.length / commentsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -101,7 +131,7 @@ const MyComments = () => {
           <Button size="confirm" to="/mypage/mycomments">
             취소
           </Button>
-          <Button size="confirm" to="/mypage/mycomments">
+          <Button size="confirm" onClick={handleDelete}>
             삭제 완료
           </Button>
         </div>
