@@ -201,16 +201,3 @@
   cursor: not-allowed;
 }
 
-/*관리자 페이지 배너*/
-.banner-admin{
-  display: flex;
-  width:810px;
-  gap: 20px;
-}
-
-.banner-admin button{
-  height: 40px;
-  padding: 15px 35px;
-  
-  
-}

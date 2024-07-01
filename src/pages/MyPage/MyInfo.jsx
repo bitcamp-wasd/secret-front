@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
@@ -6,6 +6,31 @@ import Layout from "../../components/Layout";
 import UserIcon from "../../assets/images/user_icon.svg";
 
 const MyInfo = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: "user@example.com",
+    nickName: "유저닉네임",
+    point: 100
+  });
+
+  useEffect(() => {
+    // 임시데이터
+    const dummyData = {
+      email: "noton2@naver.com",
+      nickName: "이경석",
+      point: 1500
+    };
+
+    // 설정
+    setUserInfo(dummyData);
+
+    // API 호출
+    // fetch('/api/user/auth/myinfo')
+    //   .then(response => response.json())
+    //   .then(data => setUserInfo(data))
+    //   .catch(error => console.error('Error fetching data:', error));
+
+  }, []);
+
   return (
     <Layout showFooter={true} bannerType="my">
       <div className="main-container-810 mt120">
@@ -24,19 +49,19 @@ const MyInfo = () => {
             <div className="info-item">
               <label>닉네임</label>
               <div className="info-content">
-                <span>백브레이커</span>
+                <span>{userInfo.nickName}</span>
               </div>
             </div>
             <div className="info-item">
               <label>이메일</label>
               <div className="info-content">
-                <span>noton0@naver.com</span>
+                <span>{userInfo.email}</span>
               </div>
             </div>
             <div className="info-item">
               <label>포인트</label>
               <div className="info-content">
-                <span>1500</span>
+                <span>{userInfo.point}</span>
               </div>
             </div>
           </div>

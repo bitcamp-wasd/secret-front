@@ -87,13 +87,6 @@
     font-size: var(--f16);
 }
 
-.ch-banner h1 {
-    font-size: 42px;
-}
-
-.ch-banner Button {
-    padding: 15px 35px 15px 35px;
-}
 
 .best-challenge {
     position: relative;
