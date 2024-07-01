@@ -24,10 +24,13 @@ const MyInfo = () => {
     setUserInfo(dummyData);
 
     // API 호출
-    // fetch('/api/user/auth/myinfo')
-    //   .then(response => response.json())
-    //   .then(data => setUserInfo(data))
-    //   .catch(error => console.error('Error fetching data:', error));
+  //   axios.get('/api/user/auth/myinfo')
+  // .then(response => {
+  //   setUserInfo(response.data);
+  // })
+  // .catch(error => {
+  //   console.error('Error fetching data:', error);
+  // });
 
   }, []);
 
