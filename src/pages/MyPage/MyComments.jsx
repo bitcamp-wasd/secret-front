@@ -11,20 +11,24 @@ const MyComments = () => {
   const commentsPerPage = 10;
 
   useEffect(() => {
-  // 더미 데이터 생성
-  const dummyComments = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    videoTitle: `비디오 Title ${index + 1}`,
-    comment: `This is comment number ${index + 1}`,
-    date: `2023-06-1${index % 10}`,
-  }));
-  
+    // 더미 데이터 생성
+    const dummyComments = Array.from({ length: 20 }, (_, index) => ({
+      id: index + 1,
+      videoTitle: `비디오 Title ${index + 1}`,
+      comment: `This is comment number ${index + 1}`,
+      date: `2023-06-1${index % 10}`,
+    }));
+
     // API 호출
-    // fetch('/api/user/auth/comments')
-    //   .then(response => response.json())
-    //   .then(data => setComments(data))
-    //   .catch(error => console.error('Error fetching data:', error));
-  
+    // axios
+    //   .get("/api/user/auth/comments")
+    //   .then((response) => {
+    //     setComments(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data:", error);
+    //   });
+
     setComments(dummyComments);
   }, []);
 
@@ -70,35 +74,35 @@ const MyComments = () => {
             </div>
           ))}
           <div className="flex flex-end mt10">
-          
-            <Button size="confirm" to="/mypage/deletecomments">삭제하기</Button>
-            
+            <Button size="confirm" to="/mypage/deletecomments">
+              삭제하기
+            </Button>
           </div>
           <div className="mycomments-pagenation">
-          <button
-            onClick={handlePreviousPageRange}
-            disabled={pageRange[0] === 1}
-          >
-            {"<"}
-          </button>
-          {Array.from({ length: totalPages }, (_, index) => index + 1)
-            .slice(pageRange[0] - 1, pageRange[1])
-            .map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => paginate(pageNumber)}
-                className={currentPage === pageNumber ? "active" : ""}
-              >
-                {pageNumber}
-              </button>
-            ))}
-          <button
-            onClick={handleNextPageRange}
-            disabled={pageRange[1] >= totalPages}
-          >
-            {">"}
-          </button>
-        </div>
+            <button
+              onClick={handlePreviousPageRange}
+              disabled={pageRange[0] === 1}
+            >
+              {"<"}
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => index + 1)
+              .slice(pageRange[0] - 1, pageRange[1])
+              .map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  onClick={() => paginate(pageNumber)}
+                  className={currentPage === pageNumber ? "active" : ""}
+                >
+                  {pageNumber}
+                </button>
+              ))}
+            <button
+              onClick={handleNextPageRange}
+              disabled={pageRange[1] >= totalPages}
+            >
+              {">"}
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
