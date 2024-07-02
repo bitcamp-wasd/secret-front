@@ -286,7 +286,7 @@
     background-color: #ffd700;
 }
 
-.button-link {
+.upload-button {
     background-color: var(--btn-color);
 
     border-radius: 15px;
