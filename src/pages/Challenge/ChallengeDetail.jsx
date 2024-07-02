@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import Layout from '../../components/Layout';
 import VideoPlay from '../../components/VideoPlay';
 import '../../assets/css/style.css';
@@ -13,6 +13,47 @@ const ChallengeDetail = () => {
         id: 1,
         thumbnail: 'https://via.placeholder.com/810x455.6?text=Thumbnail+1',
     }
+
+    const [isHeartFilled, setIsHeartFilled] = useState(false);
+    const [comments, setComments] = useState([
+        {
+            id: 1,
+            author: "김융",
+            content: "오 그래도 잘하시는데요?",
+            date: "24.06.01 17:01",
+        },
+        {
+            id: 2,
+            author: "병민",
+            content: "정말 멋진 연주네요!",
+            date: "24.06.01 17:15",
+        },
+    ]);
+    const [newComment, setNewComment] = useState("");
+
+    const handleHeartClick = () => {
+        setIsHeartFilled(!isHeartFilled);
+    };
+
+    const handleCommentChange = (e) => {
+        setNewComment(e.target.value);
+    };
+
+    const handleCommentSubmit = () => {
+        if (newComment.trim() !== "") {
+            const now = new Date();
+            const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+            const newCommentData = {
+                id: comments.length + 1,
+                author: "새로운 유저", // 추후 DB에서 사용자 정보 받아와서 사용
+                content: newComment,
+                date: formattedDate,
+            };
+            setComments([...comments, newCommentData]);
+            setNewComment("");
+        }
+    };
 
     return (
         <Layout>
@@ -61,39 +102,34 @@ const ChallengeDetail = () => {
 
                 {/* 댓글등록 */}
                 <div className="comment mt90">
-                    <div>댓글 254개</div>
-                    <textarea type="text" placeholder="댓글을 입력하세요." />
+                    <div>댓글 {comments.length}개</div>
+                    <textarea
+                        type="text"
+                        placeholder="댓글을 입력하세요."
+                        value={newComment}
+                        onChange={handleCommentChange}
+                    />
                 </div>
                 <div className="flex-end mt10 button-container">
-                    <Button>등록</Button>
+                    <Button onClick={handleCommentSubmit}>등록</Button>
                 </div>
 
                 {/* 댓글리스트 */}
-                <div className="flex align-center space-between mt40">
-                    <div className="flex align-center">
-                        <img src={grade} className="mr10" />김융
+                {comments.map((comment) => (
+                    <div key={comment.id}>
+                        <div className="flex align-center space-between mt40">
+                            <div className="flex align-center">
+                                <img src={grade} className="mr10" />
+                                {comment.author}
+                            </div>
+                            <div className="flex align-center">{comment.date}</div>
+                        </div>
+                        <div className="comment-content mt10">
+                            {comment.content}
+                            <div className="line"></div>
+                        </div>
                     </div>
-                    <div className="flex align-center">
-                        24.06.01 17:01
-                    </div>
-                </div>
-                <div className="comment-content mt10">
-                    오 그래도 잘하시는데요?
-                    <div className="line"></div>
-                </div>
-
-                <div className="flex align-center space-between mt40">
-                    <div className="flex align-center">
-                        <img src={grade} className="mr10" />김융
-                    </div>
-                    <div className="flex align-center">
-                        24.06.01 17:01
-                    </div>
-                </div>
-                <div className="comment-content mt10">
-                    오 그래도 잘하시는데요?
-                    <div className="line"></div>
-                </div>
+                ))}
 
 
 
