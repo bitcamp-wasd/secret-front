@@ -15,42 +15,46 @@ const Tag = () => {
 
     return (
         <div className="tag-box align-center mt10">
-            <button
-                className={`button tag ${selected === 3 ? 'selected' : ''}`}
+            <Button
+                size="tag"
+                className={selected === 3 ? 'selected' : ''}
                 onClick={() => handleClick(3)}
             >
                 <span className='icon-wrapper'>
                     <img src={Piano} alt="piano" />
                 </span>
                 피아노
-            </button>
-            <button
-                className={`button tag ${selected === 4 ? 'selected' : ''}`}
+            </Button>
+            <Button
+                size="tag"
+                className={selected === 4 ? 'selected' : ''}
                 onClick={() => handleClick(4)}
             >
                 <span className='icon-wrapper'>
                     <img src={Violin} alt="violin" />
                 </span>
                 바이올린
-            </button>
-            <button
-                className={`button tag ${selected === 5 ? 'selected' : ''}`}
+            </Button>
+            <Button
+                size="tag"
+                className={selected === 5 ? 'selected' : ''}
                 onClick={() => handleClick(5)}
             >
                 <span className='icon-wrapper'>
                     <img src={Guitar} alt="guitar" />
                 </span>
                 기타
-            </button>
-            <button
-                className={`button tag ${selected === 6 ? 'selected' : ''}`}
+            </Button>
+            <Button
+                size="tag"
+                className={selected === 6 ? 'selected' : ''}
                 onClick={() => handleClick(6)}
             >
                 <span className='icon-wrapper'>
                     <img src={Drum} alt="drum" />
                 </span>
                 드럼
-            </button>
+            </Button>
         </div>
     );
 }

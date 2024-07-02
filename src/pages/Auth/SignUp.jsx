@@ -40,7 +40,13 @@ const SignUp = () => {
       setNicknameError("");
     }
 
-    if (email.trim() === "" || authCode.trim() === "" || password.trim() === "" || confirmPassword.trim() === "" || nickname.trim() === "") {
+    if (
+      email.trim() === "" ||
+      authCode.trim() === "" ||
+      password.trim() === "" ||
+      confirmPassword.trim() === "" ||
+      nickname.trim() === ""
+    ) {
       alert("공백이 있으면 안됩니다");
       return;
     }
@@ -54,7 +60,7 @@ const SignUp = () => {
 
   // 이메일 인증 로직
   const handleEmailVerification = async () => {
-    // 이메일 형식 검증 
+    // 이메일 형식 검증
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       alert("이메일만 사용가능합니다");
@@ -88,7 +94,7 @@ const SignUp = () => {
   };
 
   // 더미 데이터로 인증 코드 확인
-  const handleAuthCodeVerification = () => {  
+  const handleAuthCodeVerification = () => {
     if (authCode === dummyAuthCode) {
       alert("인증이 완료되었습니다");
       setIsAuthCodeVerified(true);
@@ -121,7 +127,6 @@ const SignUp = () => {
   //   }
   // };
 
-
   return (
     <Layout showHeader={false}>
       <div className="auth-container">
@@ -137,36 +142,37 @@ const SignUp = () => {
               <div className="auth-error-message">{errorMessage}</div>
             )}
             <div className="auth-box-info-item mt80">
-            <div className="signup-button-box pdx20">
-              <input
-                type="text"
-                placeholder="E-MAIL"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <Button size="confirm" onClick={handleEmailVerification}>
-                인증
-              </Button>
+              <div className="signup-button-box pdx20">
+                <input
+                  type="text"
+                  placeholder="E-MAIL"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Button size="confirm" onClick={handleEmailVerification}>
+                  인증
+                </Button>
               </div>
             </div>
             <div className="auth-box-info-item mt23">
               <div className="signup-button-box pdx20">
-              <input
-                type="text"
-                placeholder="인증번호 입력"
-                value={authCode}
-                onChange={(e) => setAuthCode(e.target.value)}
-                required
-                disabled={isAuthCodeVerified}
-              />
-              <button
-  className={`button ${isAuthCodeVerified ? "button-confirmed" : "confirm"}`}
-  onClick={handleAuthCodeVerification}
-  disabled={isAuthCodeVerified}
->
-  {isAuthCodeVerified ? "완료" : "확인"}
-</button>
+                <input
+                  type="text"
+                  placeholder="인증번호 입력"
+                  value={authCode}
+                  onChange={(e) => setAuthCode(e.target.value)}
+                  required
+                  disabled={isAuthCodeVerified}
+                />
+                <Button
+                  size="confirm"
+                  onClick={handleAuthCodeVerification}
+                  className={isAuthCodeVerified ? "button-confirmed" : ""}
+                  disabled={isAuthCodeVerified}
+                >
+                  {isAuthCodeVerified ? "완료" : "확인"}
+                </Button>
               </div>
             </div>
             <div className="auth-box-info-item mt30">
