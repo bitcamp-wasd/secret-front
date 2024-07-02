@@ -4,6 +4,7 @@ import VideoBox from "../../components/VideoBox_Ba";
 import vs from "../../assets/images/vs.svg";
 import Button from "../../components/Button";
 import grade from "../../assets/images/grade.svg";
+import battleheart_fill from "../../assets/images/battleheart_fill.svg";
 import battleheart from "../../assets/images/battleheart.svg";
 
 const BattleDetail = () => {
@@ -14,25 +15,47 @@ const BattleDetail = () => {
         author: "홍길동",
     };
 
-    const [isHeartFilled, setIsHeartFilled] = useState(false);
+    const [isHeartFilledBattle, setIsHeartFilledBattle] = useState(false);
+    const [isHeartFilledNormal, setIsHeartFilledNormal] = useState(false);
+    const [likeCountBattle, setLikeCountBattle] = useState(1234);
+    const [likeCountNormal, setLikeCountNormal] = useState(1234);
     const [comments, setComments] = useState([
-        {
-            id: 1,
-            author: "김융",
-            content: "오 그래도 잘하시는데요?",
-            date: "24.06.01 17:01",
-        },
-        {
-            id: 2,
-            author: "병민",
-            content: "정말 멋진 연주네요!",
-            date: "24.06.01 17:15",
-        },
+        // {
+        //     id: 1,
+        //     author: "김융",
+        //     content: "오 그래도 잘하시는데요?",
+        //     date: "24.06.01 17:01",
+        // },
+        // {
+        //     id: 2,
+        //     author: "병민",
+        //     content: "정말 멋진 연주네요!",
+        //     date: "24.06.01 17:15",
+        // },
     ]);
     const [newComment, setNewComment] = useState("");
+    const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
+    const [animateBattle, setAnimateBattle] = useState(false);
+    const [animateNormal, setAnimateNormal] = useState(false);
 
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled);
+    const handleHeartClickBattle = () => {
+        setIsHeartFilledBattle(!isHeartFilledBattle);
+        setLikeCountBattle(prevCount => isHeartFilledBattle ? prevCount - 1 : prevCount + 1);
+        setAnimateBattle(true);
+
+        setTimeout(() => {
+            setAnimateBattle(false);
+        }, 300); // 애니메이션 지속 시간과 동일하게 설정
+    };
+
+    const handleHeartClickNormal = () => {
+        setIsHeartFilledNormal(!isHeartFilledNormal);
+        setLikeCountNormal(prevCount => isHeartFilledNormal ? prevCount - 1 : prevCount + 1);
+        setAnimateNormal(true);
+
+        setTimeout(() => {
+            setAnimateNormal(false);
+        }, 300); // 애니메이션 지속 시간과 동일하게 설정
     };
 
     const handleCommentChange = (e) => {
@@ -52,6 +75,9 @@ const BattleDetail = () => {
             };
             setComments([...comments, newCommentData]);
             setNewComment("");
+            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
+
+            alert("댓글이 등록되었습니다.");
         }
     };
 
@@ -59,13 +85,12 @@ const BattleDetail = () => {
         <Layout>
             <div className="main-container-810 mt70">
 
-                <div class="video-info">
-                    <div class="video-info-title">
+                <div className="video-info">
+                    <div className="video-info-title">
                         <div>자강두천 최병민과 김융의 가슴이 웅장해지는 대결</div>
-                        <div>조회수7500회 종료일24.06.27</div>
+                        <div>조회수 7500회 종료일 24.06.27</div>
                     </div>
                 </div>
-
 
                 <div className="flex">
                     <div>
@@ -80,8 +105,11 @@ const BattleDetail = () => {
                             </div>
                         </div>
                         <div className="centered-content">
-                            <img src={battleheart} className="battleheart" />
-                            <div>1234</div>
+                            <img onClick={handleHeartClickBattle} style={{ cursor: 'pointer' }}
+                                src={isHeartFilledBattle ? battleheart_fill : battleheart}
+                                className={`heart-icon ${animateBattle ? 'heart-animation' : ''}`}
+                            />
+                            <div>{likeCountBattle}</div>
                         </div>
                     </div>
 
@@ -99,13 +127,16 @@ const BattleDetail = () => {
                             </div>
                         </div>
                         <div className="centered-content">
-                            <img src={battleheart} className="battleheart" />
-                            <div>1234</div>
+                            <img onClick={handleHeartClickNormal} style={{ cursor: 'pointer' }}
+                                src={isHeartFilledNormal ? battleheart_fill : battleheart}
+                                className={`heart-icon ${animateNormal ? 'heart-animation' : ''}`}
+                            />
+                            <div>{likeCountNormal}</div>
                         </div>
                     </div>
                 </div>
 
-                {/* 댓글등록 */}
+                {/* 댓글 등록 */}
                 <div className="comment mt90">
                     <div>댓글 {comments.length}개</div>
                     <textarea
@@ -119,7 +150,12 @@ const BattleDetail = () => {
                     <Button onClick={handleCommentSubmit}>등록</Button>
                 </div>
 
-                {/* 댓글리스트 */}
+                {/* 댓글 리스트 */}
+                {showCommentPlaceholder && comments.length === 0 && (
+                    <div className="comment-placeholder">
+                        첫 댓글을 남겨보세요!
+                    </div>
+                )}
                 {comments.map((comment) => (
                     <div key={comment.id}>
                         <div className="flex align-center space-between mt40">
@@ -137,8 +173,7 @@ const BattleDetail = () => {
                 ))}
             </div>
         </Layout>
-    )
-
-}
+    );
+};
 
 export default BattleDetail;
