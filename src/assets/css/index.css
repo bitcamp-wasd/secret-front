@@ -291,7 +291,7 @@
   /*로그인박스 스타일*/
 .auth-box{
   border: 1px solid black;
-  background-color: var(--box-color);
+  background-color: white;
   justify-content: center;
   align-content: center;
   
