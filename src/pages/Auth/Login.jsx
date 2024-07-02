@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -7,10 +7,12 @@ import Logo from "../../assets/images/auth_logo.svg";
 import Naver from "../../assets/images/naver.svg";
 import Kakao from "../../assets/images/kakao.png";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   // 더미 데이터
   const dummyData = {
@@ -20,13 +22,33 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email !== dummyData.email || password !== dummyData.password) {
-      setErrorMessage("* 이메일 또는 비밀번호가 일치하지 않습니다");
-    } else {
-      setErrorMessage("");
-      console.log("Login Submitted", { email, password });
-      // 로그인 성공시 로직
+
+    // 입력값이 비어 있는지 확인
+    if (!email.trim() || !password.trim()) {
+      alert("공백은 입력할 수 없습니다");
+      return;
     }
+
+    // 더미 데이터를 이용한 로그인 시도
+    if (email !== dummyData.email || password !== dummyData.password) {
+      setErrorMessage("* 이메일 혹은 비밀번호가 일치하지 않습니다");
+      //임시
+      console.error("Login failed: 이메일 혹은 비밀번호가 일치하지 않습니다");
+      return;
+    }
+
+    // 로그인 성공
+    console.log("Login successful");
+    // 토큰을 받아와서 로컬스토리지에 저장
+    const accessToken = "dummyAccessToken";
+    const refreshToken = "dummyRefreshToken";
+    const expirationTime = 3600;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('tokenExpiration', expirationTime);
+
+    // 메인 페이지로 이동
+    navigate('/');
   };
 
   return (
@@ -64,7 +86,7 @@ const Login = () => {
             </div>
 
             <div className="auth-box-info-item mb-6">
-              <Button size="large" to="/" onClick={handleSubmit}>
+              <Button size="large" onClick={handleSubmit}>
                 로그인
               </Button>
             </div>
