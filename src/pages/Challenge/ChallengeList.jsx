@@ -30,7 +30,7 @@ const ChallengeList = () => {
   return (
     <Layout showFooter={false} bannerType="challenge">
 
-      <div className="challenge-container">
+      <div className="challenge-container mt80">
 
         <div className="best-challenge">
           <img src={chbest} />
