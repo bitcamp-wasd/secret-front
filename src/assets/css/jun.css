@@ -83,6 +83,13 @@
     padding-bottom: 10px;
 }
 
+
+.comment-placeholder {
+    margin-top: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
 .ch-day {
     font-size: var(--f16);
 }
@@ -192,4 +199,35 @@
 .button.tag.selected {
     background-color: rgba(255, 184, 0, 0.5);
     outline: 2px solid rgb(255, 184, 0);
+}
+
+@keyframes heart-burst {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.heart-animation {
+    animation: heart-burst 0.3s ease-in-out;
+}
+
+.footer-container {
+    margin-top: 100px;
+}
+
+.sub-battlebox-317 {
+    width: 317px;
+    background-color: white;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
