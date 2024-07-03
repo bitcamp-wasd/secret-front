@@ -16,52 +16,30 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [nicknameError, setNicknameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isAuthCodeVerified, setIsAuthCodeVerified] = useState(false);
 
   const nicknameInputRef = useRef(null);
 
-  // /*더미데이터 */
-  // const existingNicknames = ["user1", "user2", "홍길동"];
-  // const dummyEmail = "noton0@naver.com";
-  // const dummyAuthCode = "1234";
+  // 이메일 형식 검증 함수
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (password !== confirmPassword) {
-  //     setPasswordError("* 비밀번호가 일치하지 않습니다");
-  //   } else {
-  //     setPasswordError("");
-  //   }
+  // 비밀번호 형식 검증 함수
+  const isValidPassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,13}$/;
+    return passwordRegex.test(password);
+  };
 
-  //   if (existingNicknames.includes(nickname)) {
-  //     setNicknameError("* 다른 닉네임을 입력해주세요");
-  //     if (nicknameInputRef.current) {
-  //       nicknameInputRef.current.focus();
-  //     }
-  //   } else {
-  //     setNicknameError("");
-  //   }
+  // 이메일 인증 로직
+  const handleEmailVerification = async () => {
+    if (!isValidEmail(email)) {
+      alert("이메일 형태로 입력해주세요");
+      return;
+    }
 
-  //   if (
-  //     email.trim() === "" ||
-  //     authCode.trim() === "" ||
-  //     password.trim() === "" ||
-  //     confirmPassword.trim() === "" ||
-  //     nickname.trim() === ""
-  //   ) {
-  //     alert("공백이 있으면 안됩니다");
-  //     return;
-  //   }
-
-  //   if (!passwordError && !nicknameError) {
-  //     alert("가입이 완료되었습니다");
-  //     console.log("SignUp Submitted", { email, authCode, password, nickname });
-  //     // 추가 로직
-  //   }
-  // };
-
-   // 이메일 인증 로직
-   const handleEmailVerification = async () => {
     try {
       const response = await axios.post(`${API_URL}/api/user/email-certification`, { email });
       if (response.data.code === "SU") {
@@ -99,17 +77,31 @@ const SignUp = () => {
       }
     }
   };
-  
+
+  // 회원가입 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setPasswordError("* 비밀번호가 일치하지 않습니다");
-      return;
+    // 비밀번호 형식 검사
+    if (!isValidPassword(password)) {
+      setPasswordError("* 8~13자의 영문, 숫자를 사용해 주세요.");
     } else {
       setPasswordError("");
     }
 
+    // 비밀번호 일치 검사
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("* 비밀번호가 일치하지 않습니다");
+    } else {
+      setConfirmPasswordError("");
+    }
+
+    // 어느 하나라도 오류가 있으면 함수 종료
+    if (!isValidPassword(password) || password !== confirmPassword) {
+      return;
+    }
+
+    // 닉네임 입력 확인
     if (nickname.trim() === "") {
       setNicknameError("* 닉네임을 입력해주세요");
       if (nicknameInputRef.current) {
@@ -121,10 +113,11 @@ const SignUp = () => {
     }
 
     try {
+      // 서버로 회원가입 요청 보내기
       const response = await axios.post(`${API_URL}/api/user/sign-up`, {
         email,
         password,
-        nickName : nickname,
+        nickName: nickname,
         certificationNumber: authCode
       });
 
@@ -204,6 +197,9 @@ const SignUp = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {passwordError && (
+                <span className="signup-error-message">{passwordError}</span>
+              )}
             </div>
             <div className="auth-box-info-item mt30">
               <input
@@ -213,8 +209,8 @@ const SignUp = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-              {passwordError && (
-                <span className="signup-error-message">{passwordError}</span>
+              {confirmPasswordError && (
+                <span className="signup-error-message">{confirmPasswordError}</span>
               )}
             </div>
             <div className="auth-box-info-item mt30">
@@ -224,6 +220,7 @@ const SignUp = () => {
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 required
+                ref={nicknameInputRef}
               />
               {nicknameError && (
                 <span className="signup-error-message">{nicknameError}</span>
