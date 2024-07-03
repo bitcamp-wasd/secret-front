@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -20,9 +20,9 @@ const Login = () => {
   //로그아웃기능 아직 안됐는데 테스트용으로 기존 토큰 삭제
   useEffect(() => {
     // 기존 토큰 삭제
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenExpiration');
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiration");
   }, []);
 
   const handleSubmit = async (e) => {
@@ -35,7 +35,10 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/user/sign-in`, { email, password });
+      const response = await axios.post(`${API_URL}/api/user/sign-in`, {
+        email,
+        password,
+      });
 
       if (response.status === 200 && response.data.code === "SU") {
         // 로그인 성공
@@ -43,12 +46,15 @@ const Login = () => {
 
         // 토큰을 받아와서 로컬스토리지에 저장
         const { accessToken, refreshToken, expirationTime } = response.data;
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('tokenExpiration', Date.now() + expirationTime * 1000);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem(
+          "tokenExpiration",
+          Date.now() + expirationTime * 1000
+        );
 
         // 메인 페이지로 이동
-        navigate('/');
+        navigate("/");
       } else {
         setErrorMessage("* 로그인에 실패했습니다. 다시 시도해주세요.");
       }
@@ -61,10 +67,34 @@ const Login = () => {
       console.error("Login failed: ", error.message);
     }
   };
-  
+
   const onSnsSignInButtonClickHandler = (type) => {
     window.location.href = SNS_SIGN_IN_URL(type);
   };
+
+  // 소셜 로그인 이후 토큰을 받아와서 처리하는 함수
+  useEffect(() => {
+    const handleSocialLogin = async () => {
+      // 현재 URL에서 파라미터 추출
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const expirationTime = urlParams.get("expirationTime");
+
+      if (token && expirationTime) {
+        // 토큰과 만료 시간을 로컬 스토리지에 저장
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem(
+          "tokenExpiration",
+          Date.now() + Number(expirationTime) * 1000
+        );
+
+        // 로그인 완료 후 메인 페이지로 리다이렉트
+        navigate("/");
+      }
+    };
+
+    handleSocialLogin();
+  }, []);
 
   return (
     <Layout showHeader={false}>
@@ -106,12 +136,18 @@ const Login = () => {
               </Button>
             </div>
             <Link to="/signup">
-            <span className="auth-box-info-signup mb-21">회원가입</span>
-            </Link>  
-            <span className="auth-box-info-social mb-20" onClick={() => onSnsSignInButtonClickHandler('naver')}>
+              <span className="auth-box-info-signup mb-21">회원가입</span>
+            </Link>
+            <span
+              className="auth-box-info-social mb-20"
+              onClick={() => onSnsSignInButtonClickHandler("naver")}
+            >
               <img src={Naver} alt="naver" />
             </span>
-            <span className="auth-box-info-social mb-60" onClick={() => onSnsSignInButtonClickHandler('kakao')}>
+            <span
+              className="auth-box-info-social mb-60"
+              onClick={() => onSnsSignInButtonClickHandler("kakao")}
+            >
               <img src={Kakao} alt="kakao" />
             </span>
           </div>
