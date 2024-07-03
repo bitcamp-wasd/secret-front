@@ -20,6 +20,7 @@ import ChallengeRegister from './pages/Challenge/ChallengeRegister';
 import BattleList from './pages/Battle/BattleList';
 import BattleDetail from './pages/Battle/BattleDetail';
 import BattleRegister from './pages/Battle/BattleRegister';
+import OAuthCallback from './pages/Auth/OAuthCallback';
 
 const routes = [
   { path: "/", element: <MainPage /> },
@@ -41,7 +42,8 @@ const routes = [
   { path: "/challenge/register", element: <ChallengeRegister /> },
   { path: "/battle/list", element: <BattleList /> },
   { path: "/battle/detail", element: <BattleDetail /> },
-  { path: "/battle/register", element: <BattleRegister /> }
+  { path: "/battle/register", element: <BattleRegister /> },
+  { path: "/oauth/callback", element: <OAuthCallback />}
 ];
 
 export default routes;
