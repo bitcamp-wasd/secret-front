@@ -82,6 +82,12 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 입력값이 비어 있는지 확인
+    if (!email.trim() || !password.trim() || !authCode.trim() || !confirmPassword.trim() || !nickname.trim()) {
+      alert("공백은 입력할 수 없습니다");
+      return;
+    }
+
     // 비밀번호 형식 검사
     if (!isValidPassword(password)) {
       setPasswordError("* 8~13자의 영문, 숫자를 사용해 주세요.");
