@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from "../../components/Layout";
@@ -17,11 +17,13 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // // 더미 데이터
-  // const dummyData = {
-  //   email: "noton0@naver.com",
-  //   password: "1234",
-  // };
+  //로그아웃기능 아직 안됐는데 테스트용으로 기존 토큰 삭제
+  useEffect(() => {
+    // 기존 토큰 삭제
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('tokenExpiration');
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,10 +108,10 @@ const Login = () => {
             <Link to="/signup">
             <span className="auth-box-info-signup mb-21">회원가입</span>
             </Link>  
-            <span className="auth-box-info-social mb-20" onClick={() => onSnsSignInButtonClickHandler('kakao')}>
+            <span className="auth-box-info-social mb-20" onClick={() => onSnsSignInButtonClickHandler('naver')}>
               <img src={Naver} alt="naver" />
             </span>
-            <span className="auth-box-info-social mb-60" onClick={() => onSnsSignInButtonClickHandler('naver')}>
+            <span className="auth-box-info-social mb-60" onClick={() => onSnsSignInButtonClickHandler('kakao')}>
               <img src={Kakao} alt="kakao" />
             </span>
           </div>
