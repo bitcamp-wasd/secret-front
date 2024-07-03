@@ -72,30 +72,6 @@ const Login = () => {
     window.location.href = SNS_SIGN_IN_URL(type);
   };
 
-  // 소셜 로그인 이후 토큰을 받아와서 처리하는 함수
-  useEffect(() => {
-    const handleSocialLogin = async () => {
-      // 현재 URL에서 파라미터 추출
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token");
-      const expirationTime = urlParams.get("expirationTime");
-
-      if (token && expirationTime) {
-        // 토큰과 만료 시간을 로컬 스토리지에 저장
-        localStorage.setItem("accessToken", token);
-        localStorage.setItem(
-          "tokenExpiration",
-          Date.now() + Number(expirationTime) * 1000
-        );
-
-        // 로그인 완료 후 메인 페이지로 리다이렉트
-        navigate("/");
-      }
-    };
-
-    handleSocialLogin();
-  }, []);
-
   return (
     <Layout showHeader={false}>
       <div class="auth-container">
