@@ -9,6 +9,7 @@ import Naver from "../../assets/images/naver.svg";
 import Kakao from "../../assets/images/kakao.png";
 
 const API_URL = process.env.REACT_APP_API_URL;
+export const SNS_SIGN_IN_URL = (type) => `${API_URL}/api/user/login/${type}`;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -58,6 +59,10 @@ const Login = () => {
       console.error("Login failed: ", error.message);
     }
   };
+  
+  const onSnsSignInButtonClickHandler = (type) => {
+    window.location.href = SNS_SIGN_IN_URL(type);
+  };
 
   return (
     <Layout showHeader={false}>
@@ -101,10 +106,10 @@ const Login = () => {
             <Link to="/signup">
             <span className="auth-box-info-signup mb-21">회원가입</span>
             </Link>  
-            <span className="auth-box-info-social mb-20">
+            <span className="auth-box-info-social mb-20" onClick={() => onSnsSignInButtonClickHandler('kakao')}>
               <img src={Naver} alt="naver" />
             </span>
-            <span className="auth-box-info-social mb-60">
+            <span className="auth-box-info-social mb-60" onClick={() => onSnsSignInButtonClickHandler('naver')}>
               <img src={Kakao} alt="kakao" />
             </span>
           </div>
