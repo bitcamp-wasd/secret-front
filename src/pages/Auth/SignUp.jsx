@@ -121,10 +121,11 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/user/signup`, {
+      const response = await axios.post(`${API_URL}/api/user/sign-up`, {
         email,
         password,
-        nickname
+        nickName : nickname,
+        certificationNumber: authCode
       });
 
       if (response.data.code === "SU") {
