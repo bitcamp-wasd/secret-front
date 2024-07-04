@@ -32,7 +32,9 @@ const Layout = ({
     <div className="layout">
       {showHeader && <Header />}
       {renderBanner()}
-      <div className="main-content">{children}</div>
+      <div className="main-content">
+        <div className="content">{children}</div>
+      </div>
       {showFooter && <Footer />}
     </div>
   );

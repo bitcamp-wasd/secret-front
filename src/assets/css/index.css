@@ -648,7 +648,7 @@ footer {
 
 
 /*비디오스타일*/
-.videos-grid {
+.videos-flex {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;

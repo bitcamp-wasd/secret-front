@@ -14,7 +14,7 @@ const ModifyVideo = () => {
     return (
         <Layout>
             <div className='main-container-810'>
-                <div className='videos-grid mt90'>
+                <div className='videos-flex mt90'>
                     <div className="title">l 동영상 첨부하기</div>
                     <VideoPlay thumbnail={dummyVideo.thumbnail} />
                 </div>

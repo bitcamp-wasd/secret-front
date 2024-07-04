@@ -29,67 +29,63 @@ const ChallengeList = () => {
 
   return (
     <Layout showFooter={false} bannerType="challenge">
-      <div>
-        <div className="challenge-container mt80">
+      <div className="challenge-container mt80">
 
-          <div className="best-challenge">
-            <img src={chbest} />
-            <div className="text-overlay">캐논변주곡 <br />챌린지 BEST3</div>
+        <div className="best-challenge">
+          <img src={chbest} />
+          <div className="text-overlay">캐논변주곡 <br />챌린지 BEST3</div>
+        </div>
+        <div className="sub-box-317">
+          <div className="video-box-ch" style={{ position: "relative" }}>
+            <VideoBox_hart
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
+            />
+            <img className="video-overlay" src={one} alt="One 이미지" />
           </div>
-          <div className="sub-box-317">
-            <div className="video-box-ch" style={{ position: "relative" }}>
-              <VideoBox_hart
-                key={dummyVideo.id}
-                thumbnail={dummyVideo.thumbnail}
-                title={dummyVideo.title}
-                author={dummyVideo.author}
-              />
-              <img className="video-overlay" src={one} alt="One 이미지" />
-            </div>
-          </div>
-          <div className="sub-box-317">
-            <div className="video-box-ch" style={{ position: "relative" }}>
-              <VideoBox_hart
-                key={dummyVideo.id}
-                thumbnail={dummyVideo.thumbnail}
-                title={dummyVideo.title}
-                author={dummyVideo.author}
-              />
-              <img className="video-overlay" src={two} />
-            </div>
-          </div>
-
-
-          <div className="sub-box-317">
-            <div className="video-box-ch" style={{ position: "relative" }}>
-              <VideoBox_hart
-                key={dummyVideo.id}
-                thumbnail={dummyVideo.thumbnail}
-                title={dummyVideo.title}
-                author={dummyVideo.author}
-              />
-
-              <img className="video-overlay" src={three} />
-            </div>
+        </div>
+        <div className="sub-box-317">
+          <div className="video-box-ch" style={{ position: "relative" }}>
+            <VideoBox_hart
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
+            />
+            <img className="video-overlay" src={two} />
           </div>
         </div>
 
-        <div className="main-container-1150 mt80">
-          <div class="row-direction space-between mb50">
 
-            <Tag />
+        <div className="sub-box-317">
+          <div className="video-box-ch" style={{ position: "relative" }}>
+            <VideoBox_hart
+              key={dummyVideo.id}
+              thumbnail={dummyVideo.thumbnail}
+              title={dummyVideo.title}
+              author={dummyVideo.author}
+            />
 
+            <img className="video-overlay" src={three} />
           </div>
-          <div className="videos-grid">
-            {dummyVideos.map((video) => (
-              <VideoBox
-                key={video.id}
-                thumbnail={video.thumbnail}
-                title={video.title}
-                author={video.author}
-              />
-            ))}
-          </div>
+        </div>
+      </div>
+
+      <div className="main-container-1150 mt80">
+        <div class="flex row-direction space-between mb50">
+          <Tag />
+        </div>
+        <div className="videos-grid">
+          {dummyVideos.map((video) => (
+            <VideoBox
+              key={video.id}
+              thumbnail={video.thumbnail}
+              title={video.title}
+              author={video.author}
+            />
+          ))}
         </div>
       </div>
     </Layout>
