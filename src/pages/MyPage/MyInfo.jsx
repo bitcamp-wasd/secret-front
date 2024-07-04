@@ -4,7 +4,6 @@ import Button from "../../components/Button";
 import Layout from "../../components/Layout";
 import UserIcon from "../../assets/images/user_icon.svg";
 import axiosInstance from "../../utils/axiosInstance";
-import { useNavigate } from 'react-router-dom';
 
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({
@@ -12,10 +11,9 @@ const MyInfo = () => {
     nickName: "초기닉네임",
     point: 100
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadUserInfo = async () => {
       try {
         //API 호출
         const response = await axiosInstance.get("/api/user/auth/myinfo");
@@ -27,13 +25,12 @@ const MyInfo = () => {
         });
       } catch (error) {
         console.error('Token verification failed:', error);
-        // 토큰이 유효하지 않은 경우 로그인 페이지로 리디렉션
-        navigate('/login');
+        
       }
     };
 
-    fetchData();
-  }, [navigate]);
+    loadUserInfo();
+  }, []);
 
   return (
     <Layout showFooter={true} bannerType="my">

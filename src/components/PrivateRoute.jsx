@@ -1,4 +1,3 @@
-// components/PrivateRoute.jsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ const PrivateRoute = ({ element: Element }) => {
     return !!accessToken;
   };
 
-  return isAuthenticated() ? <Element /> : <Navigate to="/login" replace />;
+  return isAuthenticated() ? Element : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

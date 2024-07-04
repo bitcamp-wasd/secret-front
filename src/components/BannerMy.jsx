@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from 'react-router-dom';
 
 const BannerMy = () => {
-  const [userData, setUserData] = useState({ nickName: "유저닉네임", rank_name: "유저등급" });
+  const [userData, setUserData] = useState({ nickName: "유저닉네임", rankName: "유저등급" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const BannerMy = () => {
         const userData = response.data;
         setUserData({
           nickName: userData.nickName,
-          rank_name: userData.rank_name
+          rankName: userData.rankName
         });
       } catch (error) {
         console.error('Token verification failed:', error);
