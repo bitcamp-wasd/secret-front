@@ -6,11 +6,18 @@ import logo from "../assets/images/header_logo.svg";
 import mypage from "../assets/images/header_mypage.svg";
 import login from "../assets/images/header_login.svg";
 import logout from "../assets/images/header_logout.svg";
+import toggleBtn from "../assets/images/navmenu.png";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 관리
- 
-  useEffect(() => {
+  const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+
+  const handleToggle = () => {
+    setIsActive(!isActive);
+  };
+
+   useEffect(() => {
     // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -48,37 +55,38 @@ const Header = () => {
   };
   
   return (
-    <header className="header">
+    <header className={`header ${isActive ? 'active' : ''}`}>
       <Link to="/">
         <img src={logo} alt="Logo" className="logo" />
       </Link>
-      <nav className="nav">
-        <ul className="nav-list">
-          <li>
-            <Link to="/">
-              <button id="movie">동영상</button>
-            </Link>
-          </li>
-          <li>
-            <Link to="/challenge/list">
-              <button id="challenge">챌린지</button>
-            </Link>
-          </li>
-          <li>
-            <Link to="/battle/list">
-              <button id="bettle">배틀</button>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-      {isLoggedIn ? (
-        <Link to="/mypage/myinfo">
-          <img src={mypage} alt="mypage" className="mypage" />
+      <ul className={`nav-list ${isActive ? 'active' : ''}`}>
+        <li>
+          <Link to="/">
+            <button id="movie">동영상</button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/challenge/list">
+            <button id="challenge">챌린지</button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/battle/list">
+            <button id="bettle">배틀</button>
+          </Link>
+        </li>
+      </ul>
+      <div className={`nav-links ${isActive ? 'active' : ''}`}>
+        {isLoggedIn ? (
+          <Link to="/mypage/myinfo">
+            <img src={mypage} alt="mypage" className="mypage" />
+          </Link>
+        ) : null}
+        <Link to={isLoggedIn ? "#" : "/login"} onClick={isLoggedIn ? handleLogout : undefined}>
+          <img src={isLoggedIn ? logout : login} alt={isLoggedIn ? "Logout" : "Login"} className="logout" />
         </Link>
-      ) : null}
-      <Link to={isLoggedIn ? "#" : "/login"} onClick={isLoggedIn ? handleLogout : undefined}>
-        <img src={isLoggedIn ? logout : login} alt={isLoggedIn ? "Logout" : "Login"} className="logout" />
-      </Link>
+      </div>
+      <img src={toggleBtn} className="toggleBtn" onClick={handleToggle} />
     </header>
   );
 };

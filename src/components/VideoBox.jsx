@@ -4,7 +4,7 @@ import "../assets/css/style.css";
 const VideoBox = ({ thumbnail, title }) => {
   return (
     <div className="video-box">
-      <img src={thumbnail} alt={title} />
+      <img className="video-box-thumbnail" src={thumbnail} alt={title} />
 
       <div class="row-direction space-between pdx30">
         <div class="movie-small">
