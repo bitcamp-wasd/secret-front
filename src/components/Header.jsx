@@ -10,14 +10,13 @@ import toggleBtn from "../assets/images/navmenu.png";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 관리
-  const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
 
   const handleToggle = () => {
     setIsActive(!isActive);
   };
 
-   useEffect(() => {
+  useEffect(() => {
     // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -27,8 +26,8 @@ const Header = () => {
     }
   }, []);
 
-   // 로그아웃 처리 함수
-   const handleLogout = async () => {
+  // 로그아웃 처리 함수
+  const handleLogout = async () => {
     // 서버로 로그아웃 요청 보내기
     try {
       const response = await axiosInstance.post("/api/user/sign-out");
@@ -53,7 +52,7 @@ const Header = () => {
       // 실패 시 처리 로직 추가
     }
   };
-  
+
   return (
     <header className={`header ${isActive ? 'active' : ''}`}>
       <Link to="/">
