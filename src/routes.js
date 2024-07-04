@@ -1,5 +1,6 @@
 // routes.js
 import React from 'react';
+import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
 import MainPage from './pages/Main/MainPage';
@@ -26,15 +27,15 @@ const routes = [
   { path: "/", element: <MainPage /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
-  { path: "/mypage/myinfo", element: <MyInfo /> },
-  { path: "/mypage/myinfoedit", element: <MyInfoEdit /> },
-  { path: "/mypage/myvideos", element: <MyVideos /> },
-  { path: "/mypage/mylikes", element: <MyLikes /> },
-  { path: "/mypage/mychallenges", element: <MyChallenges /> },
-  { path: "/mypage/mybettles", element: <MyBettles /> },
-  { path: "/mypage/mycomments", element: <MyComments /> },
-  { path: "/mypage/deletecomments", element: <DeleteComment /> },
-  { path: "/mypage/administer", element: <Administer /> },
+  { path: "/mypage/myinfo", element: <PrivateRoute component={MyInfo} /> },
+  { path: "/mypage/myinfoedit", element: <PrivateRoute component={MyInfoEdit} /> },
+  { path: "/mypage/myvideos", element: <PrivateRoute component={MyVideos} /> },
+  { path: "/mypage/mylikes", element: <PrivateRoute component={MyLikes} /> },
+  { path: "/mypage/mychallenges", element: <PrivateRoute component={MyChallenges} /> },
+  { path: "/mypage/mybettles", element: <PrivateRoute component={MyBettles} /> },
+  { path: "/mypage/mycomments", element: <PrivateRoute component={MyComments} /> },
+  { path: "/mypage/deletecomments", element: <PrivateRoute component={DeleteComment} /> },
+  { path: "/mypage/administer", element: <PrivateRoute component={Administer} /> },
   { path: "/video/register", element: <RegisterVideo /> },
   { path: "/video/play", element: <PlayVideo /> },
   { path: "/challenge/list", element: <ChallengeList /> },
