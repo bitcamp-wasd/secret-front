@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const isAuthenticated = () => {
@@ -11,9 +11,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthenticated() ? <Component {...props} /> : <Redirect to="/login" />
-      }
+      element={isAuthenticated() ? <Component {...rest} /> : <Navigate to="/login" replace />}
     />
   );
 };
