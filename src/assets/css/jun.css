@@ -368,8 +368,6 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-
-
     .nav-list {
         flex-direction: column;
         align-self: center;

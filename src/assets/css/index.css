@@ -439,8 +439,12 @@
 /*태그 박스에 들어갈 버튼 스타일*/
 .tag-box button {
   padding: 10px !important;
-  margin-right: 15px;
+  margin: 7px;
   background-color: rgba(255, 229, 0, 0.3);
+}
+
+.tag-box button:first-child {
+  margin-left: 0;
 }
 
 .tag-box button:last-child {
