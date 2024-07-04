@@ -17,6 +17,10 @@
     font-size: var(--f20);
 }
 
+.play-sheetmusic {
+    width: 100%;
+}
+
 .video-info {
     font-size: var(--f16);
 }
@@ -427,5 +431,24 @@
     .mt60,
     .mt80 {
         margin-top: 10px;
+    }
+}
+
+@media (max-width: 410px) {
+
+    .main-container-810 {
+        padding: 100px 260px 260px 260px;
+    }
+
+    .button {
+        font-size: 16px;
+    }
+
+    .button-container>*:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    .play-infobox {
+        font-size: 16px;
     }
 }

@@ -72,7 +72,7 @@ const ChallengeDetail = () => {
         <Layout>
             {/* 동영상 */}
             <div className="main-container-810">
-                <div className="videos-grid mt90">
+                <div className="videos-flex mt90">
                     <VideoPlay thumbnail={dummyVideo.thumbnail} />
                 </div>
 
@@ -97,18 +97,12 @@ const ChallengeDetail = () => {
                 </div>
 
                 {/* 설명 */}
-                {/* 추후에 mt40으로 변경 */}
                 <div className="video-info mt40">
                     <div className="video-info-title">
                         <div>조회수 7500회</div>
                         <div>24.05.26 17:14</div>
                     </div>
                     <div className="video-info-content">기타로 연주한 캐논 변주곡입니다 부족한 실력이지만 열심히 했습니다.</div>
-                </div>
-
-                {/* 악보 */}
-                <div>
-                    <img src={SheetMusic} alt="SheetMusic" className="mt40" />
                 </div>
 
                 {/* 버튼 */}

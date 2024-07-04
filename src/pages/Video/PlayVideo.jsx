@@ -63,7 +63,7 @@ const PlayVideo = () => {
     <Layout>
       {/* 동영상 */}
       <div className="main-container-810">
-        <div className="videos-grid mt90">
+        <div className="videos-flex mt90">
           <VideoPlay thumbnail={dummyVideo.thumbnail} />
         </div>
 
@@ -100,9 +100,9 @@ const PlayVideo = () => {
           </div>
 
           {/* 악보 */}
-          <div>
-            <img src={SheetMusic} alt="SheetMusic" className="mt40" />
-          </div>
+
+          <img src={SheetMusic} alt="SheetMusic" className="mt40 play-sheetmusic" />
+
 
           {/* 버튼 */}
           <div className="flex-end mt40 button-container">
