@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../assets/css/style.css";
 import logo from "../assets/images/header_logo.svg";
 import mypage from "../assets/images/header_mypage.svg";
@@ -7,15 +7,24 @@ import login from "../assets/images/header_login.svg";
 import logout from "../assets/images/header_logout.svg";
 
 const Header = () => {
-  //더미데이터 초기:로그인
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 관리
+ 
 
-  // 로그아웃 처리(추가적으로 삭제 실제 구현해야함)
+  // 로그아웃 처리 함수
   const handleLogout = () => {
+    // 로그아웃 상태로 변경
     setIsLoggedIn(false);
+
+    // 로컬 스토리지의 토큰 삭제
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiration");
+
+    // 경고 메시지 표시
     alert("로그아웃 되었습니다.");
-    navigate('/login');
+
+    // 현재 페이지 다시 불러오기
+    window.location.reload();
   };
   return (
     <header className="header">

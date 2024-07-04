@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance"; 
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -120,7 +121,7 @@ const SignUp = () => {
 
     try {
       // 서버로 회원가입 요청 보내기
-      const response = await axios.post(`${API_URL}/api/user/sign-up`, {
+      const response = await axiosInstance.post(`${API_URL}/api/user/sign-up`, {
         email,
         password,
         nickName: nickname,
