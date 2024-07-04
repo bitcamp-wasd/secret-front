@@ -35,7 +35,7 @@ const ChallengeList = () => {
           <img src={chbest} />
           <div className="text-overlay">캐논변주곡 <br />챌린지 BEST3</div>
         </div>
-        <div className="sub-box-317">
+        <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
             <VideoBox_hart
               key={dummyVideo.id}
@@ -46,7 +46,7 @@ const ChallengeList = () => {
             <img className="video-overlay" src={one} alt="One 이미지" />
           </div>
         </div>
-        <div className="sub-box-317">
+        <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
             <VideoBox_hart
               key={dummyVideo.id}
@@ -59,7 +59,7 @@ const ChallengeList = () => {
         </div>
 
 
-        <div className="sub-box-317">
+        <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
             <VideoBox_hart
               key={dummyVideo.id}
@@ -74,18 +74,20 @@ const ChallengeList = () => {
       </div>
 
       <div className="main-container-1150 mt80">
-        <div class="flex row-direction space-between mb50">
-          <Tag />
-        </div>
-        <div className="videos-grid">
-          {dummyVideos.map((video) => (
-            <VideoBox
-              key={video.id}
-              thumbnail={video.thumbnail}
-              title={video.title}
-              author={video.author}
-            />
-          ))}
+        <div className="mr10 ml10">
+          <div class="flex row-direction space-between mb50">
+            <Tag />
+          </div>
+          <div className="videos-grid">
+            {dummyVideos.map((video) => (
+              <VideoBox
+                key={video.id}
+                thumbnail={video.thumbnail}
+                title={video.title}
+                author={video.author}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Layout>
