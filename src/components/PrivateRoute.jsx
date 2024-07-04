@@ -1,21 +1,14 @@
+// components/PrivateRoute.jsx
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ element: Element, ...rest }) => {
+const PrivateRoute = ({ element: Element }) => {
   const isAuthenticated = () => {
     const accessToken = localStorage.getItem('accessToken');
-    //로컬 스토리지 토큰확인
-    return !!accessToken; 
+    return !!accessToken;
   };
 
-  return (
-    <Routes>
-      <Route
-        {...rest}
-        element={isAuthenticated() ? <Element {...rest} /> : <Navigate to="/login" replace />}
-      />
-    </Routes>
-  );
+  return isAuthenticated() ? <Element /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;
