@@ -14,35 +14,30 @@ const ChallengeRegister = () => {
     return (
         <Layout>
             <div className='main-container-810'>
-                <div className='videos-flex mt90'>
-                    <div className="title">l 동영상 첨부하기</div>
-                    <VideoPlay thumbnail={dummyVideo.thumbnail} />
+                <div className="mr10 ml10">
+                    <div className='videos-flex mt90'>
+                        <div className="title">l 동영상 첨부하기</div>
+                        <VideoPlay thumbnail={dummyVideo.thumbnail} />
+                    </div>
+
+                    <div className="flex-end mt20 button-container">
+                        <Button>첨부하기</Button>
+                    </div>
                 </div>
 
-                <div className="flex-end mt20 button-container">
-                    <Button>첨부하기</Button>
-                </div>
-            </div>
 
-
-            <div className='regtitle main-container-810 mt60'>
-                <div className="title">l 게시글 입력하기</div>
+                <div className="title mt60">l 게시글 입력하기</div>
                 <RegTag />
                 <input type="text" className="regtitle-text" placeholder="제목을 입력해주세요." />
                 <textarea
                     className="regcontent-text"
                     placeholder="내용을 입력해주세요."
                 />
+
+                <div className="justify-center mt80">
+                    <Button size="large">등록하기</Button>
+                </div>
             </div>
-
-            <div className="flex justify-center mt80">
-                <Button size="large">등록하기</Button>
-            </div>
-
-
-
-
-
         </Layout>
     )
 }
