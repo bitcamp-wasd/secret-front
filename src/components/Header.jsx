@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
 import logo from "../assets/images/header_logo.svg";
 import mypage from "../assets/images/header_mypage.svg";
@@ -10,22 +11,33 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 관리
  
 
-  // 로그아웃 처리 함수
-  const handleLogout = () => {
-    // 로그아웃 상태로 변경
-    setIsLoggedIn(false);
+   // 로그아웃 처리 함수
+   const handleLogout = async () => {
+    // 서버로 로그아웃 요청 보내기
+    try {
+      const response = await axiosInstance.post("/api/user/sign-out");
 
-    // 로컬 스토리지의 토큰 삭제
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("tokenExpiration");
+      if (response.status === 200) {
+        // 로컬 스토리지의 토큰 삭제
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("tokenExpiration");
 
-    // 경고 메시지 표시
-    alert("로그아웃 되었습니다.");
+        // 로그아웃 상태로 변경
+        setIsLoggedIn(false);
 
-    // 현재 페이지 다시 불러오기
-    window.location.reload();
+        // 경고 메시지 표시
+        alert("로그아웃 되었습니다.");
+
+        // 현재 페이지 다시 불러오기
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("로그아웃 실패:", error.message);
+      // 실패 시 처리 로직 추가
+    }
   };
+  
   return (
     <header className="header">
       <Link to="/">
