@@ -27,15 +27,15 @@ const routes = [
   { path: "/", element: <MainPage /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
-  { path: "/mypage/myinfo", element: <PrivateRoute element={MyInfo} /> },
-  { path: "/mypage/myinfoedit", element: <PrivateRoute element={MyInfoEdit} /> },
-  { path: "/mypage/myvideos", element: <PrivateRoute element={MyVideos} /> },
-  { path: "/mypage/mylikes", element: <PrivateRoute element={MyLikes} /> },
-  { path: "/mypage/mychallenges", element: <PrivateRoute element={MyChallenges} /> },
-  { path: "/mypage/mybettles", element: <PrivateRoute element={MyBettles} /> },
-  { path: "/mypage/mycomments", element: <PrivateRoute element={MyComments} /> },
-  { path: "/mypage/deletecomments", element: <PrivateRoute element={DeleteComment} /> },
-  { path: "/mypage/administer", element: <PrivateRoute element={Administer} /> },
+  { path: "/mypage/myinfo", element: <PrivateRoute element={<MyInfo />} /> },
+  { path: "/mypage/myinfoedit", element: <PrivateRoute element={<MyInfoEdit />} /> },
+  { path: "/mypage/myvideos", element: <PrivateRoute element={<MyVideos />} /> },
+  { path: "/mypage/mylikes", element: <PrivateRoute element={<MyLikes />} /> },
+  { path: "/mypage/mychallenges", element: <PrivateRoute element={<MyChallenges />} /> },
+  { path: "/mypage/mybettles", element: <PrivateRoute element={<MyBettles />} /> },
+  { path: "/mypage/mycomments", element: <PrivateRoute element={<MyComments />} /> },
+  { path: "/mypage/deletecomments", element: <PrivateRoute element={<DeleteComment />} /> },
+  { path: "/mypage/administer", element: <PrivateRoute element={<Administer />} /> },
   { path: "/video/register", element: <RegisterVideo /> },
   { path: "/video/play", element: <PlayVideo /> },
   { path: "/challenge/list", element: <ChallengeList /> },
@@ -44,7 +44,7 @@ const routes = [
   { path: "/battle/list", element: <BattleList /> },
   { path: "/battle/detail", element: <BattleDetail /> },
   { path: "/battle/register", element: <BattleRegister /> },
-  { path: "/oauth/callback", element: <OAuthCallback />}
+  { path: "/oauth/callback", element: <OAuthCallback /> }
 ];
 
 export default routes;
