@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
@@ -10,6 +10,15 @@ import logout from "../assets/images/header_logout.svg";
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 관리
  
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
    // 로그아웃 처리 함수
    const handleLogout = async () => {
