@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
+import axios from "axios";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -17,6 +17,14 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  //로그아웃기능 아직 안됐는데 테스트용으로 기존 토큰 삭제
+  useEffect(() => {
+    // 기존 토큰 삭제
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiration");
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,7 +35,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axiosInstance.post(`${API_URL}/api/user/sign-in`, {
+      const response = await axios.post(`${API_URL}/api/user/sign-in`, {
         email,
         password,
       });
