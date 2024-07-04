@@ -31,7 +31,7 @@ const Header = () => {
    const handleLogout = async () => {
     // 서버로 로그아웃 요청 보내기
     try {
-      const response = await axiosInstance.post("/api/user/sign-out");
+      const response = await axiosInstance.post("/api/user/signout");
 
       if (response.status === 200) {
         // 로컬 스토리지의 토큰 삭제
