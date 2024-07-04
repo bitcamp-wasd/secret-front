@@ -70,46 +70,48 @@ const Tag = () => {
                 </span>
                 좋아요
             </Button>
-            <Button
-                size="tag"
-                className={selected.includes(3) ? 'selected' : ''}
-                onClick={() => handleClick(3)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Piano} alt="piano" />
-                </span>
-                피아노
-            </Button>
-            <Button
-                size="tag"
-                className={selected.includes(4) ? 'selected' : ''}
-                onClick={() => handleClick(4)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Violin} alt="violin" />
-                </span>
-                바이올린
-            </Button>
-            <Button
-                size="tag"
-                className={selected.includes(5) ? 'selected' : ''}
-                onClick={() => handleClick(5)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Guitar} alt="guitar" />
-                </span>
-                기타
-            </Button>
-            <Button
-                size="tag"
-                className={selected.includes(6) ? 'selected' : ''}
-                onClick={() => handleClick(6)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Drum} alt="drum" />
-                </span>
-                드럼
-            </Button>
+            <div className='tag-margin'>
+                <Button
+                    size="tag"
+                    className={selected.includes(3) ? 'selected' : ''}
+                    onClick={() => handleClick(3)}
+                >
+                    <span className='icon-wrapper'>
+                        <img src={Piano} alt="piano" />
+                    </span>
+                    피아노
+                </Button>
+                <Button
+                    size="tag"
+                    className={selected.includes(4) ? 'selected' : ''}
+                    onClick={() => handleClick(4)}
+                >
+                    <span className='icon-wrapper'>
+                        <img src={Violin} alt="violin" />
+                    </span>
+                    바이올린
+                </Button>
+                <Button
+                    size="tag"
+                    className={selected.includes(5) ? 'selected' : ''}
+                    onClick={() => handleClick(5)}
+                >
+                    <span className='icon-wrapper'>
+                        <img src={Guitar} alt="guitar" />
+                    </span>
+                    기타
+                </Button>
+                <Button
+                    size="tag"
+                    className={selected.includes(6) ? 'selected' : ''}
+                    onClick={() => handleClick(6)}
+                >
+                    <span className='icon-wrapper'>
+                        <img src={Drum} alt="drum" />
+                    </span>
+                    드럼
+                </Button>
+            </div>
         </div>
     );
 }
