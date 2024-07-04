@@ -46,7 +46,7 @@ const BattleList = () => {
     return (
         <Layout showFooter={false} bannerType="battle">
             <div className="main-container-810">
-                <div className="videos-grid">
+                <div className="videos-flex">
                     {battles.map((battle) => (
                         <div key={battle.id} className="battle-container mt80">
                             <div className="flex">
