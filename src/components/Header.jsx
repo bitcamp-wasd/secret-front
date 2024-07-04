@@ -17,7 +17,15 @@ const Header = () => {
     setIsActive(!isActive);
   };
 
-   
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
    // 로그아웃 처리 함수
    const handleLogout = async () => {

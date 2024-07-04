@@ -17,14 +17,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  //로그아웃기능 아직 안됐는데 테스트용으로 기존 토큰 삭제
-  useEffect(() => {
-    // 기존 토큰 삭제
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("tokenExpiration");
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
