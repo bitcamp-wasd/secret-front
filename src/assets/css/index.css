@@ -287,8 +287,8 @@
 
 /*가로 810크기의 박스*/
 .main-container-810 {
-  width: 810px;
-
+  max-width: 810px;
+  margin: 0 auto;
 }
 
 .main-container-810-box {
@@ -354,7 +354,7 @@
 .challenge-container {
   display: flex;
   justify-content: center;
-  width: 1350px;
+  max-width: 1350px;
   margin: 0 auto;
   padding: 20px;
 }
