@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout";
@@ -64,6 +64,13 @@ const Login = () => {
     window.location.href = SNS_SIGN_IN_URL(type);
   };
 
+  const onKeyPressHandler = (e) => {
+    // 엔터 키 눌렀을 때 handleSubmit 호출
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <Layout showHeader={false}>
       <div class="auth-container">
@@ -84,6 +91,7 @@ const Login = () => {
                 placeholder="E-MAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={onKeyPressHandler} 
                 required
               />
             </div>
@@ -94,6 +102,7 @@ const Login = () => {
                 placeholder="PASSWORD"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={onKeyPressHandler} 
                 required
               />
             </div>
@@ -103,9 +112,13 @@ const Login = () => {
                 로그인
               </Button>
             </div>
-            <Link to="/signup">
-              <span className="auth-box-info-signup mb-21">회원가입</span>
-            </Link>
+            
+              <span className="auth-box-info-signup mb-21">
+              <Link to="/signup">
+                회원가입
+                </Link>
+              </span>
+            
             <span
               className="auth-box-info-social mb-20"
               onClick={() => onSnsSignInButtonClickHandler("naver")}
