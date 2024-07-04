@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ element: Element, ...rest }) => {
   const isAuthenticated = () => {
     const accessToken = localStorage.getItem('accessToken');
     //로컬 스토리지 토큰확인
@@ -9,10 +9,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   };
 
   return (
-    <Route
-      {...rest}
-      element={isAuthenticated() ? <Component {...rest} /> : <Navigate to="/login" replace />}
-    />
+    <Routes>
+      <Route
+        {...rest}
+        element={isAuthenticated() ? <Element {...rest} /> : <Navigate to="/login" replace />}
+      />
+    </Routes>
   );
 };
 
