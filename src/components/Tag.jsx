@@ -42,7 +42,7 @@ const Tag = () => {
     }, [selected]);
 
     return (
-        <div className="tag-box align-center">
+        <div className="flex tag-box align-center">
             <Button
                 size="tag"
                 className={selected.includes(0) ? 'selected' : ''}
