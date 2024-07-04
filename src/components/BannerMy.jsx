@@ -13,7 +13,7 @@ const BannerMy = () => {
     const fetchData = async () => {
       try {
         // API 호출
-        const response = await axiosInstance.get("/api/user/auth/myBanner");
+        const response = await axiosInstance.get("/api/user/auth/mybanner");
         const userData = response.data;
         setUserData({
           nickName: userData.nickName,
@@ -31,7 +31,7 @@ const BannerMy = () => {
   
   return (
     <div className="banner">
-      <h1>{userData.nickName}님의 등급은 {userData.rank_name} 입니다<img src={question} /></h1>
+      <h1>{userData.nickName}님의 등급은 {userData.rankName} 입니다<img src={question} /></h1>
       <div className='banner-buttons-box'>
         <Button size="middle" to="/mypage/myinfo">정보</Button>
         <Button size="middle" to="/mypage/myvideos">내 동영상</Button>
