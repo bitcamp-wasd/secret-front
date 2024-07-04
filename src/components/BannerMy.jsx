@@ -2,27 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Button from './Button';
 import "../assets/css/style.css";
 import question from '../assets/images/question.svg';
+import axiosInstance from "../utils/axiosInstance"; 
+import { useNavigate } from 'react-router-dom';
 
 const BannerMy = () => {
   const [userData, setUserData] = useState({ nickName: "유저닉네임", rank_name: "유저등급" });
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // 임시데이터
-    const dummyData = {
-      nickName: "이경석",
-      rank_name: "8분음표"
+    const fetchData = async () => {
+      try {
+        // API 호출
+        const response = await axiosInstance.get("/api/user/auth/myBanner");
+        const userData = response.data;
+        setUserData({
+          nickName: userData.nickName,
+          rank_name: userData.rank_name
+        });
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        // 토큰이 유효하지 않은 경우 로그인 페이지로 리디렉션
+        navigate('/login');
+      }
     };
 
-    // 설정
-    setUserData(dummyData);
-
-    // API 호출
-    //fetch('/api/user/auth/:id')
-    //   .then(response => response.json())
-    //   .then(data => setUserData(data))
-    //   .catch(error => console.error('Error fetching data:', error));
-
-  }, []);
+    fetchData();
+  }, [navigate]);
   
   return (
     <div className="banner">

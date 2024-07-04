@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
@@ -7,6 +8,8 @@ import Logo from "../../assets/images/auth_logo.svg";
 import Naver from "../../assets/images/naver.svg";
 import Kakao from "../../assets/images/kakao.png";
 
+const API_URL = process.env.REACT_APP_API_URL;
+export const SNS_SIGN_IN_URL = (type) => `${API_URL}/api/user/login/${type}`;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,13 +17,15 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // 더미 데이터
-  const dummyData = {
-    email: "noton0@naver.com",
-    password: "1234",
-  };
+  //로그아웃기능 아직 안됐는데 테스트용으로 기존 토큰 삭제
+  useEffect(() => {
+    // 기존 토큰 삭제
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiration");
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 입력값이 비어 있는지 확인
@@ -29,26 +34,42 @@ const Login = () => {
       return;
     }
 
-    // 더미 데이터를 이용한 로그인 시도
-    if (email !== dummyData.email || password !== dummyData.password) {
-      setErrorMessage("* 이메일 혹은 비밀번호가 일치하지 않습니다");
-      //임시
-      console.error("Login failed: 이메일 혹은 비밀번호가 일치하지 않습니다");
-      return;
+    try {
+      const response = await axiosInstance.post(`${API_URL}/api/user/sign-in`, {
+        email,
+        password,
+      });
+
+      if (response.status === 200 && response.data.code === "SU") {
+        // 로그인 성공
+        console.log("Login successful");
+
+        // 토큰을 받아와서 로컬스토리지에 저장
+        const { accessToken, refreshToken, expirationTime } = response.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem(
+          "tokenExpiration",
+          Date.now() + expirationTime * 1000
+        );
+
+        // 메인 페이지로 이동
+        navigate("/");
+      } else {
+        setErrorMessage("* 로그인에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("* 이메일 혹은 비밀번호가 일치하지 않습니다");
+      } else {
+        setErrorMessage("* 로그인에 실패했습니다. 다시 시도해주세요.");
+      }
+      console.error("Login failed: ", error.message);
     }
+  };
 
-    // 로그인 성공
-    console.log("Login successful");
-    // 토큰을 받아와서 로컬스토리지에 저장
-    const accessToken = "dummyAccessToken";
-    const refreshToken = "dummyRefreshToken";
-    const expirationTime = 3600;
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('tokenExpiration', expirationTime);
-
-    // 메인 페이지로 이동
-    navigate('/');
+  const onSnsSignInButtonClickHandler = (type) => {
+    window.location.href = SNS_SIGN_IN_URL(type);
   };
 
   return (
@@ -91,12 +112,18 @@ const Login = () => {
               </Button>
             </div>
             <Link to="/signup">
-            <span className="auth-box-info-signup mb-21">회원가입</span>
-            </Link>  
-            <span className="auth-box-info-social mb-20">
+              <span className="auth-box-info-signup mb-21">회원가입</span>
+            </Link>
+            <span
+              className="auth-box-info-social mb-20"
+              onClick={() => onSnsSignInButtonClickHandler("naver")}
+            >
               <img src={Naver} alt="naver" />
             </span>
-            <span className="auth-box-info-social mb-60">
+            <span
+              className="auth-box-info-social mb-60"
+              onClick={() => onSnsSignInButtonClickHandler("kakao")}
+            >
               <img src={Kakao} alt="kakao" />
             </span>
           </div>

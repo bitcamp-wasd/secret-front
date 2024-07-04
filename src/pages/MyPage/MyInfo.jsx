@@ -1,38 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
 import UserIcon from "../../assets/images/user_icon.svg";
+import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from 'react-router-dom';
 
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({
-    email: "user@example.com",
-    nickName: "유저닉네임",
+    email: "초기이메일",
+    nickName: "초기닉네임",
     point: 100
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // 임시데이터
-    const dummyData = {
-      email: "noton2@naver.com",
-      nickName: "이경석",
-      point: 1500
+    const fetchData = async () => {
+      try {
+        //API 호출
+        const response = await axiosInstance.get("/api/user/auth/myinfo");
+        const userData = response.data;
+        setUserInfo({
+          email: userData.email,
+          nickName: userData.nickName,
+          point: userData.point
+        });
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        // 토큰이 유효하지 않은 경우 로그인 페이지로 리디렉션
+        navigate('/login');
+      }
     };
 
-    // 설정
-    setUserInfo(dummyData);
-
-    // API 호출
-  //   axios.get('/api/user/auth/myinfo')
-  // .then(response => {
-  //   setUserInfo(response.data);
-  // })
-  // .catch(error => {
-  //   console.error('Error fetching data:', error);
-  // });
-
-  }, []);
+    fetchData();
+  }, [navigate]);
 
   return (
     <Layout showFooter={true} bannerType="my">

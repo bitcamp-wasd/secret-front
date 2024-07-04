@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance"; 
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
 import Logo from "../../assets/images/auth_logo.svg";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -14,118 +17,136 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [nicknameError, setNicknameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isAuthCodeVerified, setIsAuthCodeVerified] = useState(false);
 
   const nicknameInputRef = useRef(null);
 
-  /*더미데이터 */
-  const existingNicknames = ["user1", "user2", "홍길동"];
-  const dummyEmail = "noton0@naver.com";
-  const dummyAuthCode = "1234";
+  // 이메일 형식 검증 함수
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setPasswordError("* 비밀번호가 일치하지 않습니다");
-    } else {
-      setPasswordError("");
-    }
-
-    if (existingNicknames.includes(nickname)) {
-      setNicknameError("* 다른 닉네임을 입력해주세요");
-      if (nicknameInputRef.current) {
-        nicknameInputRef.current.focus();
-      }
-    } else {
-      setNicknameError("");
-    }
-
-    if (
-      email.trim() === "" ||
-      authCode.trim() === "" ||
-      password.trim() === "" ||
-      confirmPassword.trim() === "" ||
-      nickname.trim() === ""
-    ) {
-      alert("공백이 있으면 안됩니다");
-      return;
-    }
-
-    if (!passwordError && !nicknameError) {
-      alert("가입이 완료되었습니다");
-      console.log("SignUp Submitted", { email, authCode, password, nickname });
-      // 추가 로직
-    }
+  // 비밀번호 형식 검증 함수
+  const isValidPassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,13}$/;
+    return passwordRegex.test(password);
   };
 
   // 이메일 인증 로직
   const handleEmailVerification = async () => {
-    // 이메일 형식 검증
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("이메일만 사용가능합니다");
+    if (!isValidEmail(email)) {
+      alert("이메일 형태로 입력해주세요");
       return;
     }
 
-    // 더미 데이터로 이메일 인증
-    if (email === dummyEmail) {
-      alert("이미 사용중인 이메일입니다");
-      console.error("Email Verification Failed: Duplicate Email.");
-    } else {
-      alert("이메일로 인증을 보냈습니다");
-      console.log("Email Verification Sent: Success.");
-    }
-
-    //이메일인증 실제구현
-    // try {
-    //   const response = await axios.post("/api/user/email-certification", { email });
-    //   if (response.data.code === "SU") {
-    //     alert("이메일로 인증을 보냈습니다");
-    //     console.log("Email Verification Sent: ", response.data.message);
-    //   }
-    // } catch (error) {
-    //   if (error.response && error.response.data.code === "DE") {
-    //     alert("이미 사용중인 이메일입니다");
-    //     console.error("Email Verification Failed: ", error.response.data.message);
-    //   } else {
-    //     console.error("Email Verification Failed: ", error.message);
-    //   }
-    // }
-  };
-
-  // 더미 데이터로 인증 코드 확인
-  const handleAuthCodeVerification = () => {
-    if (authCode === dummyAuthCode) {
-      alert("인증이 완료되었습니다");
-      setIsAuthCodeVerified(true);
-      console.log("Auth Code Verified: Success.");
-    } else {
-      alert("인증번호가 일치하지 않습니다");
-      console.error("Auth Code Verification Failed: Certification failed.");
+    try {
+      const response = await axios.post(`${API_URL}/api/user/email-certification`, { email });
+      if (response.data.code === "SU") {
+        alert("이메일로 인증을 보냈습니다");
+        console.log("Email Verification Sent: ", response.data.message);
+      }
+    } catch (error) {
+      if (error.response.data.code === "DE") {
+        alert("이미 사용중인 이메일입니다");
+        console.error("Email Verification Failed: ", error.response.data.message);
+      } else {
+        console.error("Email Verification Failed: ", error.message);
+      }
     }
   };
 
-  // 인증 코드 확인 실제 로직
-  // const handleAuthCodeVerification = async () => {
-  //   try {
-  //     const response = await axios.post("/api/user/check-certification", {
-  //       email,
-  //       certificationNumber: authCode,
-  //     });
-  //     if (response.data.code === "SU") {
-  //       alert("인증이 완료되었습니다");
-  //       setIsAuthCodeVerified(true);
-  //       console.log("Auth Code Verified: ", response.data.message);
-  //     }
-  //   } catch (error) {
-  //     if (error.response && error.response.data.code === "CF") {
-  //       alert("인증번호가 일치하지 않습니다");
-  //       console.error("Auth Code Verification Failed: ", error.response.data.message);
-  //     } else {
-  //       console.error("Auth Code Verification Failed: ", error.message);
-  //     }
-  //   }
-  // };
+  // 인증 코드 확인 로직
+  const handleAuthCodeVerification = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/api/user/check-certification`, {
+        email,
+        certificationNumber: authCode,
+      });
+      if (response.data.code === "SU") {
+        alert("인증이 완료되었습니다");
+        setIsAuthCodeVerified(true);
+        console.log("Auth Code Verified: ", response.data.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.data.code === "CF") {
+        alert("인증번호가 일치하지 않습니다");
+        console.error("Auth Code Verification Failed: ", error.response.data.message);
+      } else {
+        console.error("Auth Code Verification Failed: ", error.message);
+      }
+    }
+  };
+
+  // 회원가입 폼 제출 처리
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // 입력값이 비어 있는지 확인
+    if (!email.trim() || !password.trim() || !authCode.trim() || !confirmPassword.trim() || !nickname.trim()) {
+      alert("공백은 입력할 수 없습니다");
+      return;
+    }
+
+    // 비밀번호 형식 검사
+    if (!isValidPassword(password)) {
+      setPasswordError("* 8~13자의 영문, 숫자를 사용해 주세요.");
+    } else {
+      setPasswordError("");
+    }
+
+    // 비밀번호 일치 검사
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("* 비밀번호가 일치하지 않습니다");
+    } else {
+      setConfirmPasswordError("");
+    }
+
+    // 어느 하나라도 오류가 있으면 함수 종료
+    if (!isValidPassword(password) || password !== confirmPassword) {
+      return;
+    }
+
+    // 닉네임 입력 확인
+    if (nickname.trim() === "") {
+      setNicknameError("* 닉네임을 입력해주세요");
+      if (nicknameInputRef.current) {
+        nicknameInputRef.current.focus();
+      }
+      return;
+    } else {
+      setNicknameError("");
+    }
+
+    try {
+      // 서버로 회원가입 요청 보내기
+      const response = await axiosInstance.post(`${API_URL}/api/user/sign-up`, {
+        email,
+        password,
+        nickName: nickname,
+        certificationNumber: authCode
+      });
+
+      if (response.data.code === "SU") {
+        alert("가입이 완료되었습니다");
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      if (error.response && error.response.data.code === "DN") {
+        setNicknameError("* 다른 닉네임을 입력해주세요");
+        if (nicknameInputRef.current) {
+          nicknameInputRef.current.focus();
+        }
+      } else if (error.response && error.response.data.code === "DE") {
+        alert("이미 사용중인 이메일입니다");
+        console.error("SignUp Error: Duplicate Email");
+      } else {
+        setErrorMessage("회원가입 실패. 다시 시도해주세요.");
+        console.error("SignUp Error: ", error.message);
+      }
+    }
+  };
 
   return (
     <Layout showHeader={false}>
@@ -183,6 +204,9 @@ const SignUp = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {passwordError && (
+                <span className="signup-error-message">{passwordError}</span>
+              )}
             </div>
             <div className="auth-box-info-item mt30">
               <input
@@ -192,8 +216,8 @@ const SignUp = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-              {passwordError && (
-                <span className="signup-error-message">{passwordError}</span>
+              {confirmPasswordError && (
+                <span className="signup-error-message">{confirmPasswordError}</span>
               )}
             </div>
             <div className="auth-box-info-item mt30">
@@ -203,6 +227,7 @@ const SignUp = () => {
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 required
+                ref={nicknameInputRef}
               />
               {nicknameError && (
                 <span className="signup-error-message">{nicknameError}</span>
