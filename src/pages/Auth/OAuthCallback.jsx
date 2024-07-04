@@ -20,7 +20,7 @@ const OAuthCallback = () => {
       // 로그인 후 메인 페이지로 이동
       navigate("/");
     } else {
-      // 에러 처리 등
+      console.error("Invalid OAuth callback response: Missing tokens or expiration time.");
       navigate("/login");
     }
   }, [location, navigate]);
