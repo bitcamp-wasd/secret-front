@@ -46,36 +46,37 @@ const MainPage = () => {
   return (
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
+        <div className="mr10 ml10">
 
-        
-        <div className="row-direction space-between mb50">
-          <Tag />
+          <div className="flex row-direction space-between mb50">
+            <Tag />
 
-          <div className="tag-main-right">
-            <Button size="tag" to="/video/register">
-              <span className="icon-wrapper">
-                <img src={Upload} alt="upload" />
-              </span>
-              동영상 업로드
-            </Button>
+            <div className="tag-main-right">
+              <Button size="tag" to="/video/register">
+                <span className="icon-wrapper">
+                  <img src={Upload} alt="upload" />
+                </span>
+                동영상 업로드
+              </Button>
 
-            <input
-              type="text"
-              placeholder="검색"
-              onKeyDown={handleSearch}
-              className="search-input"
-            />
+              <input
+                type="text"
+                placeholder="검색"
+                onKeyDown={handleSearch}
+                className="search-input"
+              />
+            </div>
           </div>
-        </div>
-        <div className="videos-grid">
-          {videos.map((video) => (
-            <VideoBox
-              key={video.id}
-              thumbnail={video.thumbnail}
-              title={video.title}
-              author={video.author}
-            />
-          ))}
+          <div className="videos-grid">
+            {videos.map((video) => (
+              <VideoBox
+                key={video.id}
+                thumbnail={video.thumbnail}
+                title={video.title}
+                author={video.author}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Layout>

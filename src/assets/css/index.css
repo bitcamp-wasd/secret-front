@@ -247,18 +247,6 @@
 
 /*박스 레이아웃*/
 
-/*화면전체를 감쌀 메인 컨테이너 박스*/
-.main-container {
-  width: 100%;
-  max-width: var(--content-max-width);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-
-
-}
-
 /*로그인,회원가입의 메인박스*/
 .auth-container {
   width: 480px;
@@ -269,7 +257,7 @@
 /*로그인박스 스타일*/
 .auth-box {
 
-  
+
   border: 1px solid black;
   background-color: var(--box-color);
 
@@ -285,22 +273,22 @@
   background-color: var(--box-color);
   width: 480px;
   margin: 0 auto;
-    
-  }
 
-  /*로그인박스 스타일*/
-.auth-box{
+}
+
+/*로그인박스 스타일*/
+.auth-box {
   border: 1px solid black;
-  background-color: var(--box-color);
+  background-color: white;
   justify-content: center;
   align-content: center;
-  
+
 }
 
 /*가로 810크기의 박스*/
 .main-container-810 {
-  width: 810px;
-  
+  max-width: 810px;
+  margin: 0 auto;
 }
 
 .main-container-810-box {
@@ -311,8 +299,7 @@
 /*가로 1150크기의 박스*/
 .main-container-1150 {
   max-width: 1150px;
-  margin: 0 auto;
-
+  margin: auto;
 }
 
 .main-container-1150-box {
@@ -324,7 +311,7 @@
 
 /*비디오 1개의 박스(276px)*/
 .video-box {
-  width: 276px;
+  /* width: 276px; */
   border-radius: 4px;
   background-color: var(--white);
   padding: 0px;
@@ -350,8 +337,9 @@
 }
 
 /*챌린지, 배틀페이지에서 비디오박스를 감쌀 박스*/
-.sub-box-317 {
-  width: 317px;
+.sub-box-300 {
+  width: 300px;
+  height: 300px;
   border: 1px solid #A5A5A5;
   border-radius: 5px;
   background-color: white;
@@ -367,9 +355,10 @@
 .challenge-container {
   display: flex;
   justify-content: center;
-  width: 1350px;
+  max-width: 1350px;
   margin: 0 auto;
   padding: 20px;
+  flex-wrap: wrap;
 }
 
 /* .best-challenges {
@@ -452,8 +441,12 @@
 /*태그 박스에 들어갈 버튼 스타일*/
 .tag-box button {
   padding: 10px !important;
-  margin-right: 15px;
+  margin: 7px;
   background-color: rgba(255, 229, 0, 0.3);
+}
+
+.tag-box button:first-child {
+  margin-left: 0;
 }
 
 .tag-box button:last-child {
@@ -493,12 +486,6 @@
 }
 
 
-
-.content {
-  /* padding: 1rem; */
-}
-
-
 /* 헤더 */
 .header {
   display: flex;
@@ -524,6 +511,7 @@
 
 .nav-list {
   display: flex;
+  margin-right: auto;
 }
 
 .nav-list li {
@@ -568,59 +556,7 @@ footer {
 
 
 
-/*배너*/
-.banner {
-  width: 100%;
-  height: 189px;
-  background: var(--banner-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 0;
-  /* 부모 요소와의 여백 제거 */
-  padding: 0;
-  /* 내부 여백 제거 */
-  position: relative;
 
-
-}
-
-/*배너내부 이미지 투명도설정*/
-.banner::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-image: url('../../assets/images/banner_image.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position: right center;
-  opacity: 0.05;
-  /* 투명도 설정 */
-  z-index: -1;
-  /* 배너 콘텐츠보다 뒤로 보내기 */
-}
-
-.banner h1 {
-  margin: 0 0 20px 0;
-  /* 아래쪽 여백 추가 */
-  font-size: var(--f24);
-  font-weight: 700;
-  width: 810px;
-
-}
-
-/*배너 내부의 버튼 안의 간격*/
-.banner-buttons-box {
-  display: flex;
-  gap: 24px;
-  /* 버튼 간격 추가 */
-  width: 810px;
-
-}
 
 
 /*내정보 css*/
@@ -664,12 +600,12 @@ footer {
 }
 
 .info-item {
-  
-  
+
+
   font-size: inherit;
 }
 
-.info-item input{
+.info-item input {
   width: 30%;
   border: solid 1px black;
   border-radius: 20px;
@@ -688,9 +624,7 @@ footer {
 }
 
 /*내정보-댓글*/
-.comments-grid {
-  
-}
+.comments-grid {}
 
 .comments-header {
   display: grid;
@@ -701,7 +635,7 @@ footer {
   color: var(--black);
   border-top: solid 2px black;
   border-bottom: solid 1px black;
-  font-size : 20px;
+  font-size: 20px;
   font-weight: 700;
 
 }
@@ -716,7 +650,7 @@ footer {
 
 
 /*비디오스타일*/
-.videos-grid {
+.videos-flex {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;

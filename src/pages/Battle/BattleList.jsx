@@ -1,128 +1,91 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
-import "../../assets/css/style.css";
-import vs from "../../assets/images/vs.svg"
+import vs from "../../assets/images/vs.svg";
 
 const BattleList = () => {
-    const dummyVideo = {
-        id: 1,
-        title: `Video 1 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
-        thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
-        author: "홍길동",
+    const allBattles = Array.from({ length: 20 }, (_, index) => ({
+        id: index + 1,
+        title: `자강두천 최병민과 김융의 가슴이 웅장해지는 대결 ${index + 1}`,
+        author1: "최병민",
+        author2: "김융",
+        views: 7500,
+        endDate: "24.06.27",
+        thumbnail1: `https://via.placeholder.com/276x155.25?text=Thumbnail1+${index + 1}`,
+        thumbnail2: `https://via.placeholder.com/276x155.25?text=Thumbnail2+${index + 1}`,
+    }));
+
+    const [visibleBattles, setVisibleBattles] = useState(6); // 한 번에 표시할 배틀 수
+    const [battles, setBattles] = useState(allBattles.slice(0, visibleBattles));
+
+    // 더 많은 배틀 불러오기
+    const loadMoreBattles = () => {
+        setVisibleBattles((prevVisibleBattles) => {
+            const newVisibleBattles = prevVisibleBattles + 6; // 추가로 표시할 배틀 수
+            setBattles(allBattles.slice(0, newVisibleBattles));
+            return newVisibleBattles;
+        });
     };
+
+    // 스크롤 이벤트 핸들러
+    const handleScroll = () => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop >=
+            document.documentElement.scrollHeight - 50
+        ) {
+            loadMoreBattles();
+        }
+    };
+
+    // 스크롤 이벤트 리스너 등록
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
         <Layout showFooter={false} bannerType="battle">
-
             <div className="main-container-810">
-                <div className="main-container-810 mt70">
-                    <div className="flex">
-                        <div className="sub-box-317 h320">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
+                <div className="videos-flex">
+                    {battles.map((battle) => (
+                        <div key={battle.id} className="battle-container mt80">
+                            <div className="flex">
+                                <div className="sub-battlebox-317 h320">
+                                    <div className="video-box">
+                                        <VideoBox
+                                            key={battle.id + "-1"}
+                                            thumbnail={battle.thumbnail1}
+                                            title={battle.title}
+                                            author={battle.author1}
+                                        />
+                                    </div>
+                                </div>
+
+                                <img src={vs} className="vs" alt="vs" />
+
+                                <div className="sub-battlebox-317">
+                                    <div className="video-box">
+                                        <VideoBox
+                                            key={battle.id + "-2"}
+                                            thumbnail={battle.thumbnail2}
+                                            title={battle.title}
+                                            author={battle.author2}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="video-info">
+                                <div className="video-info-title">
+                                    <div>{battle.title}</div>
+                                    <div>조회수 {battle.views}회 종료일 {battle.endDate}</div>
+                                </div>
                             </div>
                         </div>
-
-                        <img src={vs} className="vs" />
-
-                        <div className="sub-box-317">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-info-title">
-                            <div>자강두천 최병민과 김융의 가슴이 웅장해지는 대결</div>
-                            <div>조회수7500회 종료일24.06.27</div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
-
-
-                <div className="main-container-810 mt70">
-                    <div className="flex">
-                        <div className="sub-box-317 h320">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-
-                        <img src={vs} className="vs" />
-
-                        <div className="sub-box-317">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-info-title">
-                            <div>자강두천 최병민과 김융의 가슴이 웅장해지는 대결</div>
-                            <div>조회수7500회 종료일24.06.27</div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className="main-container-810 mt70">
-                    <div className="flex">
-                        <div className="sub-box-317 h320">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-
-                        <img src={vs} className="vs" />
-
-                        <div className="sub-box-317">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-info-title">
-                            <div>자강두천 최병민과 김융의 가슴이 웅장해지는 대결</div>
-                            <div>조회수7500회 종료일24.06.27</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default BattleList;

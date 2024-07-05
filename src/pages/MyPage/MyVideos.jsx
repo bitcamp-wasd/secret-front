@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import "../../assets/css/style.css";
 import VideoBox from '../../components/VideoBox';
 import Layout from '../../components/Layout';
@@ -6,23 +6,44 @@ import Layout from '../../components/Layout';
 
 const MyVideos = () => {
   // 더미 데이터 생성
-  const dummyVideos = Array.from({ length: 12 }, (_, index) => ({
+  const allVideos = Array.from({ length: 100 }, (_, index) => ({
     id: index + 1,
-    title: `Video ${
-      index + 1
-    } 내동영상페이지에요`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${
-      index + 1
-    }`,
+    title: `Video ${index + 1} 내 동영상 페이지에요.`,
+    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
     author: "홍길동",
   }));
 
+  const [visibleVideos, setVisibleVideos] = useState(12);
+  const [videos, setVideos] = useState(allVideos.slice(0, visibleVideos));
+
+  const loadMoreVideos = () => {
+    setVisibleVideos((prevVisibleVideos) => {
+      const newVisibleVideos = prevVisibleVideos + 12;
+      setVideos(allVideos.slice(0, newVisibleVideos));
+      return newVisibleVideos;
+    });
+  };
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 50) {
+      loadMoreVideos();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <Layout showFooter={false} bannerType="my">
-      
-      <div className="main-container-1150 mt65">
+      <div className="main-container-1150 mt80">
+
+
+        <div className="row-direction space-between mb50">
+        </div>
         <div className="videos-grid">
-          {dummyVideos.map((video) => (
+          {videos.map((video) => (
             <VideoBox
               key={video.id}
               thumbnail={video.thumbnail}

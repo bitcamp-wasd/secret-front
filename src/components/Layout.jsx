@@ -31,11 +31,9 @@ const Layout = ({
   return (
     <div className="layout">
       {showHeader && <Header />}
-      {renderBanner()} 
+      {renderBanner()}
       <div className="main-content">
-        <div className="main-container">
-          <div className="content">{children}</div>
-        </div>
+        <div className="content">{children}</div>
       </div>
       {showFooter && <Footer />}
     </div>

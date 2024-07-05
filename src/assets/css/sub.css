@@ -94,6 +94,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;  /* 부모 요소의 전체 너비 사용 */
+  cursor: pointer;
   
 }
 
@@ -109,6 +110,23 @@
   display: flex;
   justify-content: flex-end;
   padding-right: 90px;
+}
+
+/*확인버튼 바뀌는 클래스*/
+.button-confirmed {
+  height: 40px;
+  background-color: #EDEDED;
+  color: #818181;
+}
+
+/*placeholder스타일*/
+.signup-button-box ::placeholder{
+  text-align: center;
+  
+}
+
+.auth-box-info-item ::placeholder{
+  text-align: center;
 }
 
 /* 간격 설정 */
@@ -201,16 +219,3 @@
   cursor: not-allowed;
 }
 
-/*관리자 페이지 배너*/
-.banner-admin{
-  display: flex;
-  width:810px;
-  gap: 20px;
-}
-
-.banner-admin button{
-  height: 40px;
-  padding: 15px 35px;
-  
-  
-}
