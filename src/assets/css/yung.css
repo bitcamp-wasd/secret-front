@@ -76,3 +76,67 @@
 .rank-name{
   font-weight: 500;
 }
+
+
+/*랭크 팝업*/
+.rank-container{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+ 
+  
+}
+
+.rank-content-box{
+  width: 84%;
+  
+}
+
+.rank-content-box-headline{
+  display: flex;
+  width: calc(100%);
+  
+  border-bottom: solid 1px black;
+  margin-top: 8%;
+  padding-left: 5%;
+  padding-bottom: 1%;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.rank-content-box-headline-title{
+  width: 19%;
+  font-size: 24px;
+  font-weight: 700;
+  
+}
+
+.rank-content-box-headline-detail{
+  width: 60%;
+  
+}
+
+.rank-content-box-grid-box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+}
+
+.rank-content-box-grid{
+  width: 70%;
+  display: grid;
+  padding-top: 3%;
+  grid-template-columns: 1.2fr 2.8fr 9fr 10.4fr ;
+  border-bottom: solid 0.5px gainsboro;
+  font-size:20px;
+}
+
+.rank-content-box-grid img {
+  height: 100%;
+ object-fit: cover; /*이미지 비율 유지하며 박스에 맞게*/
+}
+
