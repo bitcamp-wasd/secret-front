@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
 import vs from "../../assets/images/vs.svg";
+import "../../assets/css/style.css";
 
 const BattleList = () => {
     const allBattles = Array.from({ length: 20 }, (_, index) => ({

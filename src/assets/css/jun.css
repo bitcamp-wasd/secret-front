@@ -354,15 +354,26 @@
     cursor: pointer;
 }
 
+.video-box-thumbnail {
+    width: 100%;
+}
+
+.no-results {
+    font-size: 18px;
+    color: #888;
+}
+
 @media (max-width: 1200px) {
     .videos-grid {
         grid-template-columns: repeat(3, 1fr);
         width: 100%;
     }
 
-    .video-box-thumbnail {
-        width: 100%;
+
+    .ch-banner h1 {
+        width: 650px;
     }
+
 }
 
 @media (max-width: 900px) {
@@ -410,6 +421,35 @@
         padding: 0;
         max-height: 600px;
     }
+
+    /* 챌린지 */
+    .ch-banner h1 {
+        font-size: 38px;
+        width: 380px;
+    }
+
+    .text-overlay {
+        font-size: 36px;
+    }
+
+    /* 배틀 */
+    .video-info-title {
+        max-width: 330px;
+    }
+
+    .video-info-title div {
+        margin: 5px
+    }
+
+    .battle-container .flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .battle-container .vs {
+        margin: 20px 0;
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -432,6 +472,20 @@
     .mt80 {
         margin-top: 10px;
     }
+
+    .ch-banner h1 {
+        font-size: 34px;
+        width: 200px;
+    }
+
+    .upload-button {
+        padding: 15px 20px;
+        ;
+    }
+
+    .text-overlay {
+        font-size: 30px;
+    }
 }
 
 @media (max-width: 410px) {
@@ -451,4 +505,26 @@
     .play-infobox {
         font-size: 16px;
     }
+
+    .ch-banner h1 {
+        font-size: 32px;
+    }
+
+    .text-overlay {
+        font-size: 28px;
+    }
+
+    .ch-day {
+        font-size: 12px;
+    }
+
+    .upload-button {
+        padding: 10px 15px;
+        ;
+    }
+
+    .ba-button {
+        padding: 12px 10px;
+    }
+
 }

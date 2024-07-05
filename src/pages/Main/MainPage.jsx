@@ -17,17 +17,38 @@ const MainPage = () => {
 
   const [visibleVideos, setVisibleVideos] = useState(12);
   const [videos, setVideos] = useState(allVideos.slice(0, visibleVideos));
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (event) => {
     if (event.key === "Enter") {
-      console.log("검색어:", event.target.value);
+      setSearchTerm(event.target.value);
     }
   };
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setVideos(allVideos.slice(0, visibleVideos));
+    } else {
+      const filteredVideos = allVideos.filter(video =>
+        video.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setVideos(filteredVideos.slice(0, visibleVideos));
+    }
+  }, [searchTerm, visibleVideos, allVideos]);
 
   const loadMoreVideos = () => {
     setVisibleVideos((prevVisibleVideos) => {
       const newVisibleVideos = prevVisibleVideos + 12;
-      setVideos(allVideos.slice(0, newVisibleVideos));
+      setVideos((prevVideos) => {
+        if (searchTerm === "") {
+          return allVideos.slice(0, newVisibleVideos);
+        } else {
+          const filteredVideos = allVideos.filter(video =>
+            video.title.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          return filteredVideos.slice(0, newVisibleVideos);
+        }
+      });
       return newVisibleVideos;
     });
   };
@@ -67,15 +88,20 @@ const MainPage = () => {
               />
             </div>
           </div>
+
           <div className="videos-grid">
-            {videos.map((video) => (
-              <VideoBox
-                key={video.id}
-                thumbnail={video.thumbnail}
-                title={video.title}
-                author={video.author}
-              />
-            ))}
+            {videos.length > 0 ? (
+              videos.map((video) => (
+                <VideoBox
+                  key={video.id}
+                  thumbnail={video.thumbnail}
+                  title={video.title}
+                  author={video.author}
+                />
+              ))
+            ) : (
+              <div className="no-results">아무것도 검색된 결과가 없어용. 반응형 다 뿌셔뿌셔 해버리고 싶어용.</div>
+            )}
           </div>
         </div>
       </div>
