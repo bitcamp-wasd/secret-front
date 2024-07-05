@@ -363,6 +363,12 @@
     color: #888;
 }
 
+.my-container-810 {
+    max-width: 810px;
+    margin: 0 auto;
+}
+
+
 @media (max-width: 1200px) {
     .videos-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -372,6 +378,7 @@
 
     .ch-banner h1 {
         width: 650px;
+        margin: 10px;
     }
 
 }
@@ -450,6 +457,9 @@
         margin: 20px 0;
     }
 
+    .myinfo-box {
+        width: 570px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -485,6 +495,19 @@
 
     .text-overlay {
         font-size: 30px;
+    }
+
+    /* 마이페이지 */
+    .banner h1 {
+        font-size: 20px;
+    }
+
+    .comments-header {
+        font-size: 16px;
+    }
+
+    .myinfo-box {
+        width: 390px;
     }
 }
 
@@ -527,4 +550,12 @@
         padding: 12px 10px;
     }
 
+    /* 마이페이지 */
+    .banner h1 {
+        font-size: 16px;
+    }
+
+    .myinfo-box {
+        width: 340px;
+    }
 }
