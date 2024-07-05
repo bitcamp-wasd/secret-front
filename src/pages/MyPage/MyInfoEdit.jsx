@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
+import axiosInstance from "../../utils/axiosInstance";
 
 const MyInfoEdit = () => {
-  const [nickname, setNickname] = useState("기존 닉네임");
+  const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nicknameError, setNicknameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
-  const email = "user@example.com";
+  const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/user/auth/myinfo");
+        const userData = response.data;
+        setEmail(userData.email);
+        setNickname(userData.nickName);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
 
@@ -22,14 +38,6 @@ const MyInfoEdit = () => {
     if (!nickname || !password || !confirmPassword) {
       alert("빈 칸이 있으면 안됩니다.");
       valid = false;
-    }
-
-    // 닉네임 중복 체크 (홍길동)
-    if (nickname === "홍길동") {
-      setNicknameError("*다른 닉네임을 사용해주세요");
-      valid = false;
-    } else {
-      setNicknameError("");
     }
 
     // 비밀번호 일치 체크
@@ -40,20 +48,34 @@ const MyInfoEdit = () => {
       setPasswordError("");
     }
 
-    /*유효한 데이터 입력시*/
     if (valid) {
-      navigate("/mypage/myinfo");
+      try {
+        // 서버에 수정된 정보를 put으로 전송
+        const response = await axiosInstance.put("/api/user/auth/editinfo", {
+          nickName: nickname,
+          password: password,
+        });
+        console.log("Edit info successful:", response.data);
+        navigate("/mypage/myinfo"); // 수정 완료 후 마이페이지로 이동
+      } catch (error) {
+        if (error.response && error.response.data.code === "DN") {
+          setNicknameError("* 다른 닉네임을 입력해주세요");
+        } else {
+          console.error("Failed to edit user info:", error);
+          // 실패 시 처리
+        }
+      }
     }
   };
 
   return (
-    <Layout showFooter={false} bannerType="my">
+    <Layout showFooter={true} bannerType="my">
       <div className="main-box-810 mt123">
         <div className="myinfo-box">
           <div className="myinfo-headline">
-            <div class="flex align-center">
+            <div className="flex align-center">
               <img src={UserIcon} alt="usericon" className="usericon" />
-              <h2 class="ml8">내 정보</h2>
+              <h2 className="ml8">내 정보</h2>
             </div>
           </div>
 
@@ -73,7 +95,7 @@ const MyInfoEdit = () => {
             <div className="info-item">
               <label>이메일</label>
               <div className="info-content">
-                <span>noton0@naver.com</span>
+                <span>{email}</span>
               </div>
             </div>
             <div className="info-item">

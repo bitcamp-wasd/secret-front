@@ -72,4 +72,8 @@
     padding: 15px 35px;
 }
 
+/*마이페이지 배너 등급 글씨 두껍게*/
+.rank-name{
+  font-weight: 500;
+}
 
