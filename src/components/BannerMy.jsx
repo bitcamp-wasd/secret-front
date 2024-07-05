@@ -12,6 +12,14 @@ const BannerMy = () => {
   });
   const navigate = useNavigate();
 
+  const openPopup = () => {
+    window.open(
+      "/mypage/rank",
+      "RankPopup",
+      "width=700,height=500"
+    )
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +46,7 @@ const BannerMy = () => {
         <h1>
           {userData.nickName}님의 등급은{" "}
           <span className="rank-name">{userData.rankName}</span> 입니다
-          <img src={question} alt="question" />
+          <img src={question} alt="question" onClick={openPopup} className="ml8" />
         </h1>
         <div className="banner-buttons-box">
           <Button size="middle" to="/mypage/myinfo">
