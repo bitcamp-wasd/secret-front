@@ -75,7 +75,7 @@ const ChallengeList = () => {
 
       <div className="main-container-1150 mt80">
         <div className="mr10 ml10">
-          <div class="flex row-direction space-between mb50">
+          <div class="row-direction space-between mb50">
             <Tag />
           </div>
           <div className="videos-grid">

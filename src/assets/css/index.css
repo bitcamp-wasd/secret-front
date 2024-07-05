@@ -148,7 +148,7 @@
 }
 
 .mt120 {
-  margin-top: 120px;
+  margin-top: 120px !important;
 }
 
 .mb0 {
@@ -625,7 +625,10 @@ footer {
 }
 
 /*내정보-댓글*/
-.comments-grid {}
+.comments-grid {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 .comments-header {
   display: grid;
