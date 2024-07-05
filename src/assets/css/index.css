@@ -89,6 +89,7 @@
 .row-direction {
   display: flex;
   flex-direction: row;
+  gap: 30px
 }
 
 .flex-grow {

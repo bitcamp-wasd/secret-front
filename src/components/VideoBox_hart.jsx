@@ -5,7 +5,7 @@ import heart from "../assets/images/heart.svg";
 const VideoBox = ({ thumbnail, title }) => {
     return (
         <div className="video-box">
-            <img src={thumbnail} alt={title} />
+            <img className="video-box-thumbnail" src={thumbnail} alt={title} />
 
             <div class="row-direction space-between">
                 <div class="movie-small">
