@@ -11,6 +11,7 @@ import MyLikes from './pages/MyPage/MyLikes';
 import MyChallenges from './pages/MyPage/MyChallenges';
 import MyBettles from './pages/MyPage/MyBettles';
 import MyComments from './pages/MyPage/MyComments';
+import Rank from "./pages/MyPage/Rank";
 import DeleteComment from './pages/MyPage/DeleteComments';
 import Administer from './pages/MyPage/Administer';
 import RegisterVideo from './pages/Video/RegisterVideo';
@@ -36,6 +37,7 @@ const routes = [
   { path: "/mypage/mycomments", element: <PrivateRoute element={<MyComments />} /> },
   { path: "/mypage/deletecomments", element: <PrivateRoute element={<DeleteComment />} /> },
   { path: "/mypage/administer", element: <PrivateRoute element={<Administer />} /> },
+  { path: "/mypage/rank", element: <Rank />},
   { path: "/video/register", element: <PrivateRoute element={<RegisterVideo />} /> },
   { path: "/video/play", element: <PlayVideo /> },
   { path: "/challenge/list", element: <ChallengeList /> },

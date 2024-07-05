@@ -49,7 +49,7 @@ const MyBettles = () => {
         <Layout showFooter={false} bannerType="my">
 
             <div className="main-container-810">
-                <div className="videos-grid">
+                <div className="videos-flex">
                     {battles.map((battle) => (
                         <div key={battle.id} className="battle-container mt80">
                             <div className="flex">

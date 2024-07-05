@@ -12,6 +12,14 @@ const BannerMy = () => {
   });
   const navigate = useNavigate();
 
+  const openPopup = () => {
+    window.open(
+      "/mypage/rank",
+      "RankPopup",
+      "width=700,height=500"
+    )
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,30 +42,32 @@ const BannerMy = () => {
 
   return (
     <div className="banner">
-      <h1>
-        {userData.nickName}님의 등급은{" "}
-        <span className="rank-name">{userData.rankName}</span> 입니다
-        <img src={question} alt="question" />
-      </h1>
-      <div className="banner-buttons-box">
-        <Button size="middle" to="/mypage/myinfo">
-          정보
-        </Button>
-        <Button size="middle" to="/mypage/myvideos">
-          내 동영상
-        </Button>
-        <Button size="middle" to="/mypage/mylikes">
-          좋아요
-        </Button>
-        <Button size="middle" to="/mypage/mychallenges">
-          챌린지
-        </Button>
-        <Button size="middle" to="/mypage/mybettles">
-          배틀
-        </Button>
-        <Button size="middle" to="/mypage/mycomments">
-          내 댓글
-        </Button>
+      <div className="main-container-1150">
+        <h1 className="banner-my">
+          {userData.nickName}님의 등급은{" "}
+          <span className="rank-name">{userData.rankName}</span> 입니다
+          <img src={question} alt="question" onClick={openPopup} className="ml8" />
+        </h1>
+        <div className="banner-buttons-box">
+          <Button size="middle" to="/mypage/myinfo">
+            정보
+          </Button>
+          <Button size="middle" to="/mypage/myvideos">
+            내 동영상
+          </Button>
+          <Button size="middle" to="/mypage/mylikes">
+            좋아요
+          </Button>
+          <Button size="middle" to="/mypage/mychallenges">
+            챌린지
+          </Button>
+          <Button size="middle" to="/mypage/mybettles">
+            배틀
+          </Button>
+          <Button size="middle" to="/mypage/mycomments">
+            내 댓글
+          </Button>
+        </div>
       </div>
     </div>
   );

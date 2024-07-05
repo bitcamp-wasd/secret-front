@@ -18,7 +18,7 @@ const BannerBattle = () => {
             <div className="main-container-1150">
                 <div className="ch-banner align-center space-between">
                     <h1>배틀리스트</h1>
-                    <Button onClick={openPopup}>배틀 개최하기!</Button>
+                    <Button className="ba-button" onClick={openPopup}>배틀 개최하기!</Button>
                 </div>
             </div>
         </div>
