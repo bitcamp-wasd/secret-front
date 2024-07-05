@@ -6,57 +6,39 @@ import Violin from "../assets/images/tag_violin.svg";
 import Guitar from "../assets/images/tag_guitar.svg";
 import Drum from "../assets/images/tag_drum.svg";
 
-const Tag = () => {
+const RegTag = ({ onTagSelect }) => {
     const [selected, setSelected] = useState(null);
 
-    const handleClick = (index) => {
-        setSelected(selected === index ? null : index);
+    const tags = [
+        { id: 3, name: '피아노', icon: Piano },
+        { id: 4, name: '바이올린', icon: Violin },
+        { id: 5, name: '기타', icon: Guitar },
+        { id: 6, name: '드럼', icon: Drum }
+    ];
+
+    const handleClick = (tag) => {
+        const newSelected = selected === tag.id ? null : tag.id;
+        setSelected(newSelected);
+        onTagSelect(newSelected ? tag : null);  // 선택된 태그를 부모 컴포넌트로 전달
     };
 
     return (
         <div className="tag-box align-center mt10">
-            <Button
-                size="tag"
-                className={selected === 3 ? 'selected' : ''}
-                onClick={() => handleClick(3)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Piano} alt="piano" />
-                </span>
-                피아노
-            </Button>
-            <Button
-                size="tag"
-                className={selected === 4 ? 'selected' : ''}
-                onClick={() => handleClick(4)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Violin} alt="violin" />
-                </span>
-                바이올린
-            </Button>
-            <Button
-                size="tag"
-                className={selected === 5 ? 'selected' : ''}
-                onClick={() => handleClick(5)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Guitar} alt="guitar" />
-                </span>
-                기타
-            </Button>
-            <Button
-                size="tag"
-                className={selected === 6 ? 'selected' : ''}
-                onClick={() => handleClick(6)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Drum} alt="drum" />
-                </span>
-                드럼
-            </Button>
+            {tags.map(tag => (
+                <Button
+                    key={tag.id}
+                    size="tag"
+                    className={selected === tag.id ? 'selected' : ''}
+                    onClick={() => handleClick(tag)}
+                >
+                    <span className='icon-wrapper'>
+                        <img src={tag.icon} alt={tag.name} />
+                    </span>
+                    {tag.name}
+                </Button>
+            ))}
         </div>
     );
 }
 
-export default Tag;
+export default RegTag;

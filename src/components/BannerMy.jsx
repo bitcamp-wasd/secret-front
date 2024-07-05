@@ -43,7 +43,7 @@ const BannerMy = () => {
   return (
     <div className="banner">
       <div className="main-container-1150">
-        <h1>
+        <h1 className="banner-my">
           {userData.nickName}님의 등급은{" "}
           <span className="rank-name">{userData.rankName}</span> 입니다
           <img src={question} alt="question" onClick={openPopup} className="ml8" />
