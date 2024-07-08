@@ -34,11 +34,13 @@ const RegisterVideo = () => {
     const sheetMusicInputRef = useRef();
     const thumbnailInputRef = useRef();
 
-    function updateProgress(value) {
-        setProgress(value);
-    }
-
     const getVideo = (e) => {
+        if (e.target.files.length === 0) {
+            setVideo(null);
+            setVideoUploaded(false);
+            return;
+        }
+
         const selectedVideo = e.target.files[0];
         setVideo(selectedVideo);
         setVideoUploaded(true);
@@ -49,12 +51,18 @@ const RegisterVideo = () => {
     };
 
     const getImages = (e) => {
+        if (e.target.files.length === 0) return;
+
         const files = Array.from(e.target.files);
-        // Append new sheet music files to existing array
         setSheetMusicFiles([...sheetMusicFiles, ...files]);
     };
 
     const getThumbnail = (e) => {
+        if (e.target.files.length === 0) {
+            setThumbnail(null);
+            return;
+        }
+
         setThumbnail(e.target.files[0]);
     };
 
@@ -75,8 +83,9 @@ const RegisterVideo = () => {
             description: description,
         };
 
+        console.log(json);
+
         try {
-            // Upload logic using axios
             const url = await axios.post(videoUploadUrl, json, config).then((res) => res.data);
 
             const videoPresignedUrl = url['videoPresignedUrl'];
@@ -96,12 +105,10 @@ const RegisterVideo = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-                body: video,
             });
 
             axios.put(thumbnailPresignedUrl, thumbnail);
 
-            console.log(sheetMusicFiles);
             sheetMusicPresignedUrls.forEach((presignedUrl, index) => {
                 axios.put(presignedUrl, sheetMusicFiles[index]);
             });
@@ -119,7 +126,7 @@ const RegisterVideo = () => {
                     <div className="videos-flex mt90">
                         <div className="title">l 동영상 첨부하기</div>
                         {video && (
-                            <video ref={videoPlayer} controls style={{ width: '1000em' }}>
+                            <video ref={videoPlayer} controls className="video-player">
                                 <source src={URL.createObjectURL(video)} type="video/mp4" />
                             </video>
                         )}
@@ -160,7 +167,6 @@ const RegisterVideo = () => {
                         <img
                             src={URL.createObjectURL(thumbnail)}
                             alt="thumbnail-preview"
-                            style={{ maxWidth: '100px', maxHeight: '100px' }}
                         />
                     ) : (
                         <div className="thumbnail-placeholder"></div>
@@ -187,7 +193,7 @@ const RegisterVideo = () => {
                                 <img
                                     src={URL.createObjectURL(file)}
                                     alt={`sheet-music-${index}`}
-                                    style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                    style={{ maxWidth: '100%', maxHeight: '100%' }}
                                 />
                             </div>
                         ))
@@ -204,14 +210,15 @@ const RegisterVideo = () => {
                         style={{ display: 'none' }}
                     />
                 </div>
-
-                <div className="justify-center mt80">
+                <div style={{ width: '50%', margin: 'auto', textAlign: 'center' }}>
+                    <progress value={progress} max={100}></progress>
+                    <div style={{ marginBottom: '10px' }}>업로드:{progress}%</div>
+                </div>
+                <div className="justify-center mt40">
                     <Button size="large" onClick={upload}>
                         등록하기
                     </Button>
                 </div>
-
-                <progress value={progress} max={100}></progress>
             </div>
         </Layout>
     );
