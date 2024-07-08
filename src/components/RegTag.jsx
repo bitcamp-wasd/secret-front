@@ -23,7 +23,7 @@ const RegTag = ({ onTagSelect }) => {
     };
 
     return (
-        <div className="tag-box align-center mt10">
+        <div className="flex tag-box align-center mt10">
             {tags.map((tag) => (
                 <Button
                     key={tag.id}
