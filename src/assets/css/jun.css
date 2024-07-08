@@ -463,6 +463,14 @@
         width: 570px;
     }
 
+    .video-player {
+        min-width: 510px;
+    }
+
+    .thumbnail-upload {
+        height: 275px !important;
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -511,6 +519,14 @@
 
     .myinfo-box {
         width: 390px;
+    }
+
+    .video-player {
+        min-width: 370px;
+    }
+
+    .thumbnail-upload {
+        height: 208px !important;
     }
 }
 
@@ -561,6 +577,14 @@
     .myinfo-box {
         width: 340px;
     }
+
+    .video-player {
+        min-width: 290px;
+    }
+
+    .thumbnail-upload {
+        height: 151px !important;
+    }
 }
 
 .video {
@@ -569,7 +593,45 @@
 
 .thumbnail-upload {
     width: 100%;
-    height: 300px;
+    height: 444px;
     border-radius: 20px;
     background-color: #ccc;
+}
+
+.thumbnail-upload img {
+    width: 100%;
+    height: 100%;
+
+}
+
+
+.video-player {
+    width: 810px;
+}
+
+.sheetmusic img {
+    width: 100%;
+    height: 100%;
+}
+
+progress {
+    margin-top: 100px;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    /* 바탕색 */
+}
+
+progress::-webkit-progress-value {
+    background-color: #ffd700;
+    border-radius: 10px;
+    /* 로딩 색 */
 }
