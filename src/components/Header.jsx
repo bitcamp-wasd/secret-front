@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
 import logo from "../assets/images/header_logo.svg";
@@ -8,10 +8,10 @@ import login from "../assets/images/header_login.svg";
 import logout from "../assets/images/header_logout.svg";
 import toggleBtn from "../assets/images/navmenu.png";
 
-
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [isActive, setIsActive] = useState(false);
+  const location = useLocation(); // 현재 경로 가져오기
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -27,8 +27,8 @@ const Header = () => {
     }
   }, []);
 
-   // 로그아웃 처리 함수
-   const handleLogout = async () => {
+  // 로그아웃 처리 함수
+  const handleLogout = async () => {
     // 서버로 로그아웃 요청 보내기
     try {
       const response = await axiosInstance.post("/api/user/signout");
@@ -53,7 +53,11 @@ const Header = () => {
       // 실패 시 처리 로직 추가
     }
   };
-  
+
+  const isCurrentPage = (path) => {
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <header className={`header ${isActive ? 'active' : ''}`}>
       <Link to="/">
@@ -61,18 +65,18 @@ const Header = () => {
       </Link>
       <ul className={`nav-list ${isActive ? 'active' : ''}`}>
         <li>
-          <Link to="/">
+          <Link to="/" className={isCurrentPage("/video") || location.pathname === "/" ? "current" : ""}>
             <button id="movie">동영상</button>
           </Link>
         </li>
         <li>
-          <Link to="/challenge/list">
+          <Link to="/challenge/list" className={isCurrentPage("/challenge") ? "current" : ""}>
             <button id="challenge">챌린지</button>
           </Link>
         </li>
         <li>
-          <Link to="/battle/list">
-            <button id="bettle">배틀</button>
+          <Link to="/battle/list" className={isCurrentPage("/battle") ? "current" : ""}>
+            <button id="battle">배틀</button>
           </Link>
         </li>
       </ul>

@@ -145,23 +145,7 @@ const RegisterVideo = () => {
                     </div>
                 </div>
 
-                <div className="title mt60">l 게시글 입력하기</div>
-                <RegTag onTagSelect={setSelectedTag} />
-                <input
-                    type="text"
-                    className="regtitle-text"
-                    placeholder="제목을 입력해주세요."
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <textarea
-                    className="regcontent-text"
-                    placeholder="내용을 입력해주세요."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-
-                <div className="title">l 썸네일 첨부하기</div>
+                <div className="title mt40">l 썸네일 첨부하기</div>
                 <div className="flex align-center justify-center thumbnail-upload mt20">
                     {thumbnail ? (
                         <img
@@ -183,7 +167,23 @@ const RegisterVideo = () => {
                     />
                 </div>
 
-                <div className="title">l 악보 업로드</div>
+                <div className="title mt60">l 게시글 입력하기</div>
+                <RegTag onTagSelect={setSelectedTag} />
+                <input
+                    type="text"
+                    className="regtitle-text"
+                    placeholder="제목을 입력해주세요."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <textarea
+                    className="regcontent-text"
+                    placeholder="내용을 입력해주세요."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+
+                <div className="title mt40">l 악보 첨부하기</div>
                 <div className="flex align-center justify-center sheetmusic-upload mt20">
                     {sheetMusicFiles.length === 0 ? (
                         <div className="sheetmusic"></div>

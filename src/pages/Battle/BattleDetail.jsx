@@ -8,64 +8,73 @@ import battleheart_fill from "../../assets/images/battleheart_fill.svg";
 import battleheart from "../../assets/images/battleheart.svg";
 
 const BattleDetail = () => {
-    const dummyVideo = {
-        id: 1,
-        title: `Video 1 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
-        thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
-        author: "홍길동",
-    };
+    const allBattles = Array.from({ length: 1 }, (_, index) => ({
+        id: index + 1,
+        title: `자강두천 최병민과 김융의 가슴이 웅장해지는 대결 ${index + 1}`,
+        author1: "최병민",
+        author2: "김융",
+        views: 7500,
+        endDate: "24.06.27",
+        thumbnail1: `https://via.placeholder.com/276x155.25?text=Thumbnail1+${index + 1}`,
+        thumbnail2: `https://via.placeholder.com/276x155.25?text=Thumbnail2+${index + 1}`,
+    }));
 
-    const [isHeartFilledBattle, setIsHeartFilledBattle] = useState(false);
-    const [isHeartFilledNormal, setIsHeartFilledNormal] = useState(false);
-    const [likeCountBattle, setLikeCountBattle] = useState(1234);
-    const [likeCountNormal, setLikeCountNormal] = useState(1234);
-    const [comments, setComments] = useState([
-        // {
-        //     id: 1,
-        //     author: "김융",
-        //     content: "오 그래도 잘하시는데요?",
-        //     date: "24.06.01 17:01",
-        // },
-        // {
-        //     id: 2,
-        //     author: "병민",
-        //     content: "정말 멋진 연주네요!",
-        //     date: "24.06.01 17:15",
-        // },
-    ]);
-    const [newComment, setNewComment] = useState("");
-    const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
-    const [animateBattle, setAnimateBattle] = useState(false);
-    const [animateNormal, setAnimateNormal] = useState(false);
+    const [visibleBattles, setVisibleBattles] = useState(2); // 한 번에 표시할 배틀 수
+    const [battles, setBattles] = useState(allBattles.slice(0, visibleBattles));
 
-    const handleHeartClickBattle = () => {
-        setIsHeartFilledBattle(!isHeartFilledBattle);
-        setLikeCountBattle(prevCount => isHeartFilledBattle ? prevCount - 1 : prevCount + 1);
-        setAnimateBattle(true);
+    const [likeCount1, setLikeCount1] = useState(1234);
+    const [likeCount2, setLikeCount2] = useState(1234);
+    const [isHeartFilled1, setIsHeartFilled1] = useState(false);
+    const [isHeartFilled2, setIsHeartFilled2] = useState(false);
+    const [animate1, setAnimate1] = useState(false);
+    const [animate2, setAnimate2] = useState(false);
 
-        setTimeout(() => {
-            setAnimateBattle(false);
-        }, 300); // 애니메이션 지속 시간과 동일하게 설정
-    };
+    const [comments, setComments] = useState([]); // 댓글 상태 초기화
 
-    const handleHeartClickNormal = () => {
-        setIsHeartFilledNormal(!isHeartFilledNormal);
-        setLikeCountNormal(prevCount => isHeartFilledNormal ? prevCount - 1 : prevCount + 1);
-        setAnimateNormal(true);
+    const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
+    const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true); // 댓글 플레이스홀더 표시 상태
 
-        setTimeout(() => {
-            setAnimateNormal(false);
-        }, 300); // 애니메이션 지속 시간과 동일하게 설정
+    const handleHeartClick = (index) => {
+        if (index === 1) {
+            setIsHeartFilled1(!isHeartFilled1);
+            setLikeCount1((prevCount) =>
+                isHeartFilled1 ? prevCount - 1 : prevCount + 1
+            );
+            setAnimate1(true);
+
+            setTimeout(() => {
+                setAnimate1(false);
+            }, 300); // 애니메이션 지속 시간과 동일하게 설정
+        } else if (index === 2) {
+            setIsHeartFilled2(!isHeartFilled2);
+            setLikeCount2((prevCount) =>
+                isHeartFilled2 ? prevCount - 1 : prevCount + 1
+            );
+            setAnimate2(true);
+
+            setTimeout(() => {
+                setAnimate2(false);
+            }, 300); // 애니메이션 지속 시간과 동일하게 설정
+        }
     };
 
     const handleCommentChange = (e) => {
-        setNewComment(e.target.value);
+        setNewComment(e.target.value); // 댓글 입력 상태 업데이트
     };
 
     const handleCommentSubmit = () => {
         if (newComment.trim() !== "") {
             const now = new Date();
-            const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const formattedDate = `${now
+                .getFullYear()
+                .toString()
+                .slice(2)}.${(now.getMonth() + 1)
+                    .toString()
+                    .padStart(2, "0")}.${now.getDate()
+                        .toString()
+                        .padStart(2, "0")} ${now.getHours()
+                            .toString()
+                            .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
 
             const newCommentData = {
                 id: comments.length + 1,
@@ -84,56 +93,64 @@ const BattleDetail = () => {
     return (
         <Layout>
             <div className="main-container-810 mt70">
+                <div className="videos-flex">
+                    {battles.map((battle) => (
+                        <div key={battle.id} className="battle-container mt80">
+                            <div className="video-info">
+                                <div className="video-info-title">
+                                    <div>{battle.title}</div>
+                                    <div>
+                                        조회수 {battle.views}회 종료일 {battle.endDate}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div className="sub-battlebox-317">
+                                    <div className="video-box">
+                                        <VideoBox
+                                            key={battle.id + "-1"}
+                                            thumbnail={battle.thumbnail1}
+                                            title={battle.title}
+                                            author={battle.author1}
+                                        />
+                                        <div className="centered-content below">
+                                            <img
+                                                onClick={() => handleHeartClick(1)}
+                                                style={{ cursor: "pointer" }}
+                                                src={isHeartFilled1 ? battleheart_fill : battleheart}
+                                                className={`heart-icon ${animate1 ? "heart-animation" : ""
+                                                    }`}
+                                            />
+                                            <div>{likeCount1}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div className="video-info">
-                    <div className="video-info-title">
-                        <div>자강두천 최병민과 김융의 가슴이 웅장해지는 대결</div>
-                        <div>조회수 7500회 종료일 24.06.27</div>
-                    </div>
-                </div>
+                                <img src={vs} className="vs" alt="vs" />
 
-                <div className="flex">
-                    <div>
-                        <div className="sub-box-317 h370">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
+                                <div className="sub-battlebox-317">
+                                    <div className="video-box">
+                                        <VideoBox
+                                            key={battle.id + "-2"}
+                                            thumbnail={battle.thumbnail2}
+                                            title={battle.title}
+                                            author={battle.author2}
+                                        />
+                                        <div className="centered-content below">
+                                            <img
+                                                onClick={() => handleHeartClick(2)}
+                                                style={{ cursor: "pointer" }}
+                                                src={isHeartFilled2 ? battleheart_fill : battleheart}
+                                                className={`heart-icon ${animate2 ? "heart-animation" : ""
+                                                    }`}
+                                            />
+                                            <div>{likeCount2}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="centered-content">
-                            <img onClick={handleHeartClickBattle} style={{ cursor: 'pointer' }}
-                                src={isHeartFilledBattle ? battleheart_fill : battleheart}
-                                className={`heart-icon ${animateBattle ? 'heart-animation' : ''}`}
-                            />
-                            <div>{likeCountBattle}</div>
-                        </div>
-                    </div>
-
-                    <img src={vs} className="vs" />
-
-                    <div>
-                        <div className="sub-box-317 h370">
-                            <div className="video-box">
-                                <VideoBox
-                                    key={dummyVideo.id}
-                                    thumbnail={dummyVideo.thumbnail}
-                                    title={dummyVideo.title}
-                                    author={dummyVideo.author}
-                                />
-                            </div>
-                        </div>
-                        <div className="centered-content">
-                            <img onClick={handleHeartClickNormal} style={{ cursor: 'pointer' }}
-                                src={isHeartFilledNormal ? battleheart_fill : battleheart}
-                                className={`heart-icon ${animateNormal ? 'heart-animation' : ''}`}
-                            />
-                            <div>{likeCountNormal}</div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
 
                 {/* 댓글 등록 */}
@@ -152,15 +169,13 @@ const BattleDetail = () => {
 
                 {/* 댓글 리스트 */}
                 {showCommentPlaceholder && comments.length === 0 && (
-                    <div className="comment-placeholder">
-                        첫 댓글을 남겨보세요!
-                    </div>
+                    <div className="comment-placeholder">첫 댓글을 남겨보세요!</div>
                 )}
                 {comments.map((comment) => (
                     <div key={comment.id}>
                         <div className="flex align-center space-between mt40">
                             <div className="flex align-center">
-                                <img src={grade} className="mr10" />
+                                <img src={grade} className="mr10" alt="grade" />
                                 {comment.author}
                             </div>
                             <div className="flex align-center">{comment.date}</div>

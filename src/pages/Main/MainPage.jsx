@@ -15,7 +15,7 @@ const MainPage = () => {
     author: "홍길동",
   }));
 
-  const [visibleVideos, setVisibleVideos] = useState(12);
+  const [visibleVideos, setVisibleVideos] = useState(20);
   const [videos, setVideos] = useState(allVideos.slice(0, visibleVideos));
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -25,36 +25,26 @@ const MainPage = () => {
     }
   };
 
+  const loadMoreVideos = () => {
+    setVisibleVideos((prevVisibleVideos) => prevVisibleVideos + 12);
+  };
+
   useEffect(() => {
     if (searchTerm === "") {
       setVideos(allVideos.slice(0, visibleVideos));
     } else {
-      const filteredVideos = allVideos.filter(video =>
+      const filteredVideos = allVideos.filter((video) =>
         video.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setVideos(filteredVideos.slice(0, visibleVideos));
     }
-  }, [searchTerm, visibleVideos, allVideos]);
-
-  const loadMoreVideos = () => {
-    setVisibleVideos((prevVisibleVideos) => {
-      const newVisibleVideos = prevVisibleVideos + 12;
-      setVideos((prevVideos) => {
-        if (searchTerm === "") {
-          return allVideos.slice(0, newVisibleVideos);
-        } else {
-          const filteredVideos = allVideos.filter(video =>
-            video.title.toLowerCase().includes(searchTerm.toLowerCase())
-          );
-          return filteredVideos.slice(0, newVisibleVideos);
-        }
-      });
-      return newVisibleVideos;
-    });
-  };
+  }, [searchTerm, visibleVideos]);
 
   const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 50) {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.scrollHeight - 50
+    ) {
       loadMoreVideos();
     }
   };
@@ -68,7 +58,6 @@ const MainPage = () => {
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
         <div className="mr10 ml10">
-
           <div className="flex row-direction space-between mb50">
             <Tag />
 
@@ -100,7 +89,9 @@ const MainPage = () => {
                 />
               ))
             ) : (
-              <div className="no-results">아무것도 검색된 결과가 없어용. 반응형 다 뿌셔뿌셔 해버리고 싶어용.</div>
+              <div className="no-results">
+                아무것도 검색된 결과가 없어용. 반응형 다 뿌셔뿌셔 해버리고 싶어용.
+              </div>
             )}
           </div>
         </div>
