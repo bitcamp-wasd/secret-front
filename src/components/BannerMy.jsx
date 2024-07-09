@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const BannerMy = () => {
   const [userData, setUserData] = useState({
-    nickName: "유저닉네임",
+    nickname: "유저닉네임",
     rankName: "유저등급",
   });
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const BannerMy = () => {
         const response = await axiosInstance.get("/api/user/auth/myinfo");
         const userData = response.data;
         setUserData({
-          nickName: userData.nickName,
+          nickname: userData.nickname,
           rankName: userData.rankName,
         });
       } catch (error) {
@@ -44,7 +44,7 @@ const BannerMy = () => {
     <div className="banner">
       <div className="main-container-1150">
         <h1 className="banner-my">
-          {userData.nickName}님의 등급은{" "}
+          {userData.nickname}님의 등급은{" "}
           <span className="rank-name">{userData.rankName}</span> 입니다
           <img src={question} alt="question" onClick={openPopup} className="ml8" />
         </h1>

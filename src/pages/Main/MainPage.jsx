@@ -8,7 +8,7 @@ import VideoBox from "../../components/VideoBox";
 import Upload from "../../assets/images/upload.svg";
 
 const MainPage = () => {
-  const allVideos = Array.from({ length: 100 }, (_, index) => ({
+  const allVideos = Array.from({ length: 40 }, (_, index) => ({
     id: index + 1,
     title: `Video ${index + 1} 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
     thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,

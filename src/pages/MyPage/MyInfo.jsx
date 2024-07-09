@@ -8,7 +8,7 @@ import axiosInstance from "../../utils/axiosInstance";
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "초기이메일",
-    nickName: "초기닉네임",
+    nickname: "초기닉네임",
     point: 100
   });
 
@@ -20,7 +20,7 @@ const MyInfo = () => {
         const userData = response.data;
         setUserInfo({
           email: userData.email,
-          nickName: userData.nickName,
+          nickname: userData.nickname,
           point: userData.point
         });
       } catch (error) {
@@ -50,7 +50,7 @@ const MyInfo = () => {
             <div className="info-item">
               <label>닉네임</label>
               <div className="info-content">
-                <span>{userInfo.nickName}</span>
+                <span>{userInfo.nickname}</span>
               </div>
             </div>
             <div className="info-item">
