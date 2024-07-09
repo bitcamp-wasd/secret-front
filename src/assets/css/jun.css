@@ -355,7 +355,7 @@
 }
 
 .video-box-thumbnail {
-    width: 100%;
+    width: 100% !important;
 }
 
 .no-results {
@@ -400,6 +400,10 @@
         align-self: center;
         margin: 0;
         display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
     }
 
     .nav-list li {
@@ -410,17 +414,23 @@
         padding-top: 20px;
         align-self: center;
         display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
     }
 
     .toggleBtn {
         display: block;
         height: 45px;
-        margin: 25px;
+        margin: 15px;
     }
 
     .nav-list.active,
     .nav-links.active {
         display: flex;
+        max-height: 300px;
+        opacity: 1;
     }
 
     .header.active {
@@ -429,6 +439,7 @@
         align-items: flex-start;
         padding: 0;
         max-height: 600px;
+        transition: max-height 0.5s ease;
     }
 
     /* 챌린지 */
@@ -634,4 +645,42 @@ progress::-webkit-progress-value {
     background-color: #ffd700;
     border-radius: 10px;
     /* 로딩 색 */
+}
+
+.challenge-text {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.previous-challenges-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    /* border: 1px solid #ccc; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 10%;
+}
+
+.challenge-item {
+    padding: 10px;
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.challenge-item:last-child {
+    border-bottom: none;
+}
+
+.challenge-item:hover {
+    color: rgba(255, 184, 0, 0.5);
+}
+
+.nav-list .current button {
+    color: rgba(255, 184, 0, 0.5);
 }
