@@ -1,36 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import VideoPlay from "../../components/VideoPlay";
-import VideoBox from "../../components/VideoBox_hart";
 import "../../assets/css/style.css";
 import "../../assets/css/jun.css";
-import SheetMusic from "../../assets/images/Sheet_Music.svg";
 import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
 import Button from "../../components/Button";
+import axios from "axios";
 
 const PlayVideo = () => {
-  const dummyVideo = {
-    id: 1,
-    thumbnail: "https://via.placeholder.com/810x455.6?text=Thumbnail+1",
-  };
-
+  const [videoData, setVideoData] = useState(null);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
-  const [likeCount, setLikeCount] = useState(2574);
+  const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [animate, setAnimate] = useState(false);
   const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
+  const videoId = 3;
 
-  const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled);
-    setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1);
-    setAnimate(true);
+  useEffect(() => {
+    const fetchVideoData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/video/watch?id=${videoId}`);
+        const data = await response.json();
+        setVideoData(data);
+        setLikeCount(data.likeCount);
+      } catch (error) {
+        console.error('비디오 데이터를 가져오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchVideoData();
+  }, [videoId]);
+
+  const handleHeartClick = async () => {
+    setIsHeartFilled(!isHeartFilled); // 하트 아이콘 상태 업데이트
+    setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1); // 좋아요 수 업데이트
+    setAnimate(true); // 애니메이션 활성화
+
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        throw new Error('사용자가 로그인하지 않았습니다. 로그인 후에 다시 시도해주세요.');
+      }
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/video/like/auth`,
+        {
+          params: { id: videoId }, // videoId는 해당 요청에서 사용될 동영상 ID입니다.
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // GET 요청을 성공적으로 보냈다면, 응답 처리 코드 추가 가능
+      console.log('좋아요 요청 성공:', response.data);
+
+    } catch (error) {
+      console.error('좋아요 요청을 보내는 중 오류 발생:', error);
+      // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+    }
 
     setTimeout(() => {
-      setAnimate(false);
-    }, 500); // 애니메이션 지속 시간과 동일하게 설정
+      setAnimate(false); // 애니메이션 비활성화
+    }, 500);
   };
 
   const handleCommentChange = (e) => {
@@ -54,29 +89,31 @@ const PlayVideo = () => {
     };
     setComments([...comments, newCommentData]);
     setNewComment("");
-    setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
+    setShowCommentPlaceholder(false);
 
     alert("댓글이 등록되었습니다.");
   };
 
+  if (!videoData) {
+    return <div>로딩 중...</div>;
+  }
+
   return (
     <Layout>
-      {/* 동영상 */}
       <div className="main-container-810">
         <div className="videos-flex mt90">
-          <VideoPlay thumbnail={dummyVideo.thumbnail} />
+          <VideoPlay thumbnail={videoData.thumbnail} />
         </div>
 
-        {/* 정보 */}
         <div className="play-infobox mt20">
           <div className="flex align-center space-between">
-            <div>캐논 변주곡</div>
-            <div>#기타</div>
+            <div>{videoData.title}</div>
+            <div>#{videoData.category}</div>
           </div>
           <div className="flex align-center space-between mt10">
             <div className="flex align-center">
               <img src={grade} className="mr10" alt="grade" />
-              김융
+              {videoData.nickname}
             </div>
             <div className="flex align-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
               <img
@@ -89,28 +126,26 @@ const PlayVideo = () => {
           </div>
         </div>
 
-        {/* 설명 */}
         <div className="video-info mt40">
           <div className="video-info-title">
-            <div>조회수 7500회</div>
-            <div>24.05.26 17:14</div>
+            <div>조회수 {videoData.views}회</div>
+            <div>{new Date(videoData.uploadDate).toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' })}</div>
           </div>
           <div className="video-info-content">
-            기타로 연주한 캐논 변주곡입니다. 부족한 실력이지만 열심히 했습니다.
+            {videoData.description}
           </div>
 
-          {/* 악보 */}
+          <div className="mt40">
+            {videoData.sheetMusic.map((sheet, index) => (
+              <img key={index} src={sheet} alt={`Sheet Music ${index + 1}`} className="play-sheetmusic" />
+            ))}
+          </div>
 
-          <img src={SheetMusic} alt="SheetMusic" className="mt40 play-sheetmusic" />
-
-
-          {/* 버튼 */}
           <div className="flex-end mt40 button-container">
             <Button>수정</Button>
             <Button>삭제</Button>
           </div>
 
-          {/* 댓글 등록 */}
           <div className="comment mt90">
             <div>댓글 {comments.length}개</div>
             <textarea
@@ -124,7 +159,6 @@ const PlayVideo = () => {
             <Button onClick={handleCommentSubmit}>등록</Button>
           </div>
 
-          {/* 댓글 리스트 */}
           {showCommentPlaceholder && comments.length === 0 && (
             <div className="comment-placeholder">첫 댓글을 남겨보세요!</div>
           )}
