@@ -53,13 +53,14 @@ const ChallengeList = () => {
         <div onClick={togglePreviousChallenges} style={{ cursor: "pointer" }}>
           이전 챌린지 보기 ▼
         </div>
-        {showPreviousChallenges && (
-          <div className="previous-challenges-dropdown" ref={dropdownRef}>
-            <div className="challenge-item">챌린지 1</div>
-            <div className="challenge-item">챌린지 2</div>
-            <div className="challenge-item">챌린지 3</div>
-          </div>
-        )}
+        <div
+          className={`previous-challenges-dropdown ${showPreviousChallenges ? "open" : ""}`}
+          ref={dropdownRef}
+        >
+          <div className="challenge-item">챌린지 1</div>
+          <div className="challenge-item">챌린지 2</div>
+          <div className="challenge-item">챌린지 3</div>
+        </div>
       </div>
       <div className="challenge-container">
         <div className="best-challenge">
