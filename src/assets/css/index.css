@@ -250,18 +250,17 @@
 
 /*로그인,회원가입의 메인박스*/
 .auth-container {
-  width: 480px;
+  width: 520px;
   margin: 0 auto;
 
 }
 
 /*로그인박스 스타일*/
 .auth-box {
-
-
-  border: 1px solid black;
-  background-color: var(--box-color);
-
+background: white;
+filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+justify-content: center;
+  align-content: center;
 }
 
 .main-container-690 {
@@ -271,19 +270,8 @@
 
 .main-container-690-box {
   padding: 16px;
-  background-color: var(--box-color);
-  width: 480px;
+  width: 520px;
   margin: 0 auto;
-
-}
-
-/*로그인박스 스타일*/
-.auth-box {
-  border: 1px solid black;
-  background-color: white;
-  justify-content: center;
-  align-content: center;
-
 }
 
 /*가로 810크기의 박스*/
@@ -419,8 +407,8 @@
 
 .button.large {
   height: 55px;
-  width: 300px;
-  border-radius: 4px;
+  width: 320px;
+  border-radius: 10px;
 }
 
 .button.middle {

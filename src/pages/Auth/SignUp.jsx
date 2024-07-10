@@ -4,7 +4,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
-import Logo from "../../assets/images/auth_logo.svg";
+import Logo from "../../assets/images/main_logo.svg";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -151,19 +151,23 @@ const SignUp = () => {
   return (
     <Layout showHeader={false}>
       <div className="auth-container">
-        <div className="auth-site-logo">
+        {/* <div className="auth-site-logo">
           <img src={Logo} alt="logo" />
         </div>
         <div className="auth-site-name">
           <h1>말할 수 없는 비밀</h1>
-        </div>
+        </div> */}
         <div className="auth-box">
           <div className="auth-box-info">
+          <div className="justify-center mt50">
+              <img src={Logo} alt="logo" />
+            </div>
+            
+            <div className="auth-box-info-item mt80">
             {errorMessage && (
               <div className="auth-error-message">{errorMessage}</div>
             )}
-            <div className="auth-box-info-item mt80">
-              <div className="signup-button-box pdx20">
+              <div className="signup-button-box pdx15">
                 <input
                   type="text"
                   placeholder="E-MAIL"
@@ -177,7 +181,7 @@ const SignUp = () => {
               </div>
             </div>
             <div className="auth-box-info-item mt23">
-              <div className="signup-button-box pdx20">
+              <div className="signup-button-box pdx15">
                 <input
                   type="text"
                   placeholder="인증번호 입력"
@@ -233,7 +237,7 @@ const SignUp = () => {
                 <span className="signup-error-message">{nicknameError}</span>
               )}
             </div>
-            <div className="auth-box-info-item mt70 mb80">
+            <div className="auth-box-info-item mt20 mb80">
               <Button size="large" onClick={handleSubmit}>
                 가입 완료
               </Button>
