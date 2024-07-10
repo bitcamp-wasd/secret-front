@@ -30,10 +30,10 @@
 
 .banner h1 {
   margin: 0 0 20px 0;
-  font-size: var(--f24);
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 500;
   width: 810px;
-  display: flex;
+
 }
 
 /*배너 내부의 버튼 안의 간격*/
@@ -75,8 +75,10 @@
 }
 
 /*마이페이지 배너 등급 글씨 두껍게*/
-.rank-name {
-  font-weight: 500;
+.banner-my span {
+  
+  font-weight: 700;
+  
 }
 
 

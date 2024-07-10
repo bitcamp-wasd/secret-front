@@ -44,8 +44,7 @@ const BannerMy = () => {
     <div className="banner">
       <div className="main-container-1150">
         <h1 className="banner-my">
-          {userData.nickname}님의 등급은{" "}
-          <span className="rank-name">{userData.rankName}</span> 입니다
+          <span>{userData.nickname}</span>님의 등급은&nbsp; <span>{userData.rankName}</span>입니다
           <img src={question} alt="question" onClick={openPopup} className="ml8" />
         </h1>
         <div className="banner-buttons-box">
