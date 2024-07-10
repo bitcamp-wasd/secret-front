@@ -35,7 +35,7 @@ const ChallengeList = () => {
   // 더미 데이터 생성
   const dummyVideos = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
-    title: `Video ${index + 1} 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
+    title: `Video ${index + 1} 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데이예이예이예`,
     thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
     author: "홍길동",
   }));

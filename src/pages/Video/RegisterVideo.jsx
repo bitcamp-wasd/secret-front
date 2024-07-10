@@ -20,10 +20,8 @@ const RegisterVideo = () => {
 
     const [video, setVideo] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
-    const [sheetMusicFiles, setSheetMusicFiles] = useState([]); // State for sheet music files
-
+    const [sheetMusicFiles, setSheetMusicFiles] = useState([]);
     const [progress, setProgress] = useState(0);
-
     const [videoUploaded, setVideoUploaded] = useState(false);
     const [selectedTag, setSelectedTag] = useState(null);
     const [title, setTitle] = useState('');
@@ -66,6 +64,29 @@ const RegisterVideo = () => {
         setThumbnail(e.target.files[0]);
     };
 
+    const handleUploadConfirmation = () => {
+        // Check if all required fields are filled
+        if (!video) {
+            alert('동영상을 첨부해주세요.');
+            return;
+        }
+        if (!thumbnail) {
+            alert('썸네일을 첨부해주세요.');
+            return;
+        }
+        if (!title.trim()) {
+            alert('제목을 입력해주세요.');
+            return;
+        }
+        if (!description.trim()) {
+            alert('내용을 입력해주세요.');
+            return;
+        }
+
+        // If all required fields are filled, proceed with upload
+        upload();
+    };
+
     const upload = async () => {
         const config = {
             headers: {
@@ -83,8 +104,6 @@ const RegisterVideo = () => {
             description: description,
         };
 
-        console.log(json);
-
         try {
             const url = await axios.post(videoUploadUrl, json, config).then((res) => res.data);
 
@@ -92,11 +111,8 @@ const RegisterVideo = () => {
             const thumbnailPresignedUrl = url['thumbnailPresignedUrl'];
             const sheetMusicPresignedUrls = url['sheetMusicPresignedUrl'];
 
-            console.log('파일 전송 시작');
-
             axios.put(videoPresignedUrl, video, {
                 onUploadProgress: (progressEvent) => {
-                    // 진행 상황 퍼센트 확인
                     let percentage = (progressEvent.loaded * 100) / progressEvent.total;
                     let percentComplete = Math.round(percentage);
 
@@ -113,15 +129,18 @@ const RegisterVideo = () => {
                 axios.put(presignedUrl, sheetMusicFiles[index]);
             });
 
-            alert('파일 전송 완료');
+            alert('파일 전송 시작');
+
         } catch (error) {
             console.error('Error uploading:', error);
+            alert('파일 전송 중 오류가 발생했습니다.');
         }
     };
 
     return (
         <Layout>
             <div className="main-container-810">
+                {/* Video Upload Section */}
                 <div className="mr10 ml10">
                     <div className="videos-flex mt90">
                         <div className="title">l 동영상 첨부하기</div>
@@ -145,13 +164,11 @@ const RegisterVideo = () => {
                     </div>
                 </div>
 
+                {/* Thumbnail Upload Section */}
                 <div className="title mt40">l 썸네일 첨부하기</div>
                 <div className="flex align-center justify-center thumbnail-upload mt20">
                     {thumbnail ? (
-                        <img
-                            src={URL.createObjectURL(thumbnail)}
-                            alt="thumbnail-preview"
-                        />
+                        <img src={URL.createObjectURL(thumbnail)} alt="thumbnail-preview" />
                     ) : (
                         <div className="thumbnail-placeholder"></div>
                     )}
@@ -167,6 +184,7 @@ const RegisterVideo = () => {
                     />
                 </div>
 
+                {/* Description Input Section */}
                 <div className="title mt60">l 게시글 입력하기</div>
                 <RegTag onTagSelect={setSelectedTag} />
                 <input
@@ -183,6 +201,7 @@ const RegisterVideo = () => {
                     onChange={(e) => setDescription(e.target.value)}
                 />
 
+                {/* Sheet Music Upload Section */}
                 <div className="title mt40">l 악보 첨부하기</div>
                 <div className="flex align-center justify-center sheetmusic-upload mt20">
                     {sheetMusicFiles.length === 0 ? (
@@ -210,12 +229,17 @@ const RegisterVideo = () => {
                         style={{ display: 'none' }}
                     />
                 </div>
+
+                {/* Progress Bar */}
                 <div style={{ width: '50%', margin: 'auto', textAlign: 'center' }}>
                     <progress value={progress} max={100}></progress>
-                    <div style={{ marginBottom: '10px' }}>업로드:{progress}%</div>
+                    <div style={{ marginBottom: '10px' }}>업로드: {progress}%</div>
+                    {progress === 100 && <div style={{ color: 'green' }}>전송 완료!</div>}
                 </div>
+
+                {/* Submit Button */}
                 <div className="justify-center mt40">
-                    <Button size="large" onClick={upload}>
+                    <Button size="large" onClick={handleUploadConfirmation}>
                         등록하기
                     </Button>
                 </div>
