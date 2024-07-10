@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
@@ -12,10 +12,29 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [isActive, setIsActive] = useState(false);
   const location = useLocation(); // 현재 경로 가져오기
+  const headerRef = useRef(null); // 헤더 요소 ref
 
   const handleToggle = () => {
     setIsActive(!isActive);
   };
+
+  useEffect(() => {
+    // 클릭 이벤트 핸들러 함수
+    const handleClickOutside = (event) => {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        // 클릭된 요소가 헤더 영역 외부에 있는 경우 토글 상태를 비활성화
+        setIsActive(false);
+      }
+    };
+
+    // 전체 문서에 클릭 이벤트 리스너 추가
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // 컴포넌트가 언마운트될 때 클릭 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
@@ -59,7 +78,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`header ${isActive ? 'active' : ''}`}>
+    <header ref={headerRef} className={`header ${isActive ? 'active' : ''}`}>
       <Link to="/">
         <img src={logo} alt="Logo" className="logo" />
       </Link>

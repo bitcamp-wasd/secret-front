@@ -487,7 +487,6 @@
 }
 
 
-/* 헤더 */
 .header {
   display: flex;
   max-height: 80px;
@@ -498,6 +497,13 @@
   background-color: var(--white);
   /* 헤더 배경색 */
   border-bottom: solid 1px #EFF3F6;
+  /* 헤더 하단에 회색 선 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999999999999;
+  /* 화면 상단에 고정 */
 }
 
 .logo {
