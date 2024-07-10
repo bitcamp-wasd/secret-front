@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Button from './Button';
+import React, { useState } from "react";
+import Button from "./Button";
 import "../assets/css/style.css";
 import View from "../assets/images/tag_view.svg";
 import Like from "../assets/images/tag_like.svg";
@@ -8,112 +8,88 @@ import Violin from "../assets/images/tag_violin.svg";
 import Guitar from "../assets/images/tag_guitar.svg";
 import Drum from "../assets/images/tag_drum.svg";
 
-const Tag = () => {
-    const [selected, setSelected] = useState([0]);
+const Tag = ({ onTagClick }) => {
+  const [selected, setSelected] = useState({
+    sort: "uploadDate", // 기본 정렬 기준
+    category: [] // 선택된 카테고리 없음
+  });
 
-    const handleClick = (index) => {
-        if (index === 0) {
-            setSelected([0]);
-        } else if (index === 1 || index === 2) {
-            setSelected((prevSelected) => {
-                const otherIndex = index === 1 ? 2 : 1;
-                if (prevSelected.includes(index)) {
-                    return prevSelected.filter(i => i !== index && i !== 0);
-                } else {
-                    return [...prevSelected.filter(i => i !== otherIndex && i !== 0), index];
-                }
-            });
-        } else {
-            setSelected((prevSelected) => {
-                if (prevSelected.includes(index)) {
-                    return prevSelected.filter(i => i !== index);
-                } else {
-                    return [...prevSelected.filter(i => i !== 0), index];
-                }
-            });
-        }
-    };
+  const sortTags = [
+    { id: 1, name: "조회수", icon: View },
+    { id: 2, name: "좋아요", icon: Like }
+  ];
 
-    // selected가 모두 해제되었을 때 전체버튼이 selected되게 함
-    useEffect(() => {
-        if (selected.length === 0) {
-            setSelected([0]);
-        }
-    }, [selected]);
+  const categoryTags = [
+    { id: 3, name: "피아노", icon: Piano, englishName: "piano" },
+    { id: 4, name: "바이올린", icon: Violin, englishName: "violin" },
+    { id: 5, name: "기타", icon: Guitar, englishName: "guitar" },
+    { id: 6, name: "드럼", icon: Drum, englishName: "drum" }
+  ];
 
-    return (
-        <div className="flex tag-box align-center">
-            <Button
-                size="tag"
-                className={selected.includes(0) ? 'selected' : ''}
-                onClick={() => handleClick(0)}
-            >
-                전체
-            </Button>
-            <Button
-                size="tag"
-                className={selected.includes(1) ? 'selected' : ''}
-                onClick={() => handleClick(1)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={View} alt="view" />
-                </span>
-                조회수
-            </Button>
-            <Button
-                size="tag"
-                className={selected.includes(2) ? 'selected' : ''}
-                onClick={() => handleClick(2)}
-            >
-                <span className='icon-wrapper'>
-                    <img src={Like} alt="like" />
-                </span>
-                좋아요
-            </Button>
-            <div className='tag-margin'>
-                <Button
-                    size="tag"
-                    className={selected.includes(3) ? 'selected' : ''}
-                    onClick={() => handleClick(3)}
-                >
-                    <span className='icon-wrapper'>
-                        <img src={Piano} alt="piano" />
-                    </span>
-                    피아노
-                </Button>
-                <Button
-                    size="tag"
-                    className={selected.includes(4) ? 'selected' : ''}
-                    onClick={() => handleClick(4)}
-                >
-                    <span className='icon-wrapper'>
-                        <img src={Violin} alt="violin" />
-                    </span>
-                    바이올린
-                </Button>
-                <Button
-                    size="tag"
-                    className={selected.includes(5) ? 'selected' : ''}
-                    onClick={() => handleClick(5)}
-                >
-                    <span className='icon-wrapper'>
-                        <img src={Guitar} alt="guitar" />
-                    </span>
-                    기타
-                </Button>
-                <Button
-                    size="tag"
-                    className={selected.includes(6) ? 'selected' : ''}
-                    onClick={() => handleClick(6)}
-                >
-                    <span className='icon-wrapper'>
-                        <img src={Drum} alt="drum" />
-                    </span>
-                    드럼
-                </Button>
-            </div>
-        </div>
-    );
-}
+  const handleClick = (tag) => {
+    let newSelected = { ...selected };
+
+    if (tag.id === 0) {
+      newSelected.sort = "uploadDate";
+      newSelected.category = []; // 전체 선택 시 카테고리 초기화
+    } else if (tag.id === 1) {
+      newSelected.sort = "views";
+    } else if (tag.id === 2) {
+      newSelected.sort = "video.likeCount";
+    } else if (tag.id >= 3 && tag.id <= 6) {
+      const categoryName = tag.englishName; // 영어 이름으로 수정
+      const index = newSelected.category.indexOf(categoryName);
+      
+      if (index === -1) {
+        newSelected.category = [...newSelected.category, categoryName];
+      } else {
+        newSelected.category = newSelected.category.filter(cat => cat !== categoryName);
+      }
+    }
+
+    setSelected(newSelected);
+    onTagClick(newSelected); // 최신 상태를 부모 컴포넌트로 전달
+  };
+
+  return (
+    <div className="flex tag-box align-center">
+      <Button
+        size="tag"
+        className={selected.sort === "uploadDate" ? "selected" : ""}
+        onClick={() => handleClick({ id: 0 })}
+      >
+        전체
+      </Button>
+      {sortTags.map(tag => (
+        <Button
+          key={tag.id}
+          size="tag"
+          className={selected.sort === (tag.id === 1 ? "views" : "video.likeCount") ? "selected" : ""}
+          onClick={() => handleClick(tag)}
+        >
+          <span className='icon-wrapper'>
+            <img src={tag.icon} alt={tag.name} />
+          </span>
+          {tag.name}
+        </Button>
+      ))}
+      <div className='tag-margin'>
+        {categoryTags.map(tag => (
+          <Button
+            key={tag.id}
+            size="tag"
+            className={selected.category.includes(tag.englishName) ? "selected" : ""}
+            onClick={() => handleClick(tag)}
+          >
+            <span className='icon-wrapper'>
+              <img src={tag.icon} alt={tag.name} />
+            </span>
+            {tag.name}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default Tag;
