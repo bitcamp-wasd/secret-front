@@ -93,12 +93,12 @@ button,
 legend,
 label
  {
-  font-family: "Pretendard-Regular", sans-serif !important;
+  font-family: "Pretendard", sans-serif !important;
 } 
 
 body {
-  font-family: "Pretendard-Regular", sans-serif;
-  font-weight: 500;
+  font-family: "Pretendard", sans-serif;
+  font-weight: 300;
   /* 기본 두께를 설정 */
   font-size: 16px;
   padding-top: 80px;
