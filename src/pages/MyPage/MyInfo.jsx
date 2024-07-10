@@ -35,11 +35,11 @@ const MyInfo = () => {
   return (
     <Layout showFooter={true} bannerType="my">
       <div className="my-container-810 mt120">
-        <div class="myinfo-box">
-          <div class="myinfo-headline">
-            <div class="flex align-center">
+        <div className="myinfo-box">
+          <div className="myinfo-headline">
+            <div className="flex align-center">
               <img src={UserIcon} alt="usericon" className="usericon" />
-              <h2 class="ml8">내 정보</h2>
+              <h2 className="ml8">내 정보</h2>
             </div>
 
             <Button size="tag" to="/mypage/myinfoedit">수정하기</Button>

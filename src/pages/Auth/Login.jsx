@@ -73,7 +73,7 @@ const Login = () => {
 
   return (
     <Layout showHeader={false}>
-      <div class="auth-container">
+      <div className="auth-container">
         <div className="auth-site-logo">
           <img src={Logo} alt="logo" />
         </div>
@@ -91,7 +91,7 @@ const Login = () => {
                 placeholder="E-MAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onKeyPress={onKeyPressHandler} 
+                onKeyPress={onKeyPressHandler}
                 required
               />
             </div>
@@ -102,7 +102,7 @@ const Login = () => {
                 placeholder="PASSWORD"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={onKeyPressHandler} 
+                onKeyPress={onKeyPressHandler}
                 required
               />
             </div>
@@ -112,13 +112,13 @@ const Login = () => {
                 로그인
               </Button>
             </div>
-            
-              <span className="auth-box-info-signup mb-21">
+
+            <span className="auth-box-info-signup mb-21">
               <Link to="/signup">
                 회원가입
-                </Link>
-              </span>
-            
+              </Link>
+            </span>
+
             <span
               className="auth-box-info-social mb-20"
               onClick={() => onSnsSignInButtonClickHandler("naver")}
