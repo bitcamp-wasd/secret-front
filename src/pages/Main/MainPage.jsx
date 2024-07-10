@@ -63,9 +63,9 @@ const MainPage = () => {
 
   useEffect(() => {
     observer.current = new IntersectionObserver(handleObserver, {
-      root: null, 
+      root: null,
       rootMargin: "0px",
-      threshold: 0.2, 
+      threshold: 0.2,
     });
 
     if (videos.length > 0) {
@@ -76,10 +76,10 @@ const MainPage = () => {
 
     return () => {
       if (observer.current) {
-        observer.current.disconnect(); 
+        observer.current.disconnect();
       }
     };
-  }, [videos]); 
+  }, [videos]);
 
   const handleSearch = (event) => {
     if (event.key === "Enter") {
@@ -144,7 +144,7 @@ const MainPage = () => {
           <div className="videos-grid">
             {videos.length > 0 ? (
               videos.map((video) => (
-                <div key={video.videoId} style={{ height: "203px" }}>
+                <div key={video.videoId}>
                   <VideoBox
                     thumbnail={video.thumbnail}
                     title={video.title}
