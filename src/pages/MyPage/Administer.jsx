@@ -60,7 +60,7 @@ const Administer = () => {
     const voteEndDate = new Date(challengeInfo.vote_end_date);
     voteEndDate.setHours(23, 59, 59, 0);
 
-    
+
     // 데이터 전송 API
     const challengeData = {
       ctitle: challengeInfo.ctitle,
@@ -84,8 +84,8 @@ const Administer = () => {
       <div className="main-box-810 mt123">
         <div className="myinfo-box">
           <div className="myinfo-headline">
-            <div class="flex align-center">
-              <h2 class="ml8">챌린지 업데이트</h2>
+            <div className="flex align-center">
+              <h2 className="ml8">챌린지 업데이트</h2>
             </div>
           </div>
           <div className="info-box">

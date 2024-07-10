@@ -101,7 +101,7 @@ const MyComments = () => {
 
   return (
     <Layout bannerType="my">
-      <div class="main-container-810 mt80">
+      <div className="main-container-810 mt80">
         <div className="comments-grid">
           <div className="comments-header">
             <input

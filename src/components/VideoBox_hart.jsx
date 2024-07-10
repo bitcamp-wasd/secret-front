@@ -7,11 +7,11 @@ const VideoBox = ({ thumbnail, title }) => {
         <div className="video-box">
             <img className="video-box-thumbnail" src={thumbnail} alt={title} />
 
-            <div class="row-direction space-between">
-                <div class="movie-small">
+            <div className="row-direction space-between">
+                <div className="movie-small">
                     <span className="video-title">{title}</span>
                     <span className="video-author">김융</span>
-                    <ul class="movie-small-list">
+                    <ul className="movie-small-list">
                         <li>
                             <span>조회수 2536</span>
                         </li>
