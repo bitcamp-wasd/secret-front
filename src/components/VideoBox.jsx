@@ -1,8 +1,12 @@
 import React from "react";
 import "../assets/css/style.css";
+import defaultThumbnail from "../assets/images/defaultThumbnail.jpg";
 
 
-const defaultThumbnail = "https://via.placeholder.com/276x155.25?text=Thumbnail";
+const thumbnailStyle = {
+  width: "276px",
+  height: "155.25px",
+};
 
 const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => {
   // 동영상 길이를 "MM:SS" 형식으로 변환
@@ -24,7 +28,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
   return (
     <div className="video-box">
       {/* 아직 이미지 불러오기 구현안돼서 디폴트 썸네일 사용 */}
-      <img className="video-box-thumbnail" src={defaultThumbnail ||thumbnail } alt="임시" />
+      <img className="video-box-thumbnail" src={defaultThumbnail ||thumbnail } alt="임시" style={thumbnailStyle}/>
       <div className="row-direction space-between pdx30">
         <div className="movie-small">
           <span>{title}</span>
