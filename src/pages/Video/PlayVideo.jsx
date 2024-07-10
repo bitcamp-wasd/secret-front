@@ -31,24 +31,52 @@ const PlayVideo = () => {
       }
     };
 
+    const fetchLikeStatus = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          throw new Error('사용자가 로그인하지 않았습니다. 로그인 후에 다시 시도해주세요.');
+        }
+
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/video/like/auth/check`,
+          {
+            params: { id: videoId },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setIsHeartFilled(response.data); // 좋아요 상태 설정
+
+      } catch (error) {
+        console.error('좋아요 상태를 가져오는 중 오류 발생:', error);
+      }
+    };
+
     fetchVideoData();
+    fetchLikeStatus();
   }, [videoId]);
 
   const handleHeartClick = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
     setIsHeartFilled(!isHeartFilled); // 하트 아이콘 상태 업데이트
     setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1); // 좋아요 수 업데이트
     setAnimate(true); // 애니메이션 활성화
 
     try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        throw new Error('사용자가 로그인하지 않았습니다. 로그인 후에 다시 시도해주세요.');
-      }
-
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/video/like/auth`,
         {
-          params: { id: videoId }, // videoId는 해당 요청에서 사용될 동영상 ID입니다.
+          params: { id: videoId },
           headers: {
             Authorization: `Bearer ${token}`,
           },
