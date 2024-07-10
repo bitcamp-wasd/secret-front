@@ -25,7 +25,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
       <img className="video-box-thumbnail" src={defaultThumbnail || thumbnail} alt="임시" />
       <div className="row-direction space-between pdx30">
         <div className="movie-small">
-          <span>{title}</span>
+          <span className="video-title">{title}</span>
           <ul className="movie-small-list">
             <li>
               <span>조회수 {views}</span>
