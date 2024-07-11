@@ -1,6 +1,7 @@
-// routes.js
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import ScrollToTop from './components/ScrollToTop';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
 import MainPage from './pages/Main/MainPage';
@@ -49,4 +50,15 @@ const routes = [
   { path: "/oauth/callback", element: <OAuthCallback /> }
 ];
 
-export default routes;
+const AppRoutes = () => (
+  <>
+    <ScrollToTop />
+    <Routes>
+      {routes.map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+    </Routes>
+  </>
+);
+
+export default AppRoutes;
