@@ -11,6 +11,7 @@ const MyInfo = () => {
     nickname: "초기닉네임",
     point: 100
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -23,6 +24,7 @@ const MyInfo = () => {
           nickname: userData.nickname,
           point: userData.point
         });
+        setLoading(false);
       } catch (error) {
         console.error('Token verification failed:', error);
 
@@ -31,6 +33,17 @@ const MyInfo = () => {
 
     loadUserInfo();
   }, []);
+
+  // 데이터 로딩 중일 때 스피너 표시
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Layout showFooter={true} bannerType="my">
