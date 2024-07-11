@@ -22,7 +22,7 @@ const VideoBox = ({ thumbnail, title }) => {
                             <span>&#8226; 19:36</span>
                         </li>
                         <li className="flex align-center">
-                            <img src={heart} className="mr10 f20" />
+                            <img src={heart} className="mr10 f20 no-transform" alt="heart" />
                             <span className="likes-number">1234</span>
                         </li>
                     </ul>

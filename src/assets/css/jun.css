@@ -190,7 +190,7 @@
 }
 
 .likes-number {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .vs {
@@ -694,4 +694,8 @@ progress::-webkit-progress-value {
 
 .video-box:hover {
     cursor: pointer;
+}
+
+.best-challenge img {
+    border-radius: 15px;
 }
