@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
 import logo from "../assets/images/main_logo.svg";
@@ -13,6 +13,7 @@ const Header = () => {
   const [isActive, setIsActive] = useState(false);
   const location = useLocation(); // 현재 경로 가져오기
   const headerRef = useRef(null); // 헤더 요소 ref
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -77,24 +78,34 @@ const Header = () => {
     return location.pathname.startsWith(path);
   };
 
+  //이동할 페이지와 같은경우 리로드
+  const handleLinkClick = (path, event) => {
+    if (location.pathname === path) {
+      event.preventDefault();
+      window.location.reload();
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <header ref={headerRef} className={`header ${isActive ? 'active' : ''}`}>
-      <Link to="/" >
+      <Link to="/" onClick={(e) => handleLinkClick("/", e)}>
         <img src={logo} alt="Logo" className="logo pdx15" />
       </Link>
       <ul className={`nav-list ${isActive ? 'active' : ''}`}>
         <li>
-          <Link to="/" className={isCurrentPage("/video") || location.pathname === "/" ? "current" : ""}>
+          <Link to="/"  onClick={(e) => handleLinkClick("/", e)} className={isCurrentPage("/video") || location.pathname === "/" ? "current" : ""}>
             <button id="movie">동영상</button>
           </Link>
         </li>
         <li>
-          <Link to="/challenge/list" className={isCurrentPage("/challenge") ? "current" : ""}>
+          <Link to="/challenge/list" onClick={(e) => handleLinkClick("/challenge/list", e)} className={isCurrentPage("/challenge") ? "current" : ""}>
             <button id="challenge">챌린지</button>
           </Link>
         </li>
         <li>
-          <Link to="/battle/list" className={isCurrentPage("/battle") ? "current" : ""}>
+          <Link to="/battle/list" onClick={(e) => handleLinkClick("/battle/list", e)} className={isCurrentPage("/battle") ? "current" : ""}>
             <button id="battle">배틀</button>
           </Link>
         </li>
