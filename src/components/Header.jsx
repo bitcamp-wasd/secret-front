@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import "../assets/css/style.css";
-import logo from "../assets/images/header_logo.svg";
+import logo from "../assets/images/main_logo.svg";
 import mypage from "../assets/images/header_mypage.svg";
 import login from "../assets/images/header_login.svg";
 import logout from "../assets/images/header_logout.svg";
@@ -79,8 +79,8 @@ const Header = () => {
 
   return (
     <header ref={headerRef} className={`header ${isActive ? 'active' : ''}`}>
-      <Link to="/">
-        <img src={logo} alt="Logo" className="logo" />
+      <Link to="/" >
+        <img src={logo} alt="Logo" className="logo pdx15" />
       </Link>
       <ul className={`nav-list ${isActive ? 'active' : ''}`}>
         <li>
@@ -100,14 +100,21 @@ const Header = () => {
         </li>
       </ul>
       <div className={`nav-links ${isActive ? 'active' : ''}`}>
+        
         {isLoggedIn ? (
+          <div className="nav-icon w20">
           <Link to="/mypage/myinfo">
-            <img src={mypage} alt="mypage" className="mypage" />
+            <img src={mypage} alt="mypage" className="icon-image" />
           </Link>
+          </div>
         ) : null}
+      
+      <div className="nav-icon">
         <Link to={isLoggedIn ? "#" : "/login"} onClick={isLoggedIn ? handleLogout : undefined}>
-          <img src={isLoggedIn ? logout : login} alt={isLoggedIn ? "Logout" : "Login"} className="logout" />
+          <img src={isLoggedIn ? logout : login} alt={isLoggedIn ? "Logout" : "Login"} className="icon-image" />
         </Link>
+        </div>
+        
       </div>
       <img src={toggleBtn} className="toggleBtn" onClick={handleToggle} />
     </header>

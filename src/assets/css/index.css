@@ -495,7 +495,7 @@ justify-content: center;
 }
 
 .logo {
-  margin-right: 84px;
+  margin-right: 0px;
   /* 로고와 내비게이션 사이의 간격 */
 }
 
@@ -507,6 +507,7 @@ justify-content: center;
 .nav-list {
   display: flex;
   margin-right: auto;
+  padding-left: 60px;
 }
 
 .nav-list li {
@@ -519,14 +520,23 @@ justify-content: center;
   /* 마지막 버튼의 오른쪽 여백 제거 */
 }
 
-.header img.mypage {
-  margin-right: 50px;
-  /* 마이페이지 이미지와 로그아웃 이미지 사이의 간격 */
+.nav-links{
+  display: flex;
+  align-items: center;
 }
 
-.header img.logout {
-  margin-left: auto;
-  /* 로그아웃 이미지를 오른쪽 끝에 고정 */
+.nav-icon{
+  width: 28px;
+  margin-right: 50px;
+}
+
+.nav-icon:last-child {
+  margin-right: 0; /* 마지막 아이콘의 오른쪽 마진 제거 */
+}
+
+.icon-image{
+  width: 100%;
+  height: 100%;
 }
 
 .header button {
