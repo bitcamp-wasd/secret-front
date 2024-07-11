@@ -10,6 +10,7 @@ const BannerMy = () => {
     nickname: "유저닉네임",
     rankName: "유저등급",
   });
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate();
 
   const openPopup = () => {
@@ -30,6 +31,7 @@ const BannerMy = () => {
           nickname: userData.nickname,
           rankName: userData.rankName,
         });
+        setLoading(false);
       } catch (error) {
         console.error("Token verification failed:", error);
         // 토큰이 유효하지 않은 경우 로그인 페이지로 리디렉션
@@ -39,6 +41,17 @@ const BannerMy = () => {
 
     fetchData();
   }, [navigate]);
+
+  // 데이터 로딩 중일 때 스피너 표시
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="banner">

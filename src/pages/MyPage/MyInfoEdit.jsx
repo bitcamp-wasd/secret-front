@@ -14,6 +14,7 @@ const MyInfoEdit = () => {
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,6 +23,7 @@ const MyInfoEdit = () => {
         const userData = response.data;
         setEmail(userData.email);
         setNickname(userData.nickName);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
@@ -67,6 +69,17 @@ const MyInfoEdit = () => {
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <Layout showFooter={true} bannerType="my">
