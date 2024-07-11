@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import VideoPlay from '../../components/VideoPlay';
 import '../../assets/css/jun.css';
 import Button from '../../components/Button';
 import RegTag from '../../components/RegTag';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const videoUploadUrl = `${API_URL}/api/video/post/auth`;
@@ -31,6 +32,8 @@ const RegisterVideo = () => {
     const fileInputRef = useRef();
     const sheetMusicInputRef = useRef();
     const thumbnailInputRef = useRef();
+
+    const navigate = useNavigate();
 
     const getVideo = (e) => {
         if (e.target.files.length === 0) {
@@ -65,7 +68,6 @@ const RegisterVideo = () => {
     };
 
     const handleUploadConfirmation = () => {
-        // Check if all required fields are filled
         if (!video) {
             alert('동영상을 첨부해주세요.');
             return;
@@ -83,7 +85,6 @@ const RegisterVideo = () => {
             return;
         }
 
-        // If all required fields are filled, proceed with upload
         upload();
     };
 
@@ -129,18 +130,27 @@ const RegisterVideo = () => {
                 axios.put(presignedUrl, sheetMusicFiles[index]);
             });
 
-            alert('파일 전송 시작');
+            alert('동영상 업로드를 시작합니다.');
 
         } catch (error) {
             console.error('Error uploading:', error);
-            alert('파일 전송 중 오류가 발생했습니다.');
+            alert('동영상 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
         }
     };
+
+
+    useEffect(() => {
+        if (progress === 100) {
+            setTimeout(() => {
+                navigate('/');
+            }, 5000); // 3초 후 페이지 이동
+        }
+    }, [progress, navigate]);
+
 
     return (
         <Layout>
             <div className="main-container-810">
-                {/* Video Upload Section */}
                 <div className="mr10 ml10">
                     <div className="videos-flex mt90">
                         <div className="title">l 동영상 첨부하기</div>
@@ -164,7 +174,6 @@ const RegisterVideo = () => {
                     </div>
                 </div>
 
-                {/* Thumbnail Upload Section */}
                 <div className="title mt40">l 썸네일 첨부하기</div>
                 <div className="flex align-center justify-center thumbnail-upload mt20">
                     {thumbnail ? (
@@ -184,7 +193,6 @@ const RegisterVideo = () => {
                     />
                 </div>
 
-                {/* Description Input Section */}
                 <div className="title mt60">l 게시글 입력하기</div>
                 <RegTag onTagSelect={setSelectedTag} />
                 <input
@@ -201,7 +209,6 @@ const RegisterVideo = () => {
                     onChange={(e) => setDescription(e.target.value)}
                 />
 
-                {/* Sheet Music Upload Section */}
                 <div className="title mt40">l 악보 첨부하기</div>
                 <div className="flex align-center justify-center sheetmusic-upload mt20">
                     {sheetMusicFiles.length === 0 ? (
@@ -230,14 +237,12 @@ const RegisterVideo = () => {
                     />
                 </div>
 
-                {/* Progress Bar */}
                 <div style={{ width: '50%', margin: 'auto', textAlign: 'center' }}>
                     <progress value={progress} max={100}></progress>
                     <div style={{ marginBottom: '10px' }}>업로드: {progress}%</div>
-                    {progress === 100 && <div style={{ color: 'green' }}>전송 완료!</div>}
+                    {progress === 100 && <div style={{ color: 'green' }}>전송 완료! 5초 후 메인페이지로 이동합니다.</div>}
                 </div>
 
-                {/* Submit Button */}
                 <div className="justify-center mt40">
                     <Button size="large" onClick={handleUploadConfirmation}>
                         등록하기
