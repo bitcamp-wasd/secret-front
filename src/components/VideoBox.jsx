@@ -38,7 +38,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
             </li>
             <li>
               <li>
-                <span className="nickname">{nickname.length > 4 ? `${nickname.slice(0, 4)}...` : nickname}</span>
+                <span className="nickname">{nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname}</span>
               </li>
 
             </li>

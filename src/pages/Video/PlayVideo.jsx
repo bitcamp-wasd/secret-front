@@ -8,8 +8,10 @@ import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
 import Button from "../../components/Button";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const PlayVideo = () => {
+  const { videoId } = useParams(); // useParams 훅을 사용하여 URL에서 videoId 값을 추출
   const [videoData, setVideoData] = useState(null);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -17,7 +19,6 @@ const PlayVideo = () => {
   const [newComment, setNewComment] = useState("");
   const [animate, setAnimate] = useState(false);
   const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
-  const videoId = 3;
 
   useEffect(() => {
     const fetchVideoData = async () => {

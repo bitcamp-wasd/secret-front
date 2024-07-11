@@ -691,3 +691,7 @@ progress::-webkit-progress-value {
 .nav-list .current button {
     color: rgba(255, 184, 0, 0.5);
 }
+
+.video-box:hover {
+    cursor: pointer;
+}

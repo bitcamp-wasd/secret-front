@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
 import VideoBox from "../../components/VideoBox";
 import Layout from "../../components/Layout";
@@ -17,6 +18,7 @@ const MainPage = () => {
   const [categories, setCategories] = useState([]); // 초기 카테고리 없음
 
   const observer = useRef(null); // Intersection Observer를 위한 useRef 사용
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
 
   // 초기 데이터 로딩
   const fetchVideos = async (page, sort = sortBy, category = categories) => {
@@ -117,6 +119,11 @@ const MainPage = () => {
     }
   };
 
+  // 동영상 클릭 핸들러
+  const handleVideoClick = (videoId) => {
+    navigate(`/video/play/${videoId}`); // PlayVideo 페이지로 네비게이션
+  };
+
   return (
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
@@ -144,7 +151,7 @@ const MainPage = () => {
           <div className="videos-grid">
             {videos.length > 0 ? (
               videos.map((video) => (
-                <div key={video.videoId}>
+                <div key={video.videoId} onClick={() => handleVideoClick(video.videoId)}>
                   <VideoBox
                     thumbnail={video.thumbnail}
                     title={video.title}
