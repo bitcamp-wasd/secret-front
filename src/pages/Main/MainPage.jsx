@@ -34,7 +34,6 @@ const MainPage = () => {
       if (newVideos.length === 0) {
         setHasMore(false);
       } else {
-        console.log(' 콘솔 테스트용');
         setVideos((prevVideos) => {
           const uniqueNewVideos = newVideos.filter(
             (newVideo) =>
@@ -60,7 +59,7 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    fetchVideos(pageNumber); // 초기 로딩 시 첫 번째 페이지 로드
+    fetchVideos(0); // 초기 로딩 시 첫 번째 페이지 로드
   }, []);
 
   useEffect(() => {
