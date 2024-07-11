@@ -21,12 +21,13 @@ const MainPage = () => {
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
 
   // 초기 데이터 로딩
-  const fetchVideos = async (page, sort = sortBy, category = categories) => {
+  const fetchVideos = async (page, sort = sortBy, category = categories, search = searchTerm) => {
     if (loading) return;
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post(`/api/video/post?pageNumber=${page}`, {
+      const endpoint = search ? `/api/video/post/search?search=${search}&pageNumber=${page}` : `/api/video/post?pageNumber=${page}`;
+      const response = await axiosInstance.post(endpoint, {
         sort: sort,
         category: category,
       });
@@ -60,7 +61,7 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    fetchVideos(pageNumber); // 초기 로딩 시 첫 번째 페이지 로드
+    fetchVideos(0); // 초기 로딩 시 첫 번째 페이지 로드
   }, []);
 
   useEffect(() => {
@@ -83,9 +84,35 @@ const MainPage = () => {
     };
   }, [videos]);
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     if (event.key === "Enter") {
+      const searchValue = event.target.value;
       setSearchTerm(event.target.value);
+      setPageNumber(0); // 페이지 번호 초기화
+      setHasMore(true); // 더 이상 데이터가 없음을 표시
+      setVideos([]); // 비디오 데이터 초기화
+
+      try {
+        setLoading(true); // 데이터 요청 중임을 표시
+
+        const response = await axiosInstance.post(`/api/video/post/search?search=${searchValue}&pageNumber=0`, {
+          sort: sortBy,
+          category: categories,
+        });
+
+        const newVideos = response.data;
+        console.log(newVideos);
+        if (newVideos.length === 0) {
+          setHasMore(false); // 더 이상 데이터가 없음을 표시
+        } else {
+          setVideos(newVideos); // 새로운 데이터로 videos 상태 설정
+          setPageNumber(1); // 다음 페이지 번호 설정
+        }
+      } catch (error) {
+        console.error("Failed to fetch videos:", error);
+      } finally {
+        setLoading(false); // 데이터 요청 완료 후 로딩 상태 해제
+      }
     }
   };
 
@@ -99,7 +126,8 @@ const MainPage = () => {
     try {
       setLoading(true); // 데이터 요청 중임을 표시
 
-      const response = await axiosInstance.post(`/api/video/post?pageNumber=0`, {
+      const endpoint = searchTerm ? `/api/video/post/search?search=${searchTerm}&pageNumber=0` : `/api/video/post?pageNumber=0`;
+      const response = await axiosInstance.post(endpoint, {
         sort: selectedValues.sort,
         category: selectedValues.category,
       });
