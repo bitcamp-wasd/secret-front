@@ -109,7 +109,7 @@ const ChallengeList = () => {
           </div>
           <div className="videos-grid">
             {dummyVideos.map((video) => (
-              <VideoBox
+              <VideoBox_hart
                 key={video.id}
                 thumbnail={video.thumbnail}
                 title={video.title}
