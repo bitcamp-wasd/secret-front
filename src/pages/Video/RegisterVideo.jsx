@@ -159,7 +159,7 @@ const RegisterVideo = () => {
                                 <source src={URL.createObjectURL(video)} type="video/mp4" />
                             </video>
                         )}
-                        {!videoUploaded && <VideoPlay thumbnail={dummyVideo.thumbnail} />}
+                        {!videoUploaded && <VideoPlay thumbnail={dummyVideo.placeholder} />} {/* 수정된 부분 */}
                     </div>
 
                     <div className="flex-end mt20 button-container">
