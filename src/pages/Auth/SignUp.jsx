@@ -79,6 +79,12 @@ const SignUp = () => {
     }
   };
 
+  // 닉네임 형식 검증 함수
+  const isValidNickname = (nickname) => {
+    const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,13}$/;
+    return nicknameRegex.test(nickname);
+  };
+
   // 회원가입 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,6 +107,17 @@ const SignUp = () => {
       setConfirmPasswordError("* 비밀번호가 일치하지 않습니다");
     } else {
       setConfirmPasswordError("");
+    }
+
+    // 닉네임 유효성 검사
+    if (!isValidNickname(nickname)) {
+      setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");
+      if (nicknameInputRef.current) {
+        nicknameInputRef.current.focus();
+      }
+      return;
+    } else {
+      setNicknameError("");
     }
 
     // 어느 하나라도 오류가 있으면 함수 종료
@@ -134,10 +151,13 @@ const SignUp = () => {
       }
     } catch (error) {
       if (error.response && error.response.data.code === "DN") {
-        setNicknameError("* 다른 닉네임을 입력해주세요");
+        setNicknameError("* 닉네임 중복입니다.");
         if (nicknameInputRef.current) {
           nicknameInputRef.current.focus();
         }
+      } else if (error.response && error.response.data.code === "IN") {
+        setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");;
+        console.error("SignUp Error: 유효한 닉네임이 아닙니다");
       } else if (error.response && error.response.data.code === "DE") {
         alert("이미 사용중인 이메일입니다");
         console.error("SignUp Error: Duplicate Email");

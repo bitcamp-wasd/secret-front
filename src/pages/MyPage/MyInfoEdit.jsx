@@ -36,6 +36,15 @@ const MyInfoEdit = () => {
     e.preventDefault();
     let valid = true;
 
+     // 닉네임 유효성 검사
+     const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,13}$/;
+     if (!nicknameRegex.test(nickname)) {
+       setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");
+       valid = false;
+     } else {
+       setNicknameError("");
+     }
+
     // 모든 필드가 채워졌는지 확인
     if (!nickname || !password || !confirmPassword) {
       alert("빈 칸이 있으면 안됩니다.");
@@ -61,7 +70,10 @@ const MyInfoEdit = () => {
         navigate("/mypage/myinfo"); // 수정 완료 후 마이페이지로 이동
       } catch (error) {
         if (error.response && error.response.data.code === "DN") {
-          setNicknameError("* 다른 닉네임을 입력해주세요");
+          setNicknameError("* 중복된 닉네임입니다.");
+        } else if (error.response && error.response.data === "Invalid nickname") {
+          setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");;
+          console.error("SignUp Error: 유효한 닉네임이 아닙니다"); 
         } else {
           console.error("Failed to edit user info:", error);
           // 실패 시 처리
