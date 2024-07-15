@@ -2,7 +2,13 @@ import React from "react";
 import "../assets/css/style.css";
 import defaultThumbnail from "../assets/images/defaultThumbnail.jpg";
 
+// .env 파일에서 클라우드 이미지 URL 가져오기
+const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
+
 const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => {
+  console.log("Cloud Image URL:", cloudImageUrl); // 환경 변수 확인
+  console.log("Thumbnail:", thumbnail); // 썸네일 확인
+  
   // 동영상 길이를 "MM:SS" 형식으로 변환
   const formatLength = (length) => {
     const minutes = Math.floor(length / 60);
@@ -19,10 +25,11 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
     return `${year}.${month}.${day}`;
   };
 
+  const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
+
   return (
     <div className="video-box">
-      {/* 아직 이미지 불러오기 구현안돼서 디폴트 썸네일 사용 */}
-      <img className="video-box-thumbnail" src={defaultThumbnail || thumbnail} alt="임시" />
+      <img className="video-box-thumbnail" src={thumbnailUrl} alt="썸네일" />
       <div className="row-direction space-between pdx30">
         <div className="movie-small">
           <span className="video-title">{title}</span>
