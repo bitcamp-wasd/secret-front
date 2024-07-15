@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
-import VideoBox2 from "../../components/VideoBox_hart2"
+import VideoBox2 from "../../components/VideoBox_hart2";
 import vs from "../../assets/images/vs.svg";
 import "../../assets/css/style.css";
 
@@ -13,6 +14,7 @@ const BattleList = () => {
     const [pageNumber, setPageNumber] = useState(0);
 
     const observer = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("Page number changed: ", pageNumber); // 페이지 번호 확인
@@ -70,13 +72,22 @@ const BattleList = () => {
         };
     }, [battles]);
 
+    const handleClick = (battleId) => {
+        navigate(`/battle/detail/${battleId}`);
+    };
+
     return (
         <Layout showFooter={false} bannerType="battle">
             <div className="main-container-810">
                 <div className="videos-flex">
                     {battles.length === 0 && !loading && <p>배틀이 없습니다.</p>}
                     {battles.map((battle) => (
-                        <div key={battle.battleId} className="battle-container mt80">
+                        <div
+                            key={battle.battleId}
+                            className="battle-container mt80"
+                            onClick={() => handleClick(battle.battleId)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div className="flex">
                                 <div className="sub-battlebox-317 h320">
                                     <div className="video-box">
