@@ -441,6 +441,11 @@
         display: flex;
         max-height: 300px;
         opacity: 1;
+        padding: 10px;
+    }
+
+    .header button {
+        padding: 2px;
     }
 
     .header.active {
