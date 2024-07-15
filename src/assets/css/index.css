@@ -315,7 +315,8 @@
 .video-box img {
   /* width: 100%; */
   height: auto;
-  /* aspect-ratio: 276 / 155.25; */
+  aspect-ratio: 276 / 155.25;
+  object-fit: fill;
   border-radius: 15px;
   transition: transform 0.2s ease-in-out;
 }
