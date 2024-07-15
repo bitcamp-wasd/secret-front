@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
 import VideoBox from "../../components/VideoBox";
 import Layout from "../../components/Layout";
@@ -11,6 +12,7 @@ const MyVideos = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const observer = useRef(null); // Intersection Observer를 위한 useRef 사용
+  const navigate = useNavigate(); 
 
   const fetchVideos = async (page) => {
     if (loading) return;
@@ -73,13 +75,18 @@ const MyVideos = () => {
     };
   }, [videos]); // videos 배열의 변화를 감지하여 observer 연결
 
+// 동영상 클릭 핸들러
+const handleVideoClick = (videoId) => {
+  navigate(`/video/play/${videoId}`); // PlayVideo 페이지로 네비게이션
+};
+
   return (
     <Layout showFooter={false} bannerType="my">
       <div className="main-container-1150 mt80">
         <div className="row-direction space-between mb50"></div>
         <div className="videos-grid">
           {videos.map((video) => (
-            <div key={video.videoId} style={{ height: "203px" }}>
+            <div key={video.videoId} onClick={() => handleVideoClick(video.videoId)}>
               <VideoBox
                 thumbnail={video.thumbnail}
                 title={video.title}
