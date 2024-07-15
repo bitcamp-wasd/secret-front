@@ -22,10 +22,16 @@ const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vo
     const formattedUploadDate = formatDate(uploadDate);
     const formattedLength = formatLength(length);
 
+    // 클라우드 이미지 URL 가져오기
+    const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
+
+    // 썸네일 URL 생성
+    const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : ""; // 클라우드 이미지 URL과 썸네일 경로 조합
+
     return (
         <div className="sub-battlebox-317 h320">
             <div className="video-box">
-                <img className="video-box-thumbnail" src={thumbnail} alt={title} />
+                <img className="video-box-thumbnail" src={thumbnailUrl} alt={title} />
                 <div className="row-direction space-between">
                     <div className="movie-small">
                         <span className="video-title">{title}</span>

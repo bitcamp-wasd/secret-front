@@ -23,6 +23,9 @@ const BattleDetail = () => {
     const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
     const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true); // 댓글 플레이스홀더 표시 상태
 
+    const [pageNumber, setPageNumber] = useState(0); // 현재 페이지 번호 상태
+    const [totalComments, setTotalComments] = useState(0); // 총 댓글 수 상태
+
     // 배틀 상세 정보 가져오기
     const fetchBattleDetail = async () => {
         try {
@@ -56,9 +59,50 @@ const BattleDetail = () => {
         }
     };
 
+    // 댓글 리스트 가져오기 (페이지네이션 포함)
+    const fetchCommentList = async (page) => {
+        try {
+            const commentUrl = `${process.env.REACT_APP_API_URL}/api/battle/${battleId}/commentList?pageNumber=${page}`;
+
+            const response = await axios.get(commentUrl);
+
+            console.log("Comment list API response:", response.data);
+
+            // API에서 받아온 댓글 리스트 설정
+            setComments(response.data.content);
+            setShowCommentPlaceholder(false); // 댓글 플레이스홀더 숨김
+
+        } catch (error) {
+            console.error("Error fetching comment list:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
+    // 댓글 수 가져오기
+    const fetchCommentCount = async () => {
+        try {
+            const countUrl = `${process.env.REACT_APP_API_URL}/api/battle/${battleId}/count`;
+
+            const response = await axios.get(countUrl);
+
+            console.log("Total comment count API response:", response.data);
+
+            // 총 댓글 수 설정
+            setTotalComments(response.data);
+
+            console.log(response.data);
+
+        } catch (error) {
+            console.error("Error fetching total comment count:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
     useEffect(() => {
         fetchBattleDetail();
-    }, []);
+        fetchCommentList(pageNumber); // 초기 호출은 첫 번째 페이지를 가져옵니다.
+        fetchCommentCount(); // 총 댓글 수도 가져옵니다.
+    }, [battleId, pageNumber]); // battleId나 pageNumber가 변경될 때마다 다시 불러옵니다.
 
     // 투표 요청 보내기
     const handleVote = async (postId, index) => {
@@ -129,6 +173,50 @@ const BattleDetail = () => {
         }
     };
 
+    // 댓글 작성 함수
+    const postComment = async () => {
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/comment`;
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
+                if (window.confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?")) {
+                    window.location.href = "/login";
+                }
+                return;
+            }
+
+            const response = await axios.post(
+                apiUrl,
+                { comment: newComment },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // 댓글 등록 후 UI 업데이트
+            console.log("댓글 등록 완료:", response.data);
+
+            // 댓글 등록 후 총 댓글 수 업데이트
+            fetchCommentCount(); // 총 댓글 수 다시 가져오기
+
+            // 댓글 등록 후 댓글 목록 다시 불러오기
+            fetchCommentList(pageNumber); // 현재 페이지를 다시 가져옵니다.
+
+            // 댓글 입력 상태 초기화
+            setNewComment("");
+            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
+
+            alert("댓글이 등록되었습니다.");
+        } catch (error) {
+            console.error("댓글 등록 실패:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
     const handleHeartClick = (index) => {
         if (index === 1) {
             handleVote(battle.postId1.videoId, 1);
@@ -137,39 +225,12 @@ const BattleDetail = () => {
         }
     };
 
-
     const handleCommentChange = (e) => {
         setNewComment(e.target.value); // 댓글 입력 상태 업데이트
     };
 
-    const handleCommentSubmit = () => {
-        if (newComment.trim() !== "") {
-            const now = new Date();
-            const formattedDate = `${now
-                .getFullYear()
-                .toString()
-                .slice(2)}.${(now.getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}.${now.getDate()
-                        .toString()
-                        .padStart(2, "0")} ${now.getHours()
-                            .toString()
-                            .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
-
-            const newCommentData = {
-                id: comments.length + 1,
-                author: "새로운 유저", // 추후 DB에서 사용자 정보 받아와서 사용
-                content: newComment,
-                date: formattedDate,
-            };
-
-            // 가상의 새로운 댓글을 추가합니다.
-            setComments([...comments, newCommentData]);
-            setNewComment("");
-            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
-
-            alert("댓글이 등록되었습니다.");
-        }
+    const handlePageChange = (newPageNumber) => {
+        setPageNumber(newPageNumber); // 페이지 번호 변경
     };
 
     if (!battle) {
@@ -207,6 +268,7 @@ const BattleDetail = () => {
                                             style={{ cursor: "pointer" }}
                                             src={isHeartFilled1 ? battleheart_fill : battleheart}
                                             className={`heart-icon ${animate1 ? "heart-animation" : ""}`}
+                                            alt="heart-icon"
                                         />
                                         <div>{likeCount1}</div>
                                     </div>
@@ -232,6 +294,7 @@ const BattleDetail = () => {
                                             style={{ cursor: "pointer" }}
                                             src={isHeartFilled2 ? battleheart_fill : battleheart}
                                             className={`heart-icon ${animate2 ? "heart-animation" : ""}`}
+                                            alt="heart-icon"
                                         />
                                         <div>{likeCount2}</div>
                                     </div>
@@ -243,7 +306,7 @@ const BattleDetail = () => {
 
                 {/* 댓글 등록 */}
                 <div className="comment mt90">
-                    <div>댓글 {comments.length}개</div>
+                    <div>댓글 {totalComments}개</div>
                     <textarea
                         type="text"
                         placeholder="댓글을 입력하세요."
@@ -252,7 +315,7 @@ const BattleDetail = () => {
                     />
                 </div>
                 <div className="flex-end mt10 button-container">
-                    <Button onClick={handleCommentSubmit}>등록</Button>
+                    <Button onClick={postComment}>등록</Button>
                 </div>
 
                 {/* 댓글 리스트 */}
@@ -266,14 +329,31 @@ const BattleDetail = () => {
                                 <img src={grade} className="mr10" alt="grade" />
                                 {comment.nickname}
                             </div>
-                            <div className="flex align-center">{comment.createDate}</div>
+                            <div className="flex align-center">
+                                {comment.createDate}
+                                <div className="ml10">
+                                    <button className="button mod">수정</button>
+                                    <button className="button del">삭제</button>
+                                </div>
+                            </div>
                         </div>
                         <div className="comment-content mt10">
                             {comment.comment}
                             <div className="line"></div>
                         </div>
                     </div>
+
                 ))}
+
+                {/* 페이지네이션 UI */}
+                <div className="pagination">
+                    <Button onClick={() => handlePageChange(pageNumber - 1)} disabled={pageNumber === 0}>
+                        이전
+                    </Button>
+                    <Button onClick={() => handlePageChange(pageNumber + 1)} disabled={comments.length < 5}>
+                        다음
+                    </Button>
+                </div>
             </div>
         </Layout>
     );
