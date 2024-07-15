@@ -45,7 +45,7 @@ const routes = [
   { path: "/challenge/detail", element: <ChallengeDetail /> },
   { path: "/challenge/register", element: <PrivateRoute element={<ChallengeRegister />} /> },
   { path: "/battle/list", element: <BattleList /> },
-  { path: "/battle/detail", element: <BattleDetail /> },
+  { path: "/battle/detail/:battleId", element: <BattleDetail /> },
   { path: "/battle/register", element: <BattleRegister /> },
   { path: "/oauth/callback", element: <OAuthCallback /> }
 ];
