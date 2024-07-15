@@ -24,6 +24,7 @@ import BattleList from './pages/Battle/BattleList';
 import BattleDetail from './pages/Battle/BattleDetail';
 import BattleRegister from './pages/Battle/BattleRegister';
 import OAuthCallback from './pages/Auth/OAuthCallback';
+import AdminRoute from './components/AdminRoute';
 
 const routes = [
   { path: "/", element: <MainPage /> },
@@ -37,7 +38,7 @@ const routes = [
   { path: "/mypage/mybettles", element: <PrivateRoute element={<MyBettles />} /> },
   { path: "/mypage/mycomments", element: <PrivateRoute element={<MyComments />} /> },
   { path: "/mypage/deletecomments", element: <PrivateRoute element={<DeleteComment />} /> },
-  { path: "/mypage/administer", element: <PrivateRoute element={<Administer />} /> },
+  { path: "/mypage/administer", element: <AdminRoute element={<Administer />} /> },
   { path: "/mypage/rank", element: <Rank /> },
   { path: "/video/register", element: <PrivateRoute element={<RegisterVideo />} /> },
   { path: "/video/play/:videoId", element: <PlayVideo /> },
