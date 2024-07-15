@@ -710,3 +710,13 @@ progress::-webkit-progress-value {
 .best-challenge img {
     border-radius: 15px;
 }
+
+.mod {
+    width: 60px;
+    height: 40px;
+}
+
+.del {
+    width: 60px;
+    height: 40px;
+}

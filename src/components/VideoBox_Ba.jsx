@@ -1,6 +1,9 @@
 import React from "react";
 import "../assets/css/style.css";
-import heart from "../assets/images/heart.svg";
+import defaultThumbnail from "../assets/images/defaultThumbnail.jpg";
+
+// .env 파일에서 클라우드 이미지 URL 가져오기
+const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
 
 // 함수를 사용하여 날짜 포맷팅
 const formatDate = (dateString) => {
@@ -19,12 +22,15 @@ const formatLength = (totalSeconds) => {
 };
 
 const VideoBox = ({ thumbnail, title, author, views, uploadDate, length }) => {
+    // 클라우드 이미지 URL과 썸네일 경로를 결합하여 썸네일 URL 생성
+    const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
+
     const formattedUploadDate = formatDate(uploadDate);
     const formattedLength = formatLength(length);
 
     return (
         <div className="video-box">
-            <img className="video-box-thumbnail" src={thumbnail} alt={title} />
+            <img className="video-box-thumbnail" src={thumbnailUrl} alt={title} />
 
             <div className="row-direction">
                 <div className="movie-small">
@@ -40,7 +46,6 @@ const VideoBox = ({ thumbnail, title, author, views, uploadDate, length }) => {
                         <li>
                             <span>&#8226; {formattedLength}</span>
                         </li>
-
                     </ul>
                 </div>
             </div>
