@@ -7,7 +7,7 @@ import VideoBox from "../../components/VideoBox";
 import one from "../../assets/images/1.svg";
 import two from "../../assets/images/2.svg";
 import three from "../../assets/images/3.svg";
-import VideoBox_hart from "../../components/VideoBox_hart";
+import VideoBox_hart from "../../components/VideoBox_best";
 
 const ChallengeList = () => {
   const [showPreviousChallenges, setShowPreviousChallenges] = useState(false);
