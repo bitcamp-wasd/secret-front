@@ -154,6 +154,42 @@ const BattleDetail = () => {
         }
     };
 
+    // 댓글 삭제
+    const deleteComment = async (battleCommentId) => {
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete/${battleCommentId}`;
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                // 사용자가 로그인하지 않은 경우 처리 (선택사항)
+                // 여기서 리다이렉트하거나 로그인 프롬프트를 표시할 수 있습니다.
+                return;
+            }
+
+            const response = await axios.delete(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("댓글 삭제 완료:", response.data);
+
+            // UI에서 삭제된 댓글 제거하기
+            setComments((prevComments) =>
+                prevComments.filter((comment) => comment.battleCommentId !== battleCommentId)
+            );
+
+            // 총 댓글 수 업데이트
+            setTotalComments((prevCount) => prevCount - 1);
+
+            alert("댓글이 삭제되었습니다.");
+        } catch (error) {
+            console.error("댓글 삭제 실패:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
+
     // 댓글 수 가져오기
     const fetchCommentCount = async () => {
         try {
@@ -341,7 +377,7 @@ const BattleDetail = () => {
                                         title={battle.postId1.title}
                                         author={battle.postId1.nickname}
                                         views={battle.postId1.views}
-                                        uploadDate={formatDate(battle.postId1.uploadDate)}
+                                        uploadDate={battle.postId1.uploadDate}
                                         length={battle.postId1.length}
                                     />
                                     <div className="centered-content below">
@@ -367,7 +403,7 @@ const BattleDetail = () => {
                                         title={battle.postId2.title}
                                         author={battle.postId2.nickname}
                                         views={battle.postId2.views}
-                                        uploadDate={formatDate(battle.postId2.uploadDate)}
+                                        uploadDate={battle.postId2.uploadDate}
                                         length={battle.postId2.length}
                                     />
                                     <div className="centered-content below">
@@ -431,7 +467,7 @@ const BattleDetail = () => {
                                             <span>{formatDate(comment.createDate)}</span>
                                             <div className="ml10">
                                                 <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
-                                                <button className="button del">삭제</button>
+                                                <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
                                             </div>
                                         </div>
                                     </div>
