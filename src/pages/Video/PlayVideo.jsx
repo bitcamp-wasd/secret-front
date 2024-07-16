@@ -23,10 +23,11 @@ const PlayVideo = () => {
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/video/watch?id=${videoId}`);
-        const data = await response.json();
-        setVideoData(data);
-        setLikeCount(data.likeCount);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/video/watch`, {
+          params: { id: videoId }
+        });
+        setVideoData(response.data);
+        setLikeCount(response.data.likeCount);
       } catch (error) {
         console.error('비디오 데이터를 가져오는 중 오류 발생:', error);
       }
@@ -39,15 +40,12 @@ const PlayVideo = () => {
           throw new Error('사용자가 로그인하지 않았습니다. 로그인 후에 다시 시도해주세요.');
         }
 
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/video/like/auth/check`,
-          {
-            params: { id: videoId },
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/video/like/auth/check`, {
+          params: { id: videoId },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setIsHeartFilled(response.data); // 좋아요 상태 설정
 
@@ -74,15 +72,12 @@ const PlayVideo = () => {
     setAnimate(true); // 애니메이션 활성화
 
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/video/like/auth`,
-        {
-          params: { id: videoId },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/video/like/auth`, {
+        params: { id: videoId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // GET 요청을 성공적으로 보냈다면, 응답 처리 코드 추가 가능
       console.log('좋아요 요청 성공:', response.data);
@@ -135,7 +130,7 @@ const PlayVideo = () => {
     <Layout>
       <div className="main-container-810">
         <div className="videos-flex mt90">
-        <VideoPlay thumbnail={videoData.thumbnail} title={videoData.title} videoUrl={videoUrl} />
+          <VideoPlay thumbnail={videoData.thumbnail} title={videoData.title} videoUrl={videoUrl} />
         </div>
 
         <div className="play-infobox mt20">
