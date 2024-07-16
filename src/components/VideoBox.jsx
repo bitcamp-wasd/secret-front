@@ -8,7 +8,7 @@ const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
 const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => {
   console.log("Cloud Image URL:", cloudImageUrl); // 환경 변수 확인
   console.log("Thumbnail:", thumbnail); // 썸네일 확인
-  
+
   // 동영상 길이를 "MM:SS" 형식으로 변환
   const formatLength = (length) => {
     const minutes = Math.floor(length / 60);
@@ -44,10 +44,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
               <span>&#8226; {formatLength(length)}</span>
             </li>
             <li>
-              <li>
-                <span className="nickname">{nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname}</span>
-              </li>
-
+              <span className="nickname">{nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname}</span>
             </li>
           </ul>
         </div>
