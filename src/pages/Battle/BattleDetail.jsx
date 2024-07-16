@@ -8,6 +8,7 @@ import Button from "../../components/Button";
 import grade from "../../assets/images/grade.svg";
 import battleheart_fill from "../../assets/images/battleheart_fill.svg";
 import battleheart from "../../assets/images/battleheart.svg";
+import { jwtDecode } from 'jwt-decode';
 
 const BattleDetail = () => {
     const { battleId } = useParams(); // URL에서 battleId 값을 가져옴
@@ -39,40 +40,53 @@ const BattleDetail = () => {
         return formattedDate;
     };
 
+    // 현재 사용자 닉네임 가져오기
+    // const getCurrentUserNickname = () => {
+    //     const token = localStorage.getItem('accessToken');
+    //     if (token) {
+    //         const decodedToken = jwtDecode(token);
+    //         console.log("Decoded token nickname:", decodedToken.nickName);
+    //         return decodedToken.nickName;
+    //     }
+    //     return null;
+    // };
 
 
     // 배틀 상세 정보 가져오기
     const fetchBattleDetail = async () => {
         try {
             const battleUrl = `${process.env.REACT_APP_API_URL}/api/battle/${battleId}`;
-            const stateUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/state`;
-
-            // 병렬로 API 호출
-            const [battleResponse, stateResponse] = await Promise.all([
-                axios.get(battleUrl),
-                axios.get(stateUrl, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                    },
-                }),
-            ]);
+            const battleResponse = await axios.get(battleUrl);
 
             console.log("Battle detail API response:", battleResponse.data);
-            console.log("Battle state API response:", stateResponse.data);
 
             // API에서 받아온 배틀 정보 설정
             setBattle(battleResponse.data);
             setLikeCount1(battleResponse.data.vote1Cnt);
             setLikeCount2(battleResponse.data.vote2Cnt);
 
-            // 투표 상태 업데이트
-            setIsHeartFilled1(stateResponse.data.post1Vote);
-            setIsHeartFilled2(stateResponse.data.post2Vote);
+            // 액세스 토큰이 있는 경우에만 호출
+            const token = localStorage.getItem("accessToken");
+            if (token) {
+                const stateUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/state`;
+                const stateResponse = await axios.get(stateUrl, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                console.log("Battle state API response:", stateResponse.data);
+
+                // 투표 상태 업데이트
+                setIsHeartFilled1(stateResponse.data.post1Vote);
+                setIsHeartFilled2(stateResponse.data.post2Vote);
+            }
 
         } catch (error) {
             console.error("Error fetching battle detail:", error);
         }
     };
+
 
     // 댓글 리스트 가져오기 (페이지네이션 포함)
     const fetchCommentList = async (page) => {
@@ -296,6 +310,12 @@ const BattleDetail = () => {
     // 댓글 등록 함수
     const postComment = async () => {
         try {
+            // 입력된 댓글이 없는 경우 처리
+            if (newComment.trim() === "") {
+                alert("댓글 내용을 입력해주세요.");
+                return;
+            }
+
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/comment`;
             const token = localStorage.getItem("accessToken");
 
@@ -340,10 +360,12 @@ const BattleDetail = () => {
 
 
     const handleHeartClick = (index) => {
-        if (index === 1) {
-            handleVote(battle.postId1.videoId, 1);
-        } else if (index === 2) {
-            handleVote(battle.postId2.videoId, 2);
+        if (battle) {
+            if (index === 1) {
+                handleVote(battle.postId1.videoId, 1);
+            } else if (index === 2) {
+                handleVote(battle.postId2.videoId, 2);
+            }
         }
     };
 
@@ -432,7 +454,7 @@ const BattleDetail = () => {
                         onChange={handleCommentChange}
                     />
                 </div>
-                <div className="flex-end mt10 button-container">
+                <div className="flex-end mt10 mb20 button-container">
                     <Button onClick={postComment}>등록</Button>
                 </div>
 
@@ -444,14 +466,14 @@ const BattleDetail = () => {
                     <div key={comment.battleCommentId} ref={comments.length === index + 1 ? lastCommentElementRef : null}>
                         {editingCommentId === comment.battleCommentId ? (
                             // 수정 중인 댓글 편집 UI
-                            <div className="comment-item editing">
+                            <div className="comment">
                                 <textarea
                                     value={editingCommentText}
                                     onChange={(e) => setEditingCommentText(e.target.value)}
                                 />
-                                <div className="button-container">
+                                <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
                                     <button className="button save" onClick={() => updateComment(comment.battleCommentId)}>완료</button>
-                                    <button className="button cancel" onClick={cancelEditingComment}>취소</button>
+                                    <button className="button can" onClick={cancelEditingComment}>취소</button>
                                 </div>
                             </div>
                         ) : (
@@ -465,14 +487,18 @@ const BattleDetail = () => {
                                         </div>
                                         <div className="flex align-center">
                                             <span>{formatDate(comment.createDate)}</span>
-                                            <div className="ml10">
-                                                <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
-                                                <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="comment-content mt10">
-                                        {comment.comment}
+                                        <div style={{ overflow: 'hidden' }}>
+                                            <span style={{ float: 'left' }}>{comment.comment}</span>
+                                            {/* {comment.nickname === getCurrentUserNickname() && ( */}
+                                            <div style={{ float: 'right' }}>
+                                                <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
+                                                <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
+                                            </div>
+                                            {/* )} */}
+                                        </div>
                                         <div className="line"></div>
                                     </div>
                                 </div>
@@ -480,7 +506,6 @@ const BattleDetail = () => {
                         )}
                     </div>
                 ))}
-
             </div>
         </Layout>
     );
