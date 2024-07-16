@@ -6,7 +6,7 @@ const VideoPlay = ({ thumbnail, videoUrl }) => {
       if (videoUrl) {
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://player.vpe.naverncp.com/ncplayer.1.1.2.js?access_key=3ba6f6a18046b72c8fcd9f59aca5f5d5';
+        script.src = 'https://player.vpe.naverncp.com/ncplayer.1.1.2.js?access_key=' + process.env.REACT_APP_NCP_ACCESS_KEY;
         script.async = true;
         console.log(videoUrl);
         script.onload = () => {
