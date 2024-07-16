@@ -377,6 +377,11 @@ const BattleDetail = () => {
         return <p>Loading...</p>; // 배틀 정보를 가져오는 중일 때 로딩 상태 표시
     }
 
+    // 동영상 클릭 핸들러
+    const handleVideoClick = (videoId) => {
+        window.open(`/video/play/${videoId}`, "_blank"); // PlayVideo 페이지를 새로 띄움
+    };
+
     return (
         <Layout>
             <div className="main-container-810 mt70">
@@ -393,15 +398,17 @@ const BattleDetail = () => {
                         <div className="flex">
                             <div className="sub-battlebox-317">
                                 <div className="video-box">
-                                    <VideoBox
-                                        key={`${battle.postId1.videoId}`}
-                                        thumbnail={battle.postId1.thumbnail}
-                                        title={battle.postId1.title}
-                                        author={battle.postId1.nickname}
-                                        views={battle.postId1.views}
-                                        uploadDate={battle.postId1.uploadDate}
-                                        length={battle.postId1.length}
-                                    />
+                                    <div key={battle.postId1.videoId} onClick={() => handleVideoClick(battle.postId1.videoId)}>
+                                        <VideoBox
+                                            key={`${battle.postId1.videoId}`}
+                                            thumbnail={battle.postId1.thumbnail}
+                                            title={battle.postId1.title}
+                                            author={battle.postId1.nickname}
+                                            views={battle.postId1.views}
+                                            uploadDate={battle.postId1.uploadDate}
+                                            length={battle.postId1.length}
+                                        />
+                                    </div>
                                     <div className="centered-content below">
                                         <img
                                             onClick={() => handleHeartClick(1)}
@@ -419,15 +426,17 @@ const BattleDetail = () => {
 
                             <div className="sub-battlebox-317">
                                 <div className="video-box">
-                                    <VideoBox
-                                        key={`${battle.postId2.videoId}`}
-                                        thumbnail={battle.postId2.thumbnail}
-                                        title={battle.postId2.title}
-                                        author={battle.postId2.nickname}
-                                        views={battle.postId2.views}
-                                        uploadDate={battle.postId2.uploadDate}
-                                        length={battle.postId2.length}
-                                    />
+                                    <div key={battle.postId2.videoId} onClick={() => handleVideoClick(battle.postId2.videoId)}>
+                                        <VideoBox
+                                            key={`${battle.postId2.videoId}`}
+                                            thumbnail={battle.postId2.thumbnail}
+                                            title={battle.postId2.title}
+                                            author={battle.postId2.nickname}
+                                            views={battle.postId2.views}
+                                            uploadDate={battle.postId2.uploadDate}
+                                            length={battle.postId2.length}
+                                        />
+                                    </div>
                                     <div className="centered-content below">
                                         <img
                                             onClick={() => handleHeartClick(2)}
