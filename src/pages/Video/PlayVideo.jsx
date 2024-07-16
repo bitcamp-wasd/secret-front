@@ -127,11 +127,15 @@ const PlayVideo = () => {
     return <div>로딩 중...</div>;
   }
 
+  const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.video}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
+
+  console.log(videoUrl);
+
   return (
     <Layout>
       <div className="main-container-810">
         <div className="videos-flex mt90">
-          <VideoPlay thumbnail={videoData.thumbnail} />
+        <VideoPlay thumbnail={videoData.thumbnail} title={videoData.title} videoUrl={videoUrl} />
         </div>
 
         <div className="play-infobox mt20">
