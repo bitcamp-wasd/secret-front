@@ -41,15 +41,15 @@ const BattleDetail = () => {
     };
 
     // 현재 사용자 닉네임 가져오기
-    // const getCurrentUserNickname = () => {
-    //     const token = localStorage.getItem('accessToken');
-    //     if (token) {
-    //         const decodedToken = jwtDecode(token);
-    //         console.log("Decoded token nickname:", decodedToken.nickName);
-    //         return decodedToken.nickName;
-    //     }
-    //     return null;
-    // };
+    const getCurrentUserNickname = () => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            console.log("Decoded token nickname:", decodedToken.nickName);
+            return decodedToken.nickName;
+        }
+        return null;
+    };
 
 
     // 배틀 상세 정보 가져오기
@@ -501,12 +501,12 @@ const BattleDetail = () => {
                                     <div className="comment-content mt10">
                                         <div style={{ overflow: 'hidden' }}>
                                             <span style={{ float: 'left' }}>{comment.comment}</span>
-                                            {/* {comment.nickname === getCurrentUserNickname() && ( */}
-                                            <div style={{ float: 'right' }}>
-                                                <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
-                                                <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
-                                            </div>
-                                            {/* )} */}
+                                            {comment.nickname === getCurrentUserNickname() && (
+                                                <div style={{ float: 'right' }}>
+                                                    <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
+                                                    <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="line"></div>
                                     </div>
