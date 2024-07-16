@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout";
@@ -18,13 +18,28 @@ const BattleDetail = () => {
     const [isHeartFilled2, setIsHeartFilled2] = useState(false);
     const [animate1, setAnimate1] = useState(false);
     const [animate2, setAnimate2] = useState(false);
+    const [totalComments, setTotalComments] = useState(0);
 
     const [comments, setComments] = useState([]); // 댓글 상태 초기화
     const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
     const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true); // 댓글 플레이스홀더 표시 상태
 
     const [pageNumber, setPageNumber] = useState(0); // 현재 페이지 번호 상태
-    const [totalComments, setTotalComments] = useState(0); // 총 댓글 수 상태
+    const [isLastPage, setIsLastPage] = useState(false); // 마지막 페이지 여부 상태
+
+    const [editingCommentId, setEditingCommentId] = useState(null); // 현재 수정 중인 댓글의 ID를 추적하는 상태
+    const [editingCommentText, setEditingCommentText] = useState(""); // 수정 중인 댓글의 텍스트를 저장하는 상태
+
+    const observer = useRef();
+
+    // 날짜와 시간을 원하는 포맷으로 변환하는 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const formattedDate = `${String(date.getFullYear()).slice(2)}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        return formattedDate;
+    };
+
+
 
     // 배틀 상세 정보 가져오기
     const fetchBattleDetail = async () => {
@@ -68,12 +83,73 @@ const BattleDetail = () => {
 
             console.log("Comment list API response:", response.data);
 
-            // API에서 받아온 댓글 리스트 설정
-            setComments(response.data.content);
+            // 새로운 댓글과 기존 댓글 합치기
+            setComments((prevComments) => {
+                if (page === 0) {
+                    return response.data.content;
+                } else {
+                    return [...prevComments, ...response.data.content];
+                }
+            });
+
+            setIsLastPage(response.data.last); // 마지막 페이지 여부 설정
             setShowCommentPlaceholder(false); // 댓글 플레이스홀더 숨김
 
         } catch (error) {
             console.error("Error fetching comment list:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
+    // 댓글 수정 시작
+    const startEditingComment = (commentId, commentText) => {
+        setEditingCommentId(commentId); // 수정 중인 댓글의 ID 설정
+        setEditingCommentText(commentText); // 수정 중인 댓글의 내용 설정
+    };
+
+    // 댓글 수정 취소
+    const cancelEditingComment = () => {
+        setEditingCommentId(null); // 수정 중인 댓글 ID 초기화
+        setEditingCommentText(""); // 수정 중인 댓글 내용 초기화
+    };
+
+    // 댓글 수정 함수
+    const updateComment = async (commentId) => {
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/update/${commentId}`;
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
+                if (window.confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?")) {
+                    window.location.href = "/login";
+                }
+                return;
+            }
+
+            const response = await axios.put(
+                apiUrl,
+                { comment: editingCommentText },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log("댓글 수정 완료:", response.data);
+
+            // 수정된 댓글을 포함한 전체 댓글 리스트 업데이트
+            setComments((prevComments) =>
+                prevComments.map((prevComment) =>
+                    prevComment.battleCommentId === commentId ? { ...prevComment, comment: editingCommentText } : prevComment
+                )
+            );
+
+            cancelEditingComment(); // 수정 취소 처리
+
+        } catch (error) {
+            console.error("댓글 수정 실패:", error);
             // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
         }
     };
@@ -90,8 +166,6 @@ const BattleDetail = () => {
             // 총 댓글 수 설정
             setTotalComments(response.data);
 
-            console.log(response.data);
-
         } catch (error) {
             console.error("Error fetching total comment count:", error);
             // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
@@ -103,6 +177,16 @@ const BattleDetail = () => {
         fetchCommentList(pageNumber); // 초기 호출은 첫 번째 페이지를 가져옵니다.
         fetchCommentCount(); // 총 댓글 수도 가져옵니다.
     }, [battleId, pageNumber]); // battleId나 pageNumber가 변경될 때마다 다시 불러옵니다.
+
+    const lastCommentElementRef = useCallback((node) => {
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLastPage) {
+                setPageNumber((prevPageNumber) => prevPageNumber + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLastPage]);
 
     // 투표 요청 보내기
     const handleVote = async (postId, index) => {
@@ -173,7 +257,7 @@ const BattleDetail = () => {
         }
     };
 
-    // 댓글 작성 함수
+    // 댓글 등록 함수
     const postComment = async () => {
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/comment`;
@@ -200,15 +284,16 @@ const BattleDetail = () => {
             // 댓글 등록 후 UI 업데이트
             console.log("댓글 등록 완료:", response.data);
 
-            // 댓글 등록 후 총 댓글 수 업데이트
-            fetchCommentCount(); // 총 댓글 수 다시 가져오기
+            // 기존 댓글 목록 갱신을 위해 다시 불러오기
+            fetchCommentList(0); // 첫 페이지부터 다시 불러옵니다.
 
-            // 댓글 등록 후 댓글 목록 다시 불러오기
-            fetchCommentList(pageNumber); // 현재 페이지를 다시 가져옵니다.
-
-            // 댓글 입력 상태 초기화
+            // 새로운 댓글 입력 상태 초기화
             setNewComment("");
             setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
+
+            // 무한 스크롤 관련 상태 초기화
+            setPageNumber(0); // 페이지 번호 초기화
+            setIsLastPage(false); // 마지막 페이지 상태 초기화
 
             alert("댓글이 등록되었습니다.");
         } catch (error) {
@@ -216,6 +301,7 @@ const BattleDetail = () => {
             // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
         }
     };
+
 
     const handleHeartClick = (index) => {
         if (index === 1) {
@@ -227,10 +313,6 @@ const BattleDetail = () => {
 
     const handleCommentChange = (e) => {
         setNewComment(e.target.value); // 댓글 입력 상태 업데이트
-    };
-
-    const handlePageChange = (newPageNumber) => {
-        setPageNumber(newPageNumber); // 페이지 번호 변경
     };
 
     if (!battle) {
@@ -246,7 +328,7 @@ const BattleDetail = () => {
                             <div className="video-info-title">
                                 <div>{battle.title}</div>
                                 <div>
-                                    조회수 {battle.views}회 종료일 {battle.endDate}
+                                    조회수 {battle.views}회 종료일 {formatDate(battle.endDate)}
                                 </div>
                             </div>
                         </div>
@@ -259,7 +341,7 @@ const BattleDetail = () => {
                                         title={battle.postId1.title}
                                         author={battle.postId1.nickname}
                                         views={battle.postId1.views}
-                                        uploadDate={battle.postId1.uploadDate}
+                                        uploadDate={formatDate(battle.postId1.uploadDate)}
                                         length={battle.postId1.length}
                                     />
                                     <div className="centered-content below">
@@ -285,7 +367,7 @@ const BattleDetail = () => {
                                         title={battle.postId2.title}
                                         author={battle.postId2.nickname}
                                         views={battle.postId2.views}
-                                        uploadDate={battle.postId2.uploadDate}
+                                        uploadDate={formatDate(battle.postId2.uploadDate)}
                                         length={battle.postId2.length}
                                     />
                                     <div className="centered-content below">
@@ -322,38 +404,47 @@ const BattleDetail = () => {
                 {showCommentPlaceholder && comments.length === 0 && (
                     <div className="comment-placeholder">첫 댓글을 남겨보세요!</div>
                 )}
-                {comments.map((comment) => (
-                    <div key={comment.battleCommentId}>
-                        <div className="flex align-center space-between mt40">
-                            <div className="flex align-center">
-                                <img src={grade} className="mr10" alt="grade" />
-                                {comment.nickname}
-                            </div>
-                            <div className="flex align-center">
-                                {comment.createDate}
-                                <div className="ml10">
-                                    <button className="button mod">수정</button>
-                                    <button className="button del">삭제</button>
+                {comments.map((comment, index) => (
+                    <div key={comment.battleCommentId} ref={comments.length === index + 1 ? lastCommentElementRef : null}>
+                        {editingCommentId === comment.battleCommentId ? (
+                            // 수정 중인 댓글 편집 UI
+                            <div className="comment-item editing">
+                                <textarea
+                                    value={editingCommentText}
+                                    onChange={(e) => setEditingCommentText(e.target.value)}
+                                />
+                                <div className="button-container">
+                                    <button className="button save" onClick={() => updateComment(comment.battleCommentId)}>완료</button>
+                                    <button className="button cancel" onClick={cancelEditingComment}>취소</button>
                                 </div>
                             </div>
-                        </div>
-                        <div className="comment-content mt10">
-                            {comment.comment}
-                            <div className="line"></div>
-                        </div>
+                        ) : (
+                            // 일반 댓글 UI
+                            <div className="comment-item">
+                                <div className="comment-header">
+                                    <div className="flex align-center space-between">
+                                        <div className="flex align-center">
+                                            <img src={grade} className="mr10" alt="grade" />
+                                            <span>{comment.nickname}</span>
+                                        </div>
+                                        <div className="flex align-center">
+                                            <span>{formatDate(comment.createDate)}</span>
+                                            <div className="ml10">
+                                                <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
+                                                <button className="button del">삭제</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="comment-content mt10">
+                                        {comment.comment}
+                                        <div className="line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-
                 ))}
 
-                {/* 페이지네이션 UI */}
-                <div className="pagination">
-                    <Button onClick={() => handlePageChange(pageNumber - 1)} disabled={pageNumber === 0}>
-                        이전
-                    </Button>
-                    <Button onClick={() => handlePageChange(pageNumber + 1)} disabled={comments.length < 5}>
-                        다음
-                    </Button>
-                </div>
             </div>
         </Layout>
     );
