@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/style.css";
-import VideoBox from '../../components/VideoBox';
+import VideoBox_hart from '../../components/VideoBox_hart';
 import Layout from '../../components/Layout';
 
 
@@ -44,7 +44,7 @@ const MyChallenges = () => {
         </div>
         <div className="videos-grid">
           {videos.map((video) => (
-            <VideoBox
+            <VideoBox_hart
               key={video.id}
               thumbnail={video.thumbnail}
               title={video.title}

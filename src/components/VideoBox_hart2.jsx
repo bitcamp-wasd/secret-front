@@ -18,7 +18,7 @@ const formatLength = (totalSeconds) => {
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
 };
 
-const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vote1Cnt }) => {
+const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vote2Cnt }) => {
     const formattedUploadDate = formatDate(uploadDate);
     const formattedLength = formatLength(length);
 
@@ -48,7 +48,7 @@ const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vo
                             </li>
                             <li className="flex align-center">
                                 <img src={heart} className="mr10 f20 no-transform" alt="heart" />
-                                <span className="likes-number">{vote1Cnt}</span>
+                                <span className="likes-number">{vote2Cnt}</span>
                             </li>
                         </ul>
                     </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
@@ -57,7 +56,7 @@ const MyComments = () => {
 
   return (
     <Layout bannerType="my">
-      <div class="my-container-810 mt80">
+      <div className="my-container-810 mt80">
         <div className="comments-grid">
           <div className="comments-header">
             <span></span>

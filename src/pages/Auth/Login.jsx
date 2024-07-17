@@ -4,9 +4,9 @@ import axios from "axios";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import "../../assets/css/style.css";
-import Logo from "../../assets/images/auth_logo.svg";
+import Logo from "../../assets/images/main_logo.svg";
 import Naver from "../../assets/images/naver.svg";
-import Kakao from "../../assets/images/kakao.png";
+import Kakao from "../../assets/images/kakao.svg";
 
 const API_URL = process.env.REACT_APP_API_URL;
 export const SNS_SIGN_IN_URL = (type) => `${API_URL}/api/user/login/${type}`;
@@ -73,16 +73,19 @@ const Login = () => {
 
   return (
     <Layout showHeader={false}>
-      <div class="auth-container">
-        <div className="auth-site-logo">
+      <div className="auth-container align-center">
+        {/* <div className="auth-site-logo">
           <img src={Logo} alt="logo" />
         </div>
         <div className="auth-site-name">
           <h1>말할 수 없는 비밀</h1>
-        </div>
+        </div> */}
         <div className="auth-box">
           <div className="auth-box-info">
-            <div className="auth-box-info-item mt60">
+            <div className="justify-center mt50">
+              <img src={Logo} alt="logo" />
+            </div>
+            <div className="auth-box-info-item mt80">
               {errorMessage && (
                 <div className="auth-error-message">{errorMessage}</div>
               )}
@@ -91,7 +94,7 @@ const Login = () => {
                 placeholder="E-MAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onKeyPress={onKeyPressHandler} 
+                onKeyPress={onKeyPressHandler}
                 required
               />
             </div>
@@ -102,24 +105,24 @@ const Login = () => {
                 placeholder="PASSWORD"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={onKeyPressHandler} 
+                onKeyPress={onKeyPressHandler}
                 required
               />
             </div>
 
-            <div className="auth-box-info-item mb-6">
+            <div className="auth-box-info-item mt20 mb10">
               <Button size="large" onClick={handleSubmit}>
                 로그인
               </Button>
             </div>
-            
-              <span className="auth-box-info-signup mb-21">
+
+            <span className="auth-box-info-signup mb-21">
               <Link to="/signup">
                 회원가입
-                </Link>
-              </span>
-            
-            <span
+              </Link>
+            </span>
+
+            {/* <span
               className="auth-box-info-social mb-20"
               onClick={() => onSnsSignInButtonClickHandler("naver")}
             >
@@ -130,7 +133,15 @@ const Login = () => {
               onClick={() => onSnsSignInButtonClickHandler("kakao")}
             >
               <img src={Kakao} alt="kakao" />
+            </span> */}
+            <div className="auth-box-info-social2 mb-60">
+              <span onClick={() => onSnsSignInButtonClickHandler("naver")}>
+            <img src={Naver} alt="naver" />
             </span>
+            <span onClick={() => onSnsSignInButtonClickHandler("kakao")}>
+            <img src={Kakao} alt="kakao" />
+            </span>
+            </div>
           </div>
         </div>
       </div>

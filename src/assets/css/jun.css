@@ -1,17 +1,21 @@
 .video-play {
     width: 810px;
-    border-radius: 4px;
-    background-color: var(--white);
-    box-sizing: border-box;
-    text-align: center;
+    /* border-radius: 4px; */
+    /* background-color: var(--white); */
+    /* box-sizing: border-box; */
+    /* text-align: center; */
+    height: 444px;
+    border-radius: 20px;
+    background-color: #efefef;
 }
 
-.video-play img {
+/* .video-play img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 276 / 155.25;
-    border-radius: 4px;
-}
+    height: 444px;
+    border-radius: 20px;
+    background-color: #efefef;
+
+} */
 
 .play-infobox {
     font-size: var(--f20);
@@ -162,7 +166,8 @@
 
 .sheetmusic-upload {
     max-width: 810px;
-    border: 1px solid #ccc;
+    border: 1px solid #efefef;
+    ;
     border-radius: 20px;
 }
 
@@ -171,11 +176,16 @@
     height: 250px;
     border-radius: 20px;
     margin: 25px;
-    background-color: #ccc;
+    background-color: #efefef;
+    ;
 }
 
 .video-title {
-    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-bottom: 10px;
 }
 
@@ -186,7 +196,7 @@
 }
 
 .likes-number {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .vs {
@@ -355,7 +365,7 @@
 }
 
 .video-box-thumbnail {
-    width: 100%;
+    width: 100% !important;
 }
 
 .no-results {
@@ -400,6 +410,10 @@
         align-self: center;
         margin: 0;
         display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
     }
 
     .nav-list li {
@@ -410,17 +424,28 @@
         padding-top: 20px;
         align-self: center;
         display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
     }
 
     .toggleBtn {
         display: block;
         height: 45px;
-        margin: 25px;
+        margin: 15px;
     }
 
     .nav-list.active,
     .nav-links.active {
         display: flex;
+        max-height: 300px;
+        opacity: 1;
+        padding: 10px;
+    }
+
+    .header button {
+        padding: 2px;
     }
 
     .header.active {
@@ -429,6 +454,7 @@
         align-items: flex-start;
         padding: 0;
         max-height: 600px;
+        transition: max-height 0.5s ease;
     }
 
     /* 챌린지 */
@@ -442,10 +468,6 @@
     }
 
     /* 배틀 */
-    .video-info-title {
-        max-width: 330px;
-    }
-
     .video-info-title div {
         margin: 5px
     }
@@ -595,13 +617,13 @@
     width: 100%;
     height: 444px;
     border-radius: 20px;
-    background-color: #ccc;
+    background-color: #efefef;
 }
 
 .thumbnail-upload img {
     width: 100%;
     height: 100%;
-
+    border-radius: 20px;
 }
 
 
@@ -634,4 +656,83 @@ progress::-webkit-progress-value {
     background-color: #ffd700;
     border-radius: 10px;
     /* 로딩 색 */
+}
+
+.challenge-text {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.previous-challenges-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    /* border: 1px solid #ccc; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 10%;
+}
+
+.previous-challenges-dropdown.open {
+    max-height: 200px;
+}
+
+.challenge-item {
+    padding: 10px;
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.challenge-item:last-child {
+    border-bottom: none;
+}
+
+.challenge-item:hover {
+    color: rgba(255, 184, 0, 0.5);
+}
+
+.nav-list .current button {
+    color: rgba(255, 184, 0, 0.5);
+}
+
+.video-box:hover {
+    cursor: pointer;
+}
+
+.best-challenge img {
+    border-radius: 15px;
+}
+
+.mod {
+    width: 50px;
+    height: 35px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.del {
+    width: 50px;
+    height: 35px;
+    font-size: 16px;
+}
+
+.save {
+    width: 50px;
+    height: 35px;
+    font-size: 16px;
+    margin-right: 10px !important;
+}
+
+.can {
+    width: 50px;
+    height: 35px;
+    font-size: 16px;
 }

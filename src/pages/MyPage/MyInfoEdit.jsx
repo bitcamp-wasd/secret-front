@@ -14,6 +14,7 @@ const MyInfoEdit = () => {
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,6 +23,7 @@ const MyInfoEdit = () => {
         const userData = response.data;
         setEmail(userData.email);
         setNickname(userData.nickName);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
@@ -33,6 +35,15 @@ const MyInfoEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
+
+     // 닉네임 유효성 검사
+     const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,13}$/;
+     if (!nicknameRegex.test(nickname)) {
+       setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");
+       valid = false;
+     } else {
+       setNicknameError("");
+     }
 
     // 모든 필드가 채워졌는지 확인
     if (!nickname || !password || !confirmPassword) {
@@ -59,7 +70,10 @@ const MyInfoEdit = () => {
         navigate("/mypage/myinfo"); // 수정 완료 후 마이페이지로 이동
       } catch (error) {
         if (error.response && error.response.data.code === "DN") {
-          setNicknameError("* 다른 닉네임을 입력해주세요");
+          setNicknameError("* 중복된 닉네임입니다.");
+        } else if (error.response && error.response.data === "Invalid nickname") {
+          setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");;
+          console.error("SignUp Error: 유효한 닉네임이 아닙니다"); 
         } else {
           console.error("Failed to edit user info:", error);
           // 실패 시 처리
@@ -67,6 +81,17 @@ const MyInfoEdit = () => {
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <Layout showFooter={true} bannerType="my">

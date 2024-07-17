@@ -1,13 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { getUserRoleFromToken } from '../utils/jwtUtils';
 
 const PrivateRoute = ({ element: Element }) => {
-  const isAuthenticated = () => {
-    const accessToken = localStorage.getItem('accessToken');
-    return !!accessToken;
-  };
+  const userRole = getUserRoleFromToken();
 
-  return isAuthenticated() ? Element : <Navigate to="/login" replace />;
+  if (userRole === 'ROLE_USER') {
+    return Element;
+  } else if (userRole === 'ROLE_ADMIN') {
+    return <Navigate to="/mypage/administer" replace />;
+  } else {
+    return <Navigate to="/login" replace />;
+  }
 };
 
 export default PrivateRoute;

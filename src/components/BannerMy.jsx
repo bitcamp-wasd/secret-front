@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 const BannerMy = () => {
   const [userData, setUserData] = useState({
-    nickName: "유저닉네임",
+    nickname: "유저닉네임",
     rankName: "유저등급",
   });
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate();
 
   const openPopup = () => {
@@ -27,9 +28,10 @@ const BannerMy = () => {
         const response = await axiosInstance.get("/api/user/auth/myinfo");
         const userData = response.data;
         setUserData({
-          nickName: userData.nickName,
+          nickname: userData.nickname,
           rankName: userData.rankName,
         });
+        setLoading(false);
       } catch (error) {
         console.error("Token verification failed:", error);
         // 토큰이 유효하지 않은 경우 로그인 페이지로 리디렉션
@@ -40,12 +42,22 @@ const BannerMy = () => {
     fetchData();
   }, [navigate]);
 
+  // 데이터 로딩 중일 때 스피너 표시
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="banner">
       <div className="main-container-1150">
         <h1 className="banner-my">
-          {userData.nickName}님의 등급은{" "}
-          <span className="rank-name">{userData.rankName}</span> 입니다
+          <span>{userData.nickname}</span>님의 등급은&nbsp; <span>{userData.rankName}</span>입니다
           <img src={question} alt="question" onClick={openPopup} className="ml8" />
         </h1>
         <div className="banner-buttons-box">

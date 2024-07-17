@@ -8,9 +8,10 @@ import axiosInstance from "../../utils/axiosInstance";
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "초기이메일",
-    nickName: "초기닉네임",
+    nickname: "초기닉네임",
     point: 100
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -20,9 +21,10 @@ const MyInfo = () => {
         const userData = response.data;
         setUserInfo({
           email: userData.email,
-          nickName: userData.nickName,
+          nickname: userData.nickname,
           point: userData.point
         });
+        setLoading(false);
       } catch (error) {
         console.error('Token verification failed:', error);
 
@@ -32,14 +34,25 @@ const MyInfo = () => {
     loadUserInfo();
   }, []);
 
+  // 데이터 로딩 중일 때 스피너 표시
+  if (loading) {
+    return (
+      <div className="banner">
+        <div className="main-container-1150">
+          <div className="spinner" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Layout showFooter={true} bannerType="my">
       <div className="my-container-810 mt120">
-        <div class="myinfo-box">
-          <div class="myinfo-headline">
-            <div class="flex align-center">
+        <div className="myinfo-box">
+          <div className="myinfo-headline">
+            <div className="flex align-center">
               <img src={UserIcon} alt="usericon" className="usericon" />
-              <h2 class="ml8">내 정보</h2>
+              <h2 className="ml8">내 정보</h2>
             </div>
 
             <Button size="tag" to="/mypage/myinfoedit">수정하기</Button>
@@ -50,7 +63,7 @@ const MyInfo = () => {
             <div className="info-item">
               <label>닉네임</label>
               <div className="info-content">
-                <span>{userInfo.nickName}</span>
+                <span>{userInfo.nickname}</span>
               </div>
             </div>
             <div className="info-item">

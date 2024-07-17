@@ -1,6 +1,7 @@
-// routes.js
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import ScrollToTop from './components/ScrollToTop';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
 import MainPage from './pages/Main/MainPage';
@@ -23,6 +24,7 @@ import BattleList from './pages/Battle/BattleList';
 import BattleDetail from './pages/Battle/BattleDetail';
 import BattleRegister from './pages/Battle/BattleRegister';
 import OAuthCallback from './pages/Auth/OAuthCallback';
+import AdminRoute from './components/AdminRoute';
 
 const routes = [
   { path: "/", element: <MainPage /> },
@@ -36,17 +38,28 @@ const routes = [
   { path: "/mypage/mybettles", element: <PrivateRoute element={<MyBettles />} /> },
   { path: "/mypage/mycomments", element: <PrivateRoute element={<MyComments />} /> },
   { path: "/mypage/deletecomments", element: <PrivateRoute element={<DeleteComment />} /> },
-  { path: "/mypage/administer", element: <PrivateRoute element={<Administer />} /> },
-  { path: "/mypage/rank", element: <Rank />},
+  { path: "/mypage/administer", element: <AdminRoute element={<Administer />} /> },
+  { path: "/mypage/rank", element: <Rank /> },
   { path: "/video/register", element: <PrivateRoute element={<RegisterVideo />} /> },
-  { path: "/video/play", element: <PlayVideo /> },
+  { path: "/video/play/:videoId", element: <PlayVideo /> },
   { path: "/challenge/list", element: <ChallengeList /> },
   { path: "/challenge/detail", element: <ChallengeDetail /> },
-  { path: "/challenge/register", element: <PrivateRoute  element={<ChallengeRegister />} /> },
+  { path: "/challenge/register", element: <PrivateRoute element={<ChallengeRegister />} /> },
   { path: "/battle/list", element: <BattleList /> },
-  { path: "/battle/detail", element: <BattleDetail /> },
+  { path: "/battle/detail/:battleId", element: <BattleDetail /> },
   { path: "/battle/register", element: <BattleRegister /> },
   { path: "/oauth/callback", element: <OAuthCallback /> }
 ];
 
-export default routes;
+const AppRoutes = () => (
+  <>
+    <ScrollToTop />
+    <Routes>
+      {routes.map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+    </Routes>
+  </>
+);
+
+export default AppRoutes;

@@ -1,65 +1,105 @@
-import React, { useState, useEffect } from "react";
-import "../../assets/css/style.css";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
-import Layout from '../../components/Layout';
-import vs from "../../assets/images/vs.svg"
-
+import VideoBox2 from "../../components/VideoBox_hart2";
+import vs from "../../assets/images/vs.svg";
+import "../../assets/css/style.css";
+import axiosInstance from "../../utils/axiosInstance";
 
 const MyBettles = () => {
-    const allBattles = Array.from({ length: 20 }, (_, index) => ({
-        id: index + 1,
-        title: `자강두천 최병민과 김융의 가슴이 웅장해지는 대결 ${index + 1}`,
-        author1: "최병민",
-        author2: "김융",
-        views: 7500,
-        endDate: "24.06.27",
-        thumbnail1: `https://via.placeholder.com/276x155.25?text=Thumbnail1+${index + 1}`,
-        thumbnail2: `https://via.placeholder.com/276x155.25?text=Thumbnail2+${index + 1}`,
-    }));
+    const [battles, setBattles] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [pageNumber, setPageNumber] = useState(0);
 
-    const [visibleBattles, setVisibleBattles] = useState(6); // 한 번에 표시할 배틀 수
-    const [battles, setBattles] = useState(allBattles.slice(0, visibleBattles));
+    const observer = useRef(null);
+    const navigate = useNavigate();
 
-    // 더 많은 배틀 불러오기
-    const loadMoreBattles = () => {
-        setVisibleBattles((prevVisibleBattles) => {
-            const newVisibleBattles = prevVisibleBattles + 6; // 추가로 표시할 배틀 수
-            setBattles(allBattles.slice(0, newVisibleBattles));
-            return newVisibleBattles;
-        });
-    };
+    useEffect(() => {
+        console.log("Page number changed: ", pageNumber); // 페이지 번호 확인
+        loadBattles(pageNumber);
+    }, [pageNumber]);
 
-    // 스크롤 이벤트 핸들러
-    const handleScroll = () => {
-        if (
-            window.innerHeight + document.documentElement.scrollTop >=
-            document.documentElement.scrollHeight - 50
-        ) {
-            loadMoreBattles();
+    const loadBattles = async (page) => {
+        if (loading) return;
+        setLoading(true);
+
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            const response = await axiosInstance.get(`${apiUrl}/api/battle/auth/myBattle?pageNumber=${page}`);
+            console.log("API response:", response.data); // API 응답 확인
+
+            const newBattles = response.data.content;
+
+            setBattles((prevBattles) => [...prevBattles, ...newBattles]);
+            setLoading(false);
+
+            if (newBattles.length === 0) {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error("Error fetching battles:", error); // 오류 메시지 확인
+            setLoading(false);
         }
     };
 
-    // 스크롤 이벤트 리스너 등록
+    const handleObserver = (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && hasMore && !loading) {
+            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+    };
+
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+        observer.current = new IntersectionObserver(handleObserver, {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1,
+        });
+
+        if (battles.length > 0) {
+            const lastBattleElement = document.querySelector(".videos-flex > div:last-child");
+            if (lastBattleElement) {
+                observer.current.observe(lastBattleElement);
+            }
+        }
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, [battles]);
+
+    const handleClick = (battleId) => {
+        navigate(`/battle/detail/${battleId}`);
+    };
 
     return (
-        <Layout showFooter={false} bannerType="my">
-
+        <Layout showFooter={false} bannerType="battle">
             <div className="main-container-810">
                 <div className="videos-flex">
+                    {battles.length === 0 && !loading && <p>배틀이 없습니다.</p>}
                     {battles.map((battle) => (
-                        <div key={battle.id} className="battle-container mt80">
+                        <div
+                            key={battle.battleId}
+                            className="battle-container mt80"
+                            onClick={() => handleClick(battle.battleId)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div className="flex">
                                 <div className="sub-battlebox-317 h320">
                                     <div className="video-box">
                                         <VideoBox
-                                            key={battle.id + "-1"}
-                                            thumbnail={battle.thumbnail1}
-                                            title={battle.title}
-                                            author={battle.author1}
+                                            key={battle.postId1.videoId}
+                                            thumbnail={battle.postId1.thumbnail}
+                                            title={battle.postId1.title}
+                                            views={battle.postId1.views}
+                                            length={battle.postId1.length}
+                                            uploadDate={battle.postId1.uploadDate}
+                                            author={battle.postId1.nickname}
+                                            vote1Cnt={battle.vote1Cnt}
                                         />
                                     </div>
                                 </div>
@@ -68,11 +108,15 @@ const MyBettles = () => {
 
                                 <div className="sub-battlebox-317">
                                     <div className="video-box">
-                                        <VideoBox
-                                            key={battle.id + "-2"}
-                                            thumbnail={battle.thumbnail2}
-                                            title={battle.title}
-                                            author={battle.author2}
+                                        <VideoBox2
+                                            key={battle.postId2.videoId}
+                                            thumbnail={battle.postId2.thumbnail}
+                                            title={battle.postId2.title}
+                                            views={battle.postId2.views}
+                                            length={battle.postId2.length}
+                                            uploadDate={battle.postId2.uploadDate}
+                                            author={battle.postId2.nickname}
+                                            vote2Cnt={battle.vote2Cnt}
                                         />
                                     </div>
                                 </div>
@@ -86,8 +130,10 @@ const MyBettles = () => {
                         </div>
                     ))}
                 </div>
+                {loading && <p>Loading more battles...</p>}
             </div>
         </Layout>
     );
 };
+
 export default MyBettles;
