@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_Ba";
@@ -45,8 +45,21 @@ const BattleDetail = () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
             const decodedToken = jwtDecode(token);
-            console.log("Decoded token nickname:", decodedToken.nickName);
-            return decodedToken.nickName;
+            const nickName = decodedToken.nickName;
+
+            return nickName;
+        }
+        return null;
+    };
+
+    // 현재 사용자 유저Id 가져오기
+    const getCurrentUserUserId = () => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            const userId = Number(decodedToken.sub);
+
+            return userId;
         }
         return null;
     };
@@ -58,7 +71,7 @@ const BattleDetail = () => {
             const battleUrl = `${process.env.REACT_APP_API_URL}/api/battle/${battleId}`;
             const battleResponse = await axios.get(battleUrl);
 
-            console.log("Battle detail API response:", battleResponse.data);
+            // console.log("Battle detail API response:", battleResponse.data);
 
             // API에서 받아온 배틀 정보 설정
             setBattle(battleResponse.data);
@@ -75,7 +88,7 @@ const BattleDetail = () => {
                     },
                 });
 
-                console.log("Battle state API response:", stateResponse.data);
+                // console.log("Battle state API response:", stateResponse.data);
 
                 // 투표 상태 업데이트
                 setIsHeartFilled1(stateResponse.data.post1Vote);
@@ -83,7 +96,7 @@ const BattleDetail = () => {
             }
 
         } catch (error) {
-            console.error("Error fetching battle detail:", error);
+            // console.error("Error fetching battle detail:", error);
         }
     };
 
@@ -95,7 +108,7 @@ const BattleDetail = () => {
 
             const response = await axios.get(commentUrl);
 
-            console.log("Comment list API response:", response.data);
+            // console.log("Comment list API response:", response.data);
 
             // 새로운 댓글과 기존 댓글 합치기
             setComments((prevComments) => {
@@ -151,8 +164,6 @@ const BattleDetail = () => {
                 }
             );
 
-            console.log("댓글 수정 완료:", response.data);
-
             // 수정된 댓글을 포함한 전체 댓글 리스트 업데이트
             setComments((prevComments) =>
                 prevComments.map((prevComment) =>
@@ -174,19 +185,11 @@ const BattleDetail = () => {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete/${battleCommentId}`;
             const token = localStorage.getItem("accessToken");
 
-            if (!token) {
-                // 사용자가 로그인하지 않은 경우 처리 (선택사항)
-                // 여기서 리다이렉트하거나 로그인 프롬프트를 표시할 수 있습니다.
-                return;
-            }
-
             const response = await axios.delete(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log("댓글 삭제 완료:", response.data);
 
             // UI에서 삭제된 댓글 제거하기
             setComments((prevComments) =>
@@ -203,6 +206,50 @@ const BattleDetail = () => {
         }
     };
 
+    const navigate = useNavigate();
+
+    // 게시물 삭제
+    const deleteBattle = async () => {
+        try {
+            const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete`;
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                // 사용자가 로그인하지 않은 경우 처리
+                if (window.confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?")) {
+                    window.location.href = "/login";
+                }
+                return;
+            }
+
+            // 현재 사용자의 ID 가져오기
+            const currentUserID = getCurrentUserUserId();
+
+            // 게시물의 작성자 ID 가져오기
+            const battleUserID = battle.userId;
+
+            // 현재 사용자와 게시물의 작성자를 비교하여 삭제 요청 보내기
+            if (currentUserID === battleUserID) {
+                if (window.confirm("배틀을 삭제하시겠습니까?")) {
+                    const response = await axios.delete(apiUrl, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    // 삭제 성공 시 처리
+                    alert("배틀이 삭제되었습니다.");
+                    navigate("/battle/list"); // 배틀 리스트로 리다이렉트
+                }
+            }
+
+        } catch (error) {
+            console.error("게시물 삭제 실패:", error);
+            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
+
 
     // 댓글 수 가져오기
     const fetchCommentCount = async () => {
@@ -211,7 +258,7 @@ const BattleDetail = () => {
 
             const response = await axios.get(countUrl);
 
-            console.log("Total comment count API response:", response.data);
+            // console.log("Total comment count API response:", response.data);
 
             // 총 댓글 수 설정
             setTotalComments(response.data);
@@ -226,7 +273,9 @@ const BattleDetail = () => {
         fetchBattleDetail();
         fetchCommentList(pageNumber); // 초기 호출은 첫 번째 페이지를 가져옵니다.
         fetchCommentCount(); // 총 댓글 수도 가져옵니다.
-    }, [battleId, pageNumber]); // battleId나 pageNumber가 변경될 때마다 다시 불러옵니다.
+    }, [pageNumber]); // battleId나 pageNumber가 변경될 때마다 다시 불러옵니다.
+
+
 
     const lastCommentElementRef = useCallback((node) => {
         if (observer.current) observer.current.disconnect();
@@ -312,7 +361,7 @@ const BattleDetail = () => {
         try {
             // 입력된 댓글이 없는 경우 처리
             if (newComment.trim() === "") {
-                alert("댓글 내용을 입력해주세요.");
+                alert("댓글을 입력해주세요.");
                 return;
             }
 
@@ -338,7 +387,7 @@ const BattleDetail = () => {
             );
 
             // 댓글 등록 후 UI 업데이트
-            console.log("댓글 등록 완료:", response.data);
+            // console.log("댓글 등록 완료:", response.data);
 
             // 기존 댓글 목록 갱신을 위해 다시 불러오기
             fetchCommentList(0); // 첫 페이지부터 다시 불러옵니다.
@@ -351,10 +400,23 @@ const BattleDetail = () => {
             setPageNumber(0); // 페이지 번호 초기화
             setIsLastPage(false); // 마지막 페이지 상태 초기화
 
+            // 총 댓글 수 업데이트
+            setTotalComments((prevCount) => prevCount + 1);
+
             alert("댓글이 등록되었습니다.");
         } catch (error) {
             console.error("댓글 등록 실패:", error);
             // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
+        }
+    };
+
+    // textarea 클릭 시
+    const handleTextareaClick = () => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
         }
     };
 
@@ -381,6 +443,7 @@ const BattleDetail = () => {
     const handleVideoClick = (videoId) => {
         window.open(`/video/play/${videoId}`, "_blank"); // PlayVideo 페이지를 새로 띄움
     };
+
 
     return (
         <Layout>
@@ -453,6 +516,12 @@ const BattleDetail = () => {
                     </div>
                 </div>
 
+                {battle.userId === getCurrentUserUserId() && (
+                    <div className="flex-end mt40 button-container">
+                        <Button onClick={deleteBattle}>삭제</Button>
+                    </div>
+                )}
+
                 {/* 댓글 등록 */}
                 <div className="comment mt90">
                     <div>댓글 {totalComments}개</div>
@@ -461,6 +530,7 @@ const BattleDetail = () => {
                         placeholder="댓글을 입력하세요."
                         value={newComment}
                         onChange={handleCommentChange}
+                        onClick={handleTextareaClick}
                     />
                 </div>
                 <div className="flex-end mt10 mb20 button-container">

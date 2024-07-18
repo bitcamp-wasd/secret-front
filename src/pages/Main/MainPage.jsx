@@ -192,12 +192,12 @@ const MainPage = () => {
               ))
             ) : (
               <div className="no-results">
-                아무것도 검색된 결과가 없어용. 반응형 다 뿌셔뿌셔 해버리고 싶어용.
+                검색된 결과가 없습니다.
               </div>
             )}
           </div>
         </div>
-        {loading && <p>Loading more videos...</p>}
+        {/* {loading && <p>Loading more videos...</p>} */}
       </div>
     </Layout>
   );
