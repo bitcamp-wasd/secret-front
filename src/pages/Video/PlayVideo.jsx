@@ -165,7 +165,7 @@ const PlayVideo = () => {
 
           <div className="mt40">
             {videoData.sheetMusic.map((sheet, index) => (
-              <img key={index} src={sheet} alt={`Sheet Music ${index + 1}`} className="play-sheetmusic" />
+              <img key={index} src={process.env.REACT_APP_CLOUD_SHEET_IMAGE_URL+sheet} alt={`Sheet Music ${index + 1}`} className="play-sheetmusic" />
             ))}
           </div>
 

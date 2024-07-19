@@ -1,30 +1,3 @@
-/*메인동영상 리스트에서 사용하는 태그의 오른쪽 기능(업로드,검색) 스타일*/
-.tag-main-right {
-    display: flex;
-    align-items: center;
-    
-}
-
-.tag-main-right input {
-  width: 200px;
-  border: solid 2px #FFE500;
-  border-radius: 15px;
-  padding: 8px 17px;
-  margin-left: 25px;
-  font-size: inherit;
-  text-align: center;
-  background-image: url('../../assets/images/search.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position: left 12px center;
-  
-}
-
-.tag-main-right button{
-    padding: 10px !important;
-}
-
-
 /*로그인 화면 로고*/
 .auth-site-logo{
   display: flex;
@@ -131,32 +104,6 @@
   text-align: center;
 }
 
-/* 간격 설정 */
-.mt60{
-  margin-top: 60px;
-}
-
-
-.mb-30 {
-  margin-bottom: 30px;
-}
-
-.mb-6 {
-  margin-bottom: 6px;
-}
-
-.mb-21 {
-  margin-bottom: 21px;
-}
-
-.mb-20 {
-  margin-bottom: 20px;
-}
-
-.mb-60 {
-  margin-bottom: 60px;
-}
-
 .signup-button-box{
   display: flex;
   justify-content: flex-end;
@@ -179,28 +126,157 @@
   white-space: nowrap;
 }
 
-.mt70{
-  margin-top: 70px;
+/*내정보 css*/
+
+.myinfo-box {
+  display: flex;
+  flex-direction: column;
+  width: 810px;
+  gap: 31px;
 }
 
-.mb80{
-  margin-bottom: 80px;
+.myinfo-headline {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px black;
+  padding-bottom: 15px;
 }
 
-.mt123{
-  margin-top: 123px;
+.info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  font-size: 20px;
 }
 
-.mt65{
-  margin-top: 65px;
+.info-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
 }
 
-.mt50{
-  margin-top: 50px;
+.info-item label {
+  width: 22%;
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
-.mb10{
-  margin-bottom: 10px;
+.info-content {
+  margin-left: 18px;
+}
+
+.info-item {
+  font-size: inherit;
+}
+
+.info-item input {
+  width: 40%;
+  background: white;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: inherit;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 180px;
+  position: absolute;
+  /* 절대 위치 설정 */
+  bottom: -24px;
+}
+
+/*랭크 팝업*/
+.rank-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+
+}
+
+.rank-content-box {
+  width: 84%;
+
+}
+
+.rank-content-box-headline {
+  display: flex;
+  width: calc(100%);
+
+  border-bottom: solid 1px black;
+  margin-top: 8%;
+  padding-left: 5%;
+  padding-bottom: 1%;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.rank-content-box-headline-title {
+  width: 19%;
+  font-size: 24px;
+  font-weight: 700;
+
+}
+
+.rank-content-box-headline-detail {
+  width: 60%;
+
+}
+
+.rank-content-box-grid-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+}
+
+.rank-content-box-grid {
+  width: 70%;
+  display: grid;
+  padding-top: 3%;
+  grid-template-columns: 1.2fr 2.8fr 9fr 10.4fr;
+  border-bottom: solid 0.5px gainsboro;
+  font-size: 20px;
+}
+
+.rank-content-box-grid img {
+  height: 100%;
+  object-fit: cover;
+  /*이미지 비율 유지하며 박스에 맞게*/
+}
+
+/*내정보-댓글*/
+.comments-grid {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.comments-header {
+  display: grid;
+  height: 50px;
+  align-items: center;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  background: rgba(255, 229, 0, 0.3);
+  color: var(--black);
+  border-top: solid 2px black;
+  border-bottom: solid 1px black;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.comment-row {
+  display: grid;
+  height: 40px;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  align-items: center;
+  border-bottom: 1px solid var(--box-border-color);
 }
 
 /*댓글 페이지 페이지네이션*/
@@ -229,3 +305,28 @@
   cursor: not-allowed;
 }
 
+/*메인동영상 리스트에서 사용하는 태그의 오른쪽 기능(업로드,검색) 스타일*/
+.tag-main-right {
+  display: flex;
+  align-items: center;
+  
+}
+
+.tag-main-right input {
+width: 200px;
+border: solid 2px #FFE500;
+border-radius: 15px;
+padding: 8px 17px;
+margin-left: 25px;
+font-size: inherit;
+text-align: center;
+background-image: url('../../assets/images/search.svg');
+background-size: auto;
+background-repeat: no-repeat;
+background-position: left 12px center;
+
+}
+
+.tag-main-right button{
+  padding: 10px !important;
+}
