@@ -99,7 +99,7 @@ const Login = () => {
               />
             </div>
 
-            <div className="auth-box-info-item mb-30">
+            <div className="auth-box-info-item mb30">
               <input
                 type="password"
                 placeholder="PASSWORD"
@@ -116,25 +116,13 @@ const Login = () => {
               </Button>
             </div>
 
-            <span className="auth-box-info-signup mb-21">
+            <span className="auth-box-info-signup mb21">
               <Link to="/signup">
                 회원가입
               </Link>
             </span>
 
-            {/* <span
-              className="auth-box-info-social mb-20"
-              onClick={() => onSnsSignInButtonClickHandler("naver")}
-            >
-              <img src={Naver} alt="naver" />
-            </span>
-            <span
-              className="auth-box-info-social mb-60"
-              onClick={() => onSnsSignInButtonClickHandler("kakao")}
-            >
-              <img src={Kakao} alt="kakao" />
-            </span> */}
-            <div className="auth-box-info-social2 mb-60">
+            <div className="auth-box-info-social2 mb60">
               <span onClick={() => onSnsSignInButtonClickHandler("naver")}>
             <img src={Naver} alt="naver" />
             </span>
