@@ -17,6 +17,16 @@ const BattleRegister = () => {
             return;
         }
 
+        if (!title.trim()) {
+            alert('제목과 두 개의 URL을 모두 입력해주세요.');
+            return;
+        }
+
+        if (!author1.trim() || !author2.trim()) {
+            alert('URL을 모두 입력해주세요.');
+            return;
+        }
+
         const data = {
             url1: author1,
             url2: author2,
