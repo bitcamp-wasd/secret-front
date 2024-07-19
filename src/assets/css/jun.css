@@ -470,7 +470,13 @@
         min-width: 510px;
     }
 
+    .video-placeholder {
+        width: 510px !important;
+        height: 275px !important;
+    }
+
     .thumbnail-upload {
+        width: 510px !important;
         height: 275px !important;
     }
 
@@ -528,7 +534,13 @@
         min-width: 370px;
     }
 
+    .video-placeholder {
+        width: 390px !important;
+        height: 208px !important;
+    }
+
     .thumbnail-upload {
+        width: 390px !important;
         height: 208px !important;
     }
 }
@@ -585,7 +597,13 @@
         min-width: 290px;
     }
 
+    .video-placeholder {
+        width: 290px !important;
+        height: 151px !important;
+    }
+
     .thumbnail-upload {
+        width: 290px !important;
         height: 151px !important;
     }
 }
@@ -594,8 +612,15 @@
     width: 100%;
 }
 
+.video-placeholder {
+    width: 810px;
+    height: 444px;
+    border-radius: 20px;
+    background-color: #efefef;
+}
+
 .thumbnail-upload {
-    width: 100%;
+    width: 810px;
     height: 444px;
     border-radius: 20px;
     background-color: #efefef;

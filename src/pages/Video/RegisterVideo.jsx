@@ -154,13 +154,17 @@ const RegisterVideo = () => {
                 <div className="mr10 ml10">
                     <div className="videos-flex mt90">
                         <div className="title">l 동영상 첨부하기</div>
-                        {video && (
+                        {video ? (
                             <video ref={videoPlayer} controls className="video-player">
                                 <source src={URL.createObjectURL(video)} type="video/mp4" />
                             </video>
+                        ) : (
+                            <div className="video-placeholder">
+
+                            </div>
                         )}
-                        {!videoUploaded && <VideoPlay thumbnail={dummyVideo.placeholder} />} {/* 수정된 부분 */}
                     </div>
+
 
                     <div className="flex-end mt20 button-container">
                         <Button onClick={() => fileInputRef.current.click()}>첨부하기</Button>
