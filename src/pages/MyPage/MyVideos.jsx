@@ -83,7 +83,7 @@ const handleVideoClick = (videoId) => {
   return (
     <Layout showFooter={false} bannerType="my">
       <div className="main-container-1150 mt80">
-        <div className="row-direction space-between mb50"></div>
+        <div className="row-direction space-between"></div>
         <div className="videos-grid">
           {videos.map((video) => (
             <div key={video.videoId} onClick={() => handleVideoClick(video.videoId)}>
