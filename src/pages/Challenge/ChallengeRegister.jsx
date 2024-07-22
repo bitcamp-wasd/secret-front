@@ -17,7 +17,7 @@ const ChallengeRegister = () => {
                 <div className="mr10 ml10">
                     <div className='videos-flex mt90'>
                         <div className="title">l 동영상 첨부하기</div>
-                        <VideoPlay thumbnail={dummyVideo.thumbnail} />
+                        <div className="video-placeholder"></div>
                     </div>
 
                     <div className="flex-end mt20 button-container">
