@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axiosInstance from "../../utils/axiosInstance";
 import "../../assets/css/style.css";
 import Button from "../../components/Button";
 import Layout from "../../components/Layout";
@@ -50,6 +51,17 @@ const Administer = () => {
     });
   };
 
+  // 입력 필드 초기화 함수
+  const resetFields = () => {
+    setChallengeInfo({
+      ctitle: "",
+      upload_date: getCurrentDate(),
+      number_of_people: "",
+      end_date: "",
+      vote_end_date: "",
+    });
+  };
+
   // 완료 버튼 클릭 핸들러
   const handleSubmit = () => {
     // 투표 시작일의 00:00:00 설정
@@ -63,25 +75,27 @@ const Administer = () => {
 
     // 데이터 전송 API
     const challengeData = {
-      ctitle: challengeInfo.ctitle,
-      number_of_people: challengeInfo.number_of_people,
-      end_date: voteStartDate.toISOString(),
-      vote_end_date: voteEndDate.toISOString(),
-      upload_date: getCurrentDate(),
+      title: challengeInfo.ctitle,
+      numberOfPeople: challengeInfo.number_of_people,
+      endDate: voteStartDate.toISOString(),
+      voteEndDate: voteEndDate.toISOString(),
+      
     };
     console.log("전송정보:", challengeData);
 
-    // axios.post('/api/challenge/auth', challengeData)
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error submitting challenge info:', error);
-    //   });
+    axiosInstance.post('/api/challenge/auth/new', challengeData)
+      .then(response => {
+        console.log(response.data);
+        alert('변경 완료');
+        resetFields();
+      })
+      .catch(error => {
+        console.error('Error submitting challenge info:', error);
+      });
   };
   return (
     <Layout showFooter={true} bannerType="admin">
-      <div className="main-box-810 mt123">
+      <div className="main-box-810 mt80">
         <div className="myinfo-box">
           <div className="myinfo-headline">
             <div className="flex align-center">
