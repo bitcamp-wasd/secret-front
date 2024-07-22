@@ -151,31 +151,29 @@ const RegisterVideo = () => {
     return (
         <Layout>
             <div className="main-container-810">
-                <div className="mr10 ml10">
-                    <div className="videos-flex mt90">
-                        <div className="title">l 동영상 첨부하기</div>
-                        {video ? (
-                            <video ref={videoPlayer} controls className="video-player">
-                                <source src={URL.createObjectURL(video)} type="video/mp4" />
-                            </video>
-                        ) : (
-                            <div className="video-placeholder">
+                <div className="videos-flex mt90">
+                    <div className="title">l 동영상 첨부하기</div>
+                    {video ? (
+                        <video ref={videoPlayer} controls className="video-player">
+                            <source src={URL.createObjectURL(video)} type="video/mp4" />
+                        </video>
+                    ) : (
+                        <div className="video-placeholder">
 
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
+                </div>
 
 
-                    <div className="flex-end mt20 button-container">
-                        <Button onClick={() => fileInputRef.current.click()}>첨부하기</Button>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={getVideo}
-                            accept="video/mp4"
-                            style={{ display: 'none' }}
-                        />
-                    </div>
+                <div className="flex-end mt20 button-container">
+                    <Button onClick={() => fileInputRef.current.click()}>첨부하기</Button>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={getVideo}
+                        accept="video/mp4"
+                        style={{ display: 'none' }}
+                    />
                 </div>
 
                 <div className="title mt40">l 썸네일 첨부하기</div>
