@@ -156,7 +156,7 @@ const MainPage = () => {
     <Layout showFooter={false}>
       <div className="main-container-1150 mt80">
         <div className="mr10 ml10">
-          <div className="flex row-direction space-between mb50">
+          <div className="flex row-direction space-between mb30">
             <Tag onTagClick={handleTagClick} />
 
             <div className="tag-main-right">

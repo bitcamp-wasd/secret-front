@@ -32,6 +32,7 @@
   --mb20: 20px;
   --mb21: 21px;
   --mb30: 30px;
+  --mb40: 40px;
   --mb50: 50px;
   --mb60: 60px;
   --mb80: 80px;
@@ -121,6 +122,7 @@
 .mb20 { margin-bottom: var(--mb20); } 
 .mb21 { margin-bottom: var(--mb21); } 
 .mb30 { margin-bottom: var(--mb30); } 
+.mb40 { margin-bottom: var(--mb40); } 
 .mb50 { margin-bottom: var(--mb50); } 
 .mb60 { margin-bottom: var(--mb60); } 
 .mb80 { margin-bottom: var(--mb80); } 
@@ -211,11 +213,17 @@
   background-color: var(--white);
   padding: 0px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .video-box:hover img {
   transform: scale(1.05);
   /* 호버 시 약간 확대됨 */
+}
+
+/* 썸네일을 감싸는 컨테이너 */
+.thumbnail-container {
+  position: relative; /* 이 컨테이너를 기준으로 자식 요소를 절대 위치로 배치합니다. */
 }
 
 .video-box img {
@@ -225,6 +233,19 @@
   object-fit: fill;
   border-radius: 15px;
   transition: transform 0.2s ease-in-out;
+  
+}
+
+.video-length {
+  position: absolute; 
+  bottom: 10px; 
+  right: 8px; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: white; 
+  padding: 3px; 
+  font-size: 12px; 
+  border-radius: 3px; 
+  z-index: 10;
 }
 
 .no-transform {
@@ -328,7 +349,7 @@
 /*태그 박스에 들어갈 버튼 스타일*/
 .tag-box button {
   padding: 10px !important;
-  margin: 7px;
+  margin: 7px 14px 7px 0px;
   background-color: rgba(255, 229, 0, 0.3);
 }
 
@@ -341,9 +362,6 @@
   /* 마지막 버튼의 오른쪽 여백 제거 */
 }
 
-.tag-margin{
-  padding-left: 7px;
-}
 
 .button.comment {
   height: 30px;
@@ -469,11 +487,16 @@ footer {
   /* 내비게이션이 가운데에 위치하도록 */
 }
 
+.video-title{
+  font-weight: 500;
+}
+
 .movie-small-list {
   font-size: 12px;
+  color: gray;
   display: flex;
   align-items: center;
-  padding-top: 7px;
+  padding-top: 0px;
 }
 
 .movie-small-list li {
