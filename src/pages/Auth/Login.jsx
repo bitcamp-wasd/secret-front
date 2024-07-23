@@ -38,9 +38,9 @@ const Login = () => {
 
         // 토큰을 받아와서 로컬스토리지에 저장
         const { accessToken, refreshToken, expirationTime } = response.data;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem(
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
+        sessionStorage.setItem(
           "tokenExpiration",
           Date.now() + expirationTime * 1000
         );
