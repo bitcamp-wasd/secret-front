@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const API_URL = process.env.REACT_APP_API_URL;
 const videoUploadUrl = `${API_URL}/api/video/post/auth`;
 
-const token = localStorage.getItem('accessToken');
+const token = sessionStorage.getItem('accessToken');
 const accesstoken = `Bearer ${token}`;
 
 const RegisterVideo = () => {

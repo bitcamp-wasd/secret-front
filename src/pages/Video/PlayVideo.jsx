@@ -35,7 +35,7 @@ const PlayVideo = () => {
 
     const fetchLikeStatus = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (!token) {
           throw new Error('사용자가 로그인하지 않았습니다. 로그인 후에 다시 시도해주세요.');
         }
@@ -59,7 +59,7 @@ const PlayVideo = () => {
   }, [videoId]);
 
   const handleHeartClick = async () => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     if (!token) {
       if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
         window.location.href = '/login';

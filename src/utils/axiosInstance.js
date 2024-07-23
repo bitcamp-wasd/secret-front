@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 설정
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -32,13 +32,13 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = sessionStorage.getItem('refreshToken');
       if (refreshToken) {
         try {
           const response = await axios.post(`${API_URL}/api/user/refresh-token`, { token: refreshToken });
           if (response.status === 200) {
             const { accessToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
+            sessionStorage.setItem('accessToken', accessToken);
             axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             return axiosInstance(originalRequest);
           }
