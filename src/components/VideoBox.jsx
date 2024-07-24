@@ -30,8 +30,8 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
   return (
     <div className="video-box mt20">
       <div className="thumbnail-container">
-      <img className="video-box-thumbnail" src={thumbnailUrl} alt="썸네일" />
-      <div className="video-length">{formatLength(length)}</div>
+        <img className="video-box-thumbnail" src={thumbnailUrl} alt="썸네일" />
+        <div className="video-length">{formatLength(length)}</div>
       </div>
       <div className="row-direction space-between pdx30">
         <div className="movie-small">
