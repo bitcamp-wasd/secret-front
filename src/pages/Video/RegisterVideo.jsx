@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../../components/Layout';
-import VideoPlay from '../../components/VideoPlay';
 import '../../assets/css/jun.css';
 import Button from '../../components/Button';
 import RegTag from '../../components/RegTag';
@@ -10,15 +9,13 @@ import { useNavigate } from 'react-router-dom';
 const API_URL = process.env.REACT_APP_API_URL;
 const videoUploadUrl = `${API_URL}/api/video/post/auth`;
 
-const token = sessionStorage.getItem('accessToken');
-const accesstoken = `Bearer ${token}`;
+// 헬퍼 함수: 액세스 토큰을 가져옵니다.
+const getAccessToken = () => sessionStorage.getItem('accessToken');
+
+// 헬퍼 함수: 리프레시 토큰을 가져옵니다.
+const getRefreshToken = () => sessionStorage.getItem('refreshToken');
 
 const RegisterVideo = () => {
-    const dummyVideo = {
-        id: 1,
-        thumbnail: 'https://via.placeholder.com/810x455.6?text=Thumbnail+1',
-    };
-
     const [video, setVideo] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
     const [sheetMusicFiles, setSheetMusicFiles] = useState([]);
@@ -88,10 +85,32 @@ const RegisterVideo = () => {
         upload();
     };
 
+    // 액세스 토큰을 리프레시 토큰을 사용하여 갱신하는 함수
+    const refreshAccessToken = async () => {
+        try {
+            const response = await axios.post(`${API_URL}/api/token/refresh`, {
+                refreshToken: getRefreshToken(),
+            });
+            const newAccessToken = response.data.accessToken;
+            sessionStorage.setItem('accessToken', newAccessToken);
+            return newAccessToken;
+        } catch (error) {
+            console.error('Error refreshing access token:', error);
+            throw error;
+        }
+    };
+
     const upload = async () => {
+        let token = getAccessToken();
+        if (!token) {
+            alert('로그인 세션이 만료되었습니다. 다시 로그인 해주세요.');
+            navigate('/login');
+            return;
+        }
+
         const config = {
             headers: {
-                Authorization: accesstoken,
+                Authorization: `Bearer ${token}`,
             },
         };
 
@@ -130,23 +149,36 @@ const RegisterVideo = () => {
                 axios.put(presignedUrl, sheetMusicFiles[index]);
             });
 
-            alert('동영상 업로드를 시작합니다.');
+            alert('동영상 업로드를 시작합니다.\n\n페이지를 벗어나도 업로드는 계속 진행됩니다.');
 
         } catch (error) {
-            console.error('Error uploading:', error);
-            alert('동영상 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+            // 오류 처리: 인증 오류가 발생했을 때
+            if (error.response && error.response.status === 401) {  // Unauthorized error
+                try {
+                    // 액세스 토큰 갱신 후 재시도
+                    const newAccessToken = await refreshAccessToken();
+                    token = newAccessToken;
+                    config.headers.Authorization = `Bearer ${token}`;
+                    // 업로드 재시도
+                    await upload();
+                } catch (refreshError) {
+                    console.error('Error uploading after token refresh:', refreshError);
+                    alert('동영상 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }
+            } else {
+                console.error('Error uploading:', error);
+                alert('동영상 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
         }
     };
-
 
     useEffect(() => {
         if (progress === 100) {
             setTimeout(() => {
                 navigate('/');
-            }, 5000); // 3초 후 페이지 이동
+            }, 5000); // 5초 후 페이지 이동
         }
     }, [progress, navigate]);
-
 
     return (
         <Layout>
@@ -159,11 +191,9 @@ const RegisterVideo = () => {
                         </video>
                     ) : (
                         <div className="video-placeholder">
-
                         </div>
                     )}
                 </div>
-
 
                 <div className="flex-end mt20 button-container">
                     <Button onClick={() => fileInputRef.current.click()}>첨부하기</Button>
@@ -241,7 +271,7 @@ const RegisterVideo = () => {
 
                 <div style={{ width: '50%', margin: 'auto', textAlign: 'center' }}>
                     <progress value={progress} max={100}></progress>
-                    <div style={{ marginBottom: '10px' }}>업로드: {progress}%</div>
+                    <div style={{ marginBottom: '10px', color: 'gray' }}>업로드: {progress}%</div>
                     {progress === 100 && <div style={{ color: 'green' }}>전송 완료! 5초 후 메인페이지로 이동합니다.</div>}
                 </div>
 

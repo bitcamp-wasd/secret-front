@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios'; // axios import
 import Button from "./Button";
 import "../assets/css/jun.css";
 import ch from "../assets/images/ch.svg";
 
 const BannerChallenge = () => {
   const [challengeData, setChallengeData] = useState(null);
-  const apiUrl = process.env.REACT_APP_API_URL; // 환경 변수에서 API URL을 가져옵니다.
 
   useEffect(() => {
     // API 호출
-    fetch(`${apiUrl}/api/challenge/list`)
-      .then((response) => response.json())
-      .then((data) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/list`)
+      .then((response) => {
         // 데이터가 배열이므로 첫 번째 아이템만 사용
-        if (data.length > 0) {
-          setChallengeData(data[0]);
+        if (response.data.length > 0) {
+          setChallengeData(response.data[0]);
         }
       })
       .catch((error) => console.error("Error fetching challenge data:", error));
-  }, [apiUrl]);
+  }, [process.env.REACT_APP_API_URL]);
 
   // 날짜를 "YYYY-MM-DD" 형식으로 포맷하는 함수
   const formatDate = (dateString) => {
