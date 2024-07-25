@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
 import axiosInstance from "../../utils/axiosInstance"; 
+import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
-import "../../assets/css/style.css";
 import Logo from "../../assets/images/main_logo.svg";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -42,7 +41,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/user/email/certification`, { email });
+      const response = await axiosInstance.post(`${API_URL}/api/user/email/certification`, { email });
       if (response.data.code === "SU") {
         alert("이메일로 인증을 보냈습니다");
         console.log("Email Verification Sent: ", response.data.message);
@@ -60,7 +59,7 @@ const SignUp = () => {
   // 인증 코드 확인 로직
   const handleAuthCodeVerification = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/user/check/certification`, {
+      const response = await axiosInstance.post(`${API_URL}/api/user/check/certification`, {
         email,
         certificationNumber: authCode,
       });

@@ -38,7 +38,7 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    // 로컬 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
+    // 세션 스토리지에서 토큰 유무를 확인하여 로그인 상태 설정
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken) {
       setIsLoggedIn(true);
@@ -54,7 +54,7 @@ const Header = () => {
       const response = await axiosInstance.post("/api/user/signout");
 
       if (response.status === 200) {
-        // 로컬 스토리지의 토큰 삭제
+        // 세션 스토리지의 토큰 삭제
         sessionStorage.removeItem("accessToken");
         sessionStorage.removeItem("refreshToken");
         sessionStorage.removeItem("tokenExpiration");

@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Layout from '../../components/Layout';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../assets/css/jun.css';
+import Layout from '../../components/Layout';
 import Button from '../../components/Button';
 import RegTag from '../../components/RegTag';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 
 const API_URL = process.env.REACT_APP_API_URL;
 const videoUploadUrl = `${API_URL}/api/video/post/auth`;

@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import Layout from "../../components/Layout";
-import VideoBox from "../../components/VideoBox_Ba";
-import vs from "../../assets/images/vs.svg";
 import Button from "../../components/Button";
+import VideoBox from "../../components/VideoBox_Ba";
 import grade from "../../assets/images/grade.svg";
 import battleheart_fill from "../../assets/images/battleheart_fill.svg";
 import battleheart from "../../assets/images/battleheart.svg";
-import { jwtDecode } from 'jwt-decode';
+import vs from "../../assets/images/vs.svg";
+
 
 const BattleDetail = () => {
     const { battleId } = useParams(); // URL에서 battleId 값을 가져옴

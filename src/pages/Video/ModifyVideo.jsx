@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../../components/Layout';
-import VideoPlay from '../../components/VideoPlay';
 import '../../assets/css/jun.css';
+import Layout from '../../components/Layout';
 import Button from '../../components/Button';
+import VideoPlay from '../../components/VideoPlay';
 import RegTag from '../../components/RegTag'
 
 const ModifyVideo = () => {

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import Layout from "../../components/Layout";
 import "../../assets/css/style.css";
-import chbest from "../../assets/images/chbest.svg";
+import Layout from "../../components/Layout";
 import Tag from "../../components/Tag";
 import VideoBox_ch from "../../components/VideoBox_ch";
+import VideoBox_best from "../../components/VideoBox_best";
+import chbest from "../../assets/images/chbest.svg";
 import one from "../../assets/images/1.svg";
 import two from "../../assets/images/2.svg";
 import three from "../../assets/images/3.svg";
-import VideoBox_best from "../../components/VideoBox_best";
+
 
 const ChallengeList = () => {
   const [showPreviousChallenges, setShowPreviousChallenges] = useState(false);
