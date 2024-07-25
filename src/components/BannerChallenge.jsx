@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios'; // axios import
+import axios from 'axios';
 import Button from "./Button";
 import "../assets/css/jun.css";
 import ch from "../assets/images/ch.svg";
@@ -11,7 +11,6 @@ const BannerChallenge = () => {
     // API 호출
     axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/list`)
       .then((response) => {
-        // 데이터가 배열이므로 첫 번째 아이템만 사용
         if (response.data.length > 0) {
           setChallengeData(response.data[0]);
         }

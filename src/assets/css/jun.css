@@ -435,7 +435,7 @@
         align-items: flex-start;
         padding: 0;
         max-height: 600px;
-        transition: max-height 0.5s ease;
+        transition: max-height 1s ease;
     }
 
     /* 챌린지 */
@@ -717,6 +717,7 @@ progress::-webkit-progress-value {
     border-radius: 15px;
 }
 
+/* 배틀 상세보기 */
 .mod {
     width: 50px;
     height: 35px;
