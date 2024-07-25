@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import "../../assets/css/style.css";
@@ -11,10 +11,9 @@ import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
 
-
-
 const PlayVideo = () => {
   const { videoId } = useParams();
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
   const [videoData, setVideoData] = useState(null);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -156,6 +155,10 @@ const PlayVideo = () => {
     }
   };
 
+  const handleEdit = () => {
+    navigate(`/video/modify/${videoId}`); // 수정 페이지로 이동
+  };
+
   if (!videoData) {
     return <div>로딩 중...</div>;
   }
@@ -207,10 +210,10 @@ const PlayVideo = () => {
 
           <div className="flex-end mt40 button-container">
             {currentUserNickname === videoData.nickname && (
-              <Button>수정</Button>
-            )}
-            {currentUserNickname === videoData.nickname && (
-              <Button onClick={handleDelete}>삭제</Button>
+              <>
+                <Button onClick={handleEdit}>수정</Button> {/* 수정 버튼 클릭 시 handleEdit 호출 */}
+                <Button onClick={handleDelete}>삭제</Button>
+              </>
             )}
           </div>
 
