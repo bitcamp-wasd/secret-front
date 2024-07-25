@@ -39,7 +39,6 @@ const SignUp = () => {
       alert("이메일 형태로 입력해주세요");
       return;
     }
-
     try {
       const response = await axiosInstance.post(`${API_URL}/api/user/email/certification`, { email });
       if (response.data.code === "SU") {
@@ -170,18 +169,11 @@ const SignUp = () => {
   return (
     <Layout showHeader={false}>
       <div className="auth-container">
-        {/* <div className="auth-site-logo">
-          <img src={Logo} alt="logo" />
-        </div>
-        <div className="auth-site-name">
-          <h1>말할 수 없는 비밀</h1>
-        </div> */}
         <div className="auth-box">
           <div className="auth-box-info">
           <div className="justify-center mt50">
               <img src={Logo} alt="logo" />
             </div>
-            
             <div className="auth-box-info-item mt80">
             {errorMessage && (
               <div className="auth-error-message">{errorMessage}</div>

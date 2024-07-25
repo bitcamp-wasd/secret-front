@@ -46,7 +46,6 @@ const MainPage = () => {
         setPageNumber(page + 1); // 다음 페이지 번호 설정
       }
     } catch (error) {
-      console.error("Failed to fetch videos:", error);
     } finally {
       setLoading(false);
     }
@@ -101,7 +100,6 @@ const MainPage = () => {
         });
 
         const newVideos = response.data;
-        console.log(newVideos);
         if (newVideos.length === 0) {
           setHasMore(false); // 더 이상 데이터가 없음을 표시
         } else {
@@ -109,7 +107,6 @@ const MainPage = () => {
           setPageNumber(1); // 다음 페이지 번호 설정
         }
       } catch (error) {
-        console.error("Failed to fetch videos:", error);
       } finally {
         setLoading(false); // 데이터 요청 완료 후 로딩 상태 해제
       }
@@ -141,7 +138,6 @@ const MainPage = () => {
         setPageNumber(1); // 다음 페이지 번호 설정
       }
     } catch (error) {
-      console.error("Failed to fetch videos:", error);
     } finally {
       setLoading(false); // 데이터 요청 완료 후 로딩 상태 해제
     }
@@ -158,7 +154,6 @@ const MainPage = () => {
         <div className="mr10 ml10">
           <div className="flex row-direction space-between mb30">
             <Tag onTagClick={handleTagClick} />
-
             <div className="tag-main-right">
               <Button size="tag" to="/video/register">
                 <span className="icon-wrapper">
@@ -166,7 +161,6 @@ const MainPage = () => {
                 </span>
                 동영상 업로드
               </Button>
-
               <input
                 type="text"
                 placeholder="검색"
@@ -175,7 +169,6 @@ const MainPage = () => {
               />
             </div>
           </div>
-
           <div className="videos-grid">
             {videos.length > 0 ? (
               videos.map((video) => (
@@ -197,7 +190,6 @@ const MainPage = () => {
             )}
           </div>
         </div>
-        {/* {loading && <p>Loading more videos...</p>} */}
       </div>
     </Layout>
   );

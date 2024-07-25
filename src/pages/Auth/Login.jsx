@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance"; 
+import axiosInstance from "../../utils/axiosInstance";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
@@ -34,8 +34,6 @@ const Login = () => {
 
       if (response.status === 200 && response.data.code === "SU") {
         // 로그인 성공
-        console.log("Login successful");
-
         // 토큰을 받아와서 세션스토리지에 저장
         const { accessToken, refreshToken, expirationTime } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
@@ -65,8 +63,8 @@ const Login = () => {
   };
 
   const onKeyPressHandler = (e) => {
-    // 엔터 키 눌렀을 때 handleSubmit 호출
-    if (e.key === 'Enter') {
+    // 엔터 키 눌러서 로그인 가능
+    if (e.key === "Enter") {
       handleSubmit(e);
     }
   };
@@ -74,12 +72,6 @@ const Login = () => {
   return (
     <Layout showHeader={false}>
       <div className="auth-container align-center">
-        {/* <div className="auth-site-logo">
-          <img src={Logo} alt="logo" />
-        </div>
-        <div className="auth-site-name">
-          <h1>말할 수 없는 비밀</h1>
-        </div> */}
         <div className="auth-box">
           <div className="auth-box-info">
             <div className="justify-center mt50">
@@ -98,7 +90,6 @@ const Login = () => {
                 required
               />
             </div>
-
             <div className="auth-box-info-item mb30">
               <input
                 type="password"
@@ -109,26 +100,21 @@ const Login = () => {
                 required
               />
             </div>
-
             <div className="auth-box-info-item mt20 mb10">
               <Button size="large" onClick={handleSubmit}>
                 로그인
               </Button>
             </div>
-
             <span className="auth-box-info-signup mb21">
-              <Link to="/signup">
-                회원가입
-              </Link>
+              <Link to="/signup">회원가입</Link>
             </span>
-
             <div className="auth-box-info-social2 mb60">
               <span onClick={() => onSnsSignInButtonClickHandler("naver")}>
-            <img src={Naver} alt="naver" />
-            </span>
-            <span onClick={() => onSnsSignInButtonClickHandler("kakao")}>
-            <img src={Kakao} alt="kakao" />
-            </span>
+                <img src={Naver} alt="naver" />
+              </span>
+              <span onClick={() => onSnsSignInButtonClickHandler("kakao")}>
+                <img src={Kakao} alt="kakao" />
+              </span>
             </div>
           </div>
         </div>
