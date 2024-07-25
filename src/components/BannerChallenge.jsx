@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'; // axios import
-import Button from "./Button";
 import "../assets/css/jun.css";
+import Button from "./Button";
 import ch from "../assets/images/ch.svg";
 
 const BannerChallenge = () => {

@@ -10,7 +10,7 @@ const OAuthCallback = () => {
     const accessToken = urlParams.get("accessToken");
     const refreshToken = urlParams.get("refreshToken");
 
-    // 토큰을 로컬 스토리지에 저장
+    // 토큰을 세션 스토리지에 저장
     if (accessToken && refreshToken) {
       sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("refreshToken", refreshToken);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/style.css";
-import VideoBox_hart from '../../components/VideoBox_hart';
 import Layout from '../../components/Layout';
+import VideoBox_hart from '../../components/VideoBox_hart';
 
 
 const MyChallenges = () => {

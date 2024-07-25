@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "./Button";
 import "../assets/css/jun.css";
+import Button from "./Button";
 
 const BannerBattle = () => {
     // 팝업창 열기

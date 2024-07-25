@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance"; 
+import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
-import "../../assets/css/style.css";
 import Logo from "../../assets/images/main_logo.svg";
 import Naver from "../../assets/images/naver.svg";
 import Kakao from "../../assets/images/kakao.svg";
@@ -27,7 +27,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/user/signin`, {
+      const response = await axiosInstance.post(`${API_URL}/api/user/signin`, {
         email,
         password,
       });
@@ -36,7 +36,7 @@ const Login = () => {
         // 로그인 성공
         console.log("Login successful");
 
-        // 토큰을 받아와서 로컬스토리지에 저장
+        // 토큰을 받아와서 세션스토리지에 저장
         const { accessToken, refreshToken, expirationTime } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
         sessionStorage.setItem("refreshToken", refreshToken);
