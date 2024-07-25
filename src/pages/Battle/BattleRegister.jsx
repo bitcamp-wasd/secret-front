@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from '../../assets/images/header_logo.svg';
 import "../../assets/css/jun.css";
+import logo from '../../assets/images/header_logo.svg';
 
 const BattleRegister = () => {
     const [title, setTitle] = useState("");

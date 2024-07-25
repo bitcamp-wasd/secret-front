@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/Layout";
-import VideoPlay from "../../components/VideoPlay";
+import { useParams } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
+import axios from "axios";
 import "../../assets/css/style.css";
 import "../../assets/css/jun.css";
+import Layout from "../../components/Layout";
+import Button from "../../components/Button";
+import VideoPlay from "../../components/VideoPlay";
 import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
-import Button from "../../components/Button";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode';
+
+
 
 const PlayVideo = () => {
   const { videoId } = useParams();

@@ -1,11 +1,12 @@
 import React from "react";
+import "../assets/css/style.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import BannerMy from "./BannerMy";
 import BannerBattle from "./BannerBattle";
 import BannerChallenge from "./BannerChallenge";
 import BannerAdmin from "./BannerAdmin";
-import "../assets/css/style.css";
+
 
 const Layout = ({
   children,

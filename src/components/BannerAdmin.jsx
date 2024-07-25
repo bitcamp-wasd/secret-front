@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from './Button';
 import "../assets/css/style.css";
+import Button from './Button';
 
 const BannerAdmin = () => {
   return (

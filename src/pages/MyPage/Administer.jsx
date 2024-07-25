@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import "../../assets/css/style.css";
-import Button from "../../components/Button";
 import Layout from "../../components/Layout";
+import Button from "../../components/Button";
+
 
 const Administer = () => {
   const [challengeInfo, setChallengeInfo] = useState({

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox_hart";
 import VideoBox2 from "../../components/VideoBox_hart2";
 import vs from "../../assets/images/vs.svg";
-import "../../assets/css/style.css";
-import axiosInstance from "../../utils/axiosInstance";
+
+
 
 const MyBettles = () => {
     const [battles, setBattles] = useState([]);

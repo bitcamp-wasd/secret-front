@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/css/style.css";
-import Button from "../../components/Button";
-import Layout from "../../components/Layout";
-import UserIcon from "../../assets/images/user_icon.svg";
 import axiosInstance from "../../utils/axiosInstance";
+import "../../assets/css/style.css";
+import Layout from "../../components/Layout";
+import Button from "../../components/Button";
+import UserIcon from "../../assets/images/user_icon.svg";
+
 
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({

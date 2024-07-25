@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "./Button";
 import "../assets/css/style.css";
+import Button from "./Button";
 import View from "../assets/images/tag_view.svg";
 import Like from "../assets/images/tag_like.svg";
 import Piano from "../assets/images/tag_piano.svg";
