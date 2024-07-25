@@ -253,6 +253,22 @@
 }
 
 /*내정보-댓글*/
+
+/*댓글 카테고리*/
+.comments-tag button {
+  padding: 20px !important;
+  margin: 7px 30px 7px 0px;
+  background-color: rgba(255, 229, 0, 0.3);
+}
+
+.comments-tag button:first-child {
+  margin-left: 0;
+}
+
+.comments-tag button:last-child {
+  margin-right: 0;
+}
+
 .comments-grid {
   margin-left: 10px;
   margin-right: 10px;

@@ -7,37 +7,57 @@ const MyComments = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageRange, setPageRange] = useState([1, 5]);
+  const [selectedTag, setSelectedTag] = useState('video');
   const commentsPerPage = 10;
 
-  useEffect(() => {
-    // 더미 데이터 생성
-    const dummyComments = Array.from({ length: 20 }, (_, index) => ({
+  // 더미 데이터 생성
+  const dummyData = {
+    video: Array.from({ length: 20 }, (_, index) => ({
       id: index + 1,
-      videoTitle: `비디오 Title ${index + 1}`,
-      comment: `This is comment number ${index + 1}`,
+      videoTitle: `동영상 Title ${index + 1}`,
+      comment: `This is a video  ${index + 1}`,
       date: `2023-06-1${index % 10}`,
-    }));
+    })),
+    challenge: Array.from({ length: 20 }, (_, index) => ({
+      id: index + 1,
+      videoTitle: `챌린지 Title ${index + 1}`,
+      comment: `This is a challenge  ${index + 1}`,
+      date: `2023-07-1${index % 10}`,
+    })),
+    battle: Array.from({ length: 20 }, (_, index) => ({
+      id: index + 1,
+      videoTitle: `배틀 Title ${index + 1}`,
+      comment: `This is a battle  ${index + 1}`,
+      date: `2023-08-1${index % 10}`,
+    })),
+  };
 
-    // API 호출
-    // axios
-    //   .get("/api/user/auth/comments")
-    //   .then((response) => {
-    //     setComments(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
+  useEffect(() => {
+    if (selectedTag) {
+      // 실제 API 요청 예제
+      // axios
+      //   .get(`/api/user/auth/comments/${selectedTag}`)
+      //   .then((response) => {
+      //     setComments(response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching data:", error);
+      //   });
 
-    setComments(dummyComments);
-  }, []);
+      // 더미 데이터 사용
+      setComments(dummyData[selectedTag]);
+    }
+  }, [selectedTag]);
 
-  // 페이지네이션
+  const handleClick = (tag) => {
+    setSelectedTag(tag);
+    setCurrentPage(1);
+    setPageRange([1, 5]);
+  };
+
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const displayedComments = comments.slice(
-    indexOfFirstComment,
-    indexOfLastComment
-  );
+  const displayedComments = comments.slice(indexOfFirstComment, indexOfLastComment);
   const totalPages = Math.ceil(comments.length / commentsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -54,13 +74,31 @@ const MyComments = () => {
     }
   };
 
+  const CommentsTags = [
+    { id: 'video', name: "동영상" },
+    { id: 'challenge', name: "챌린지" },
+    { id: 'battle', name: "배틀" }
+  ];
+
   return (
     <Layout bannerType="my">
-      <div className="my-container-810 mt80">
-        <div className="comments-grid">
+      <div className="my-container-810 mt40">
+        <div className="flex comments-tag align-center pdx15">
+          {CommentsTags.map(tag => (
+            <Button
+              key={tag.id}
+              size="tag"
+              onClick={() => handleClick(tag.id)}
+              className={selectedTag === tag.id ? 'selected' : ''}
+            >             
+              {tag.name}
+            </Button>
+          ))}
+        </div>
+        <div className="comments-grid mt20">
           <div className="comments-header">
             <span></span>
-            <span>동영상 제목</span>
+            <span>제목</span>
             <span>댓글 내용</span>
             <span>작성일</span>
           </div>

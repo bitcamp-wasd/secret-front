@@ -109,7 +109,7 @@
 
 .mt10 { margin-top: var(--mt10); }
 .mt20 { margin-top: var(--mt20); }
-.mt40 { margin-top: var(--mt40); }
+.mt40 { margin-top: var(--mt40) !important;}
 .mt50 { margin-top: var(--mt50); }
 .mt60 { margin-top: var(--mt60); }
 .mt70 { margin-top: var(--mt70); }
