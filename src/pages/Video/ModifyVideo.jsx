@@ -130,9 +130,9 @@ const ModifyVideo = () => {
             const url = await axios.patch(`${videoUpdateUrl}?videoId=${videoId}`, json, config).then((res) => res.data);
 
             const thumbnailPresignedUrl = url['thumbnailPresignedUrl'];
-            const sheetMusicPresignedUrls = url['sheetMusicPresignedUrls'];
+            const sheetMusicPresignedUrl = url['sheetMusicPresignedUrl'];
 
-            console.log("Received presigned URLs: ", { thumbnailPresignedUrl, sheetMusicPresignedUrls });
+            console.log("Received presigned URLs: ", { thumbnailPresignedUrl, sheetMusicPresignedUrl });
 
             // 썸네일 파일을 presigned URL을 통해 업로드합니다.
             if (thumbnail && thumbnailPresignedUrl) {
@@ -146,10 +146,10 @@ const ModifyVideo = () => {
             }
 
             // 악보 파일을 presigned URL을 통해 업로드합니다.
-            if (sheetMusicFiles.length > 0 && sheetMusicPresignedUrls) {
+            if (sheetMusicFiles.length > 0 && sheetMusicPresignedUrl) {
                 await Promise.all(sheetMusicFiles.map((file, index) => {
-                    console.log(`Uploading sheet music ${index + 1} to: `, sheetMusicPresignedUrls[index]);
-                    return axios.put(sheetMusicPresignedUrls[index], file, {
+                    console.log(`Uploading sheet music ${index + 1} to: `, sheetMusicPresignedUrl[index]);
+                    return axios.put(sheetMusicPresignedUrl[index], file, {
                         headers: {
                             'Content-Type': file.type, // 실제 파일의 MIME 타입
                         },
