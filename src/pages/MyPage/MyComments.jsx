@@ -1,64 +1,40 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
+import axiosInstance from "../../utils/axiosInstance";
 
 const MyComments = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageRange, setPageRange] = useState([1, 5]);
-  const [selectedTag, setSelectedTag] = useState('video');
-  const commentsPerPage = 10;
-
-  // 더미 데이터 생성
-  const dummyData = {
-    video: Array.from({ length: 20 }, (_, index) => ({
-      id: index + 1,
-      videoTitle: `동영상 Title ${index + 1}`,
-      comment: `This is a video  ${index + 1}`,
-      date: `2023-06-1${index % 10}`,
-    })),
-    challenge: Array.from({ length: 20 }, (_, index) => ({
-      id: index + 1,
-      videoTitle: `챌린지 Title ${index + 1}`,
-      comment: `This is a challenge  ${index + 1}`,
-      date: `2023-07-1${index % 10}`,
-    })),
-    battle: Array.from({ length: 20 }, (_, index) => ({
-      id: index + 1,
-      videoTitle: `배틀 Title ${index + 1}`,
-      comment: `This is a battle  ${index + 1}`,
-      date: `2023-08-1${index % 10}`,
-    })),
-  };
+  const [totalPages, setTotalPages] = useState(0);
+  const [selectedTag, setSelectedTag] = useState('video'); 
+  const [pageRange, setPageRange] = useState([1, 5]); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedTag) {
-      // 실제 API 요청 예제
-      // axios
-      //   .get(`/api/user/auth/comments/${selectedTag}`)
-      //   .then((response) => {
-      //     setComments(response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching data:", error);
-      //   });
-
-      // 더미 데이터 사용
-      setComments(dummyData[selectedTag]);
+      axiosInstance
+        .get(`/api/${selectedTag}/auth/myComments`, {
+          params: { page: currentPage - 1 },
+        })
+        .then((response) => {
+          const { content, totalPages } = response.data;
+          setComments(content);
+          setTotalPages(totalPages);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     }
-  }, [selectedTag]);
+  }, [selectedTag, currentPage]);
 
   const handleClick = (tag) => {
     setSelectedTag(tag);
-    setCurrentPage(1);
-    setPageRange([1, 5]);
+    setCurrentPage(1); // 새로운 탭 클릭 시 첫 페이지로 이동
+    setPageRange([1, 5]); // 새로운 탭 클릭 시 페이지 범위 초기화
   };
-
-  const indexOfLastComment = currentPage * commentsPerPage;
-  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const displayedComments = comments.slice(indexOfFirstComment, indexOfLastComment);
-  const totalPages = Math.ceil(comments.length / commentsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -71,6 +47,13 @@ const MyComments = () => {
   const handleNextPageRange = () => {
     if (pageRange[1] < totalPages) {
       setPageRange([pageRange[0] + 5, pageRange[1] + 5]);
+    }
+  };
+
+  //댓글 클릭하면 해당 페이지로 리다ㅣ렉트
+  const handleCommentClick = (commentId) => {
+    if (selectedTag === 'battle') {
+      navigate(`/battle/detail/${commentId}`);
     }
   };
 
@@ -102,20 +85,25 @@ const MyComments = () => {
             <span>댓글 내용</span>
             <span>작성일</span>
           </div>
-          {displayedComments.map((comment) => (
-            <div key={comment.id} className="comment-row">
+          {comments.map((comment) => (
+            <div 
+              key={comment.battleCommentId} 
+              className="comment-row"
+              onClick={() => handleCommentClick(comment.battleId)}
+              style={{ cursor: 'pointer' }}
+              >
               <span></span>
-              <span>{comment.videoTitle}</span>
+              <span>{comment.title}</span>
               <span>{comment.comment}</span>
-              <span>{comment.date}</span>
+              <span>{comment.createDate}</span>
             </div>
           ))}
-          <div className="flex flex-end mt10">
+          <div className="flex flex-end mt20">
             <Button size="confirm" to="/mypage/deletecomments">
               삭제하기
             </Button>
           </div>
-          <div className="mycomments-pagenation">
+          <div className="mycomments-pagination justify-center mt10">
             <button
               onClick={handlePreviousPageRange}
               disabled={pageRange[0] === 1}
