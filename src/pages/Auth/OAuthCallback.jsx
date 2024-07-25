@@ -10,12 +10,12 @@ const OAuthCallback = () => {
     const accessToken = urlParams.get("accessToken");
     const refreshToken = urlParams.get("refreshToken");
 
-    // 토큰을 로컬 스토리지에 저장
+    // 토큰을 세션 스토리지에 저장
     if (accessToken && refreshToken) {
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      sessionStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("refreshToken", refreshToken);
       // 토큰 만료 시간 등 추가 정보 저장
-      localStorage.setItem("tokenExpiration", Date.now() + 3600 * 1000); // 예: 1시간 후 만료
+      sessionStorage.setItem("tokenExpiration", Date.now() + 3600 * 1000); // 예: 1시간 후 만료
 
       // 로그인 후 메인 페이지로 이동
       navigate("/");

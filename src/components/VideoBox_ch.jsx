@@ -27,7 +27,7 @@ const VideoBox_best = ({ thumbnail, title, nickname, like, views, uploadDate, le
     const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
 
     return (
-        <div className="video-box">
+        <div className="video-box mt20">
             <img className="video-box-thumbnail" src={thumbnail} alt={title} />
 
             <div className="row-direction space-between pdx30">

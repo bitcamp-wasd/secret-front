@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Layout from '../../components/Layout';
-import VideoPlay from '../../components/VideoPlay';
 import '../../assets/css/style.css';
 import '../../assets/css/jun.css';
+import Layout from '../../components/Layout';
+import Button from '../../components/Button';
+import VideoPlay from '../../components/VideoPlay';
 import SheetMusic from "../../assets/images/Sheet_Music.svg";
 import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg"; // heart_fill 추가
 import grade from "../../assets/images/grade.svg";
-import Button from '../../components/Button';
+
 
 const ChallengeDetail = () => {
     const dummyVideo = {

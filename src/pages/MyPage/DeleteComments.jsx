@@ -2,42 +2,43 @@ import React, { useState, useEffect } from "react";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
+import axiosInstance from "../../utils/axiosInstance";
 
 const MyComments = () => {
   const [comments, setComments] = useState([]);
   const [selectedComments, setSelectedComments] = useState([]);
+  const [selectedTag, setSelectedTag] = useState('video');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageRange, setPageRange] = useState([1, 5]);
-  const commentsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(0);
+
 
   useEffect(() => {
-    // 더미 데이터 생성
-    const dummyComments = Array.from({ length: 20 }, (_, index) => ({
-      id: index + 1,
-      videoTitle: `비디오 ${index + 1}번째`,
-      comment: `내용 ${index + 1}번째`,
-      date: `2023-06-1${index % 10}`,
-    }));
+    fetchComments();
+    setSelectedComments([]); // 페이지나 카테고리가 변경될 때마다 초기화
+  }, [selectedTag, currentPage]);
 
-    // API 호출
-    // fetch('/api/user/auth/comments')
-    //   .then(response => response.json())
-    //   .then(data => setComments(data))
-    //   .catch(error => console.error('Error fetching data:', error));
+  const fetchComments = async () => {
+    try {
+      const response = await axiosInstance.get(`/api/${selectedTag}/auth/myComments`, {
+        params: { page: currentPage - 1 },
+      });
+      const { content, totalPages } = response.data;
+      setComments(content);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    setComments(dummyComments);
-  }, []);
-
-  // 전체 선택 혹은 해제
   const handleSelectAll = (event) => {
     if (event.target.checked) {
-      setSelectedComments(displayedComments.map((comment) => comment.id));
+      setSelectedComments(comments.map((comment) => comment.battleCommentId));
     } else {
       setSelectedComments([]);
     }
   };
 
-  // 개별 선택 혹은 해제
   const handleSelectComment = (id) => {
     if (selectedComments.includes(id)) {
       setSelectedComments(
@@ -48,88 +49,95 @@ const MyComments = () => {
     }
   };
 
-  //삭제기능
-  const handleDelete = () => {
-    console.log("Deleting selected comments:", selectedComments);
-    // 삭제 API 호출
-    // axios
-    //   .delete("/api/user/auth/comments", {
-    //     data: { commentIds: selectedComments },
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     // 삭제 후 데이터 업데이트
-    //     setComments(
-    //       comments.filter((comment) => !selectedComments.includes(comment.id))
-    //     );
-    //     setSelectedComments([]);
-    //   })
-    //   .catch((error) => console.error("Error deleting comments:", error));
-
-    // 더미 데이터에서 삭제
-    setComments(
-      comments.filter((comment) => !selectedComments.includes(comment.id))
-    );
-    setSelectedComments([]);
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/api/${selectedTag}/auth/myComments`, {
+        data: { battleCommentId: selectedComments },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      fetchComments(); // 댓글 삭제 후 새로고침
+      setSelectedComments([]);
+    } catch (error) {
+      console.error("Error deleting comments:", error);
+    }
   };
 
-  // 페이지네이션
-  const indexOfLastComment = currentPage * commentsPerPage;
-  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const displayedComments = comments.slice(
-    indexOfFirstComment,
-    indexOfLastComment
-  );
-  const totalPages = Math.ceil(comments.length / commentsPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSelectedComments([]); // 페이지 변경 시 선택 초기화
+  };
 
   const handlePreviousPageRange = () => {
     if (pageRange[0] > 1) {
       setPageRange([pageRange[0] - 5, pageRange[1] - 5]);
+      setSelectedComments([]);
     }
   };
 
   const handleNextPageRange = () => {
     if (pageRange[1] < totalPages) {
       setPageRange([pageRange[0] + 5, pageRange[1] + 5]);
+      setSelectedComments([]);
     }
   };
 
+  const handleTagClick = (tag) => {
+    setSelectedTag(tag);
+    setCurrentPage(1);
+    setPageRange([1, 5]);
+    setSelectedComments([]);
+  };
+
+  const CommentsTags = [
+    { id: 'video', name: "동영상" },
+    { id: 'challenge', name: "챌린지" },
+    { id: 'battle', name: "배틀" }
+  ];
+
   return (
     <Layout bannerType="my">
-      <div className="main-container-810 mt80">
-        <div className="comments-grid">
+      <div className="main-container-810 mt40">
+        <div className="flex comments-tag align-center pdx15">
+          {CommentsTags.map(tag => (
+            <Button
+              key={tag.id}
+              size="tag"
+              onClick={() => handleTagClick(tag.id)}
+              className={selectedTag === tag.id ? 'selected' : ''}
+            >
+              {tag.name}
+            </Button>
+          ))}
+        </div>
+        <div className="comments-grid mt20">
           <div className="comments-header">
             <input
               type="checkbox"
               onChange={handleSelectAll}
               checked={
-                selectedComments.length === displayedComments.length &&
+                selectedComments.length === comments.length &&
                 selectedComments.length !== 0
               }
             />
-
             <span>동영상 제목</span>
             <span>댓글 내용</span>
             <span>작성일</span>
           </div>
-          {displayedComments.map((comment) => (
-            <div key={comment.id} className="comment-row">
+          {comments.map((comment) => (
+            <div key={comment.battleCommentId} className="comment-row">
               <input
                 type="checkbox"
-                checked={selectedComments.includes(comment.id)}
-                onChange={() => handleSelectComment(comment.id)}
+                checked={selectedComments.includes(comment.battleCommentId)}
+                onChange={() => handleSelectComment(comment.battleCommentId)}
               />
-              <span>{comment.videoTitle}</span>
+              <span>{comment.title}</span>
               <span>{comment.comment}</span>
-              <span>{comment.date}</span>
+              <span>{new Date(comment.createDate).toLocaleDateString()}</span>
             </div>
           ))}
-        </div>
-        <div className="flex flex-end mt10" style={{ gap: "24px" }}>
+          <div className="flex flex-end mt20" style={{ gap: "24px" }}>
           <Button size="confirm" to="/mypage/mycomments">
             취소
           </Button>
@@ -137,7 +145,7 @@ const MyComments = () => {
             삭제 완료
           </Button>
         </div>
-        <div className="mycomments-pagenation">
+        <div className="mycomments-pagination justify-center mt10">
           <button
             onClick={handlePreviousPageRange}
             disabled={pageRange[0] === 1}
@@ -161,6 +169,7 @@ const MyComments = () => {
           >
             {">"}
           </button>
+        </div>  
         </div>
       </div>
     </Layout>

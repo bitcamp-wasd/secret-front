@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from '../../assets/images/header_logo.svg';
 import "../../assets/css/jun.css";
+import logo from '../../assets/images/header_logo.svg';
 
 const BattleRegister = () => {
     const [title, setTitle] = useState("");
@@ -10,7 +10,7 @@ const BattleRegister = () => {
     const handleSubmit = async () => {
         const apiUrl = process.env.REACT_APP_API_URL;
 
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');
 
         if (!accessToken) {
             alert('로그인이 필요합니다.');

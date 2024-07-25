@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import Layout from "../../components/Layout";
-import VideoBox from "../../components/VideoBox_Ba";
-import vs from "../../assets/images/vs.svg";
 import Button from "../../components/Button";
+import VideoBox from "../../components/VideoBox_Ba";
 import grade from "../../assets/images/grade.svg";
 import battleheart_fill from "../../assets/images/battleheart_fill.svg";
 import battleheart from "../../assets/images/battleheart.svg";
-import { jwtDecode } from 'jwt-decode';
+import vs from "../../assets/images/vs.svg";
+
 
 const BattleDetail = () => {
     const { battleId } = useParams(); // URL에서 battleId 값을 가져옴
@@ -42,7 +43,7 @@ const BattleDetail = () => {
 
     // 현재 사용자 닉네임 가져오기
     const getCurrentUserNickname = () => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (token) {
             const decodedToken = jwtDecode(token);
             const nickName = decodedToken.nickName;
@@ -54,7 +55,7 @@ const BattleDetail = () => {
 
     // 현재 사용자 유저Id 가져오기
     const getCurrentUserUserId = () => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (token) {
             const decodedToken = jwtDecode(token);
             const userId = Number(decodedToken.sub);
@@ -79,7 +80,7 @@ const BattleDetail = () => {
             setLikeCount2(battleResponse.data.vote2Cnt);
 
             // 액세스 토큰이 있는 경우에만 호출
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
             if (token) {
                 const stateUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/state`;
                 const stateResponse = await axios.get(stateUrl, {
@@ -144,7 +145,7 @@ const BattleDetail = () => {
     const updateComment = async (commentId) => {
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/update/${commentId}`;
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
                 // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
@@ -183,7 +184,7 @@ const BattleDetail = () => {
     const deleteComment = async (battleCommentId) => {
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete/${battleCommentId}`;
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
 
             const response = await axios.delete(apiUrl, {
                 headers: {
@@ -212,7 +213,7 @@ const BattleDetail = () => {
     const deleteBattle = async () => {
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete`;
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
                 // 사용자가 로그인하지 않은 경우 처리
@@ -291,7 +292,7 @@ const BattleDetail = () => {
     const handleVote = async (postId, index) => {
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/vote?postId=${postId}`;
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
                 // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
@@ -366,7 +367,7 @@ const BattleDetail = () => {
             }
 
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/comment`;
-            const token = localStorage.getItem("accessToken");
+            const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
                 // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
@@ -412,7 +413,7 @@ const BattleDetail = () => {
 
     // textarea 클릭 시
     const handleTextareaClick = () => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (!token) {
             if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
                 window.location.href = '/login';

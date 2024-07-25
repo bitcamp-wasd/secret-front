@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import Layout from "../../components/Layout";
 import "../../assets/css/style.css";
-import chbest from "../../assets/images/chbest.svg";
+import Layout from "../../components/Layout";
 import Tag from "../../components/Tag";
-import VideoBox from "../../components/VideoBox";
+import VideoBox_ch from "../../components/VideoBox_ch";
+import VideoBox_best from "../../components/VideoBox_best";
+import chbest from "../../assets/images/chbest.svg";
 import one from "../../assets/images/1.svg";
 import two from "../../assets/images/2.svg";
 import three from "../../assets/images/3.svg";
-import VideoBox_hart from "../../components/VideoBox_best";
+
 
 const ChallengeList = () => {
   const [showPreviousChallenges, setShowPreviousChallenges] = useState(false);
@@ -32,23 +33,33 @@ const ChallengeList = () => {
     };
   }, []);
 
-  // 더미 데이터 생성
-  const dummyVideos = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    title: `Video ${index + 1} 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데이예이예이예`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
-    author: "홍길동",
-  }));
 
   const dummyVideo = {
     id: 1,
-    title: `Video 1 이렇게 제목이 길면 너가 뭘 할 수 있는지 궁금한데`,
+    title: `챌린지 Best`,
     thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
-    author: "홍길동",
+    nickname: "김융",
+    views: "1234",
+    uploadDate: "2일전",
+    length: "12:23",
+    like: "390"
   };
+
+  // 더미 데이터 생성
+  const dummyVideos = Array.from({ length: 20 }, (_, index) => ({
+    id: index + 1,
+    title: `Video ${index + 1}`,
+    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
+    nickname: "김융",
+    views: "1234",
+    uploadDate: "2일전",
+    length: "12:23",
+    like: "390"
+  }));
 
   return (
     <Layout showFooter={false} bannerType="challenge">
+
       <div className="challenge-text mt80">
         <div onClick={togglePreviousChallenges} style={{ cursor: "pointer" }}>
           이전 챌린지 보기 ▼
@@ -69,33 +80,45 @@ const ChallengeList = () => {
         </div>
         <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_hart
+            <VideoBox_best
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
-              author={dummyVideo.author}
+              nickname={dummyVideo.nickname}
+              views={dummyVideo.views}
+              uploadDate={dummyVideo.uploadDate}
+              length={dummyVideo.length}
+              like={dummyVideo.like}
             />
             <img className="video-overlay" src={one} alt="One 이미지" />
           </div>
         </div>
         <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_hart
+            <VideoBox_best
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
-              author={dummyVideo.author}
+              nickname={dummyVideo.nickname}
+              views={dummyVideo.views}
+              uploadDate={dummyVideo.uploadDate}
+              length={dummyVideo.length}
+              like={dummyVideo.like}
             />
             <img className="video-overlay" src={two} alt="Two 이미지" />
           </div>
         </div>
         <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_hart
+            <VideoBox_best
               key={dummyVideo.id}
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
-              author={dummyVideo.author}
+              nickname={dummyVideo.nickname}
+              views={dummyVideo.views}
+              uploadDate={dummyVideo.uploadDate}
+              length={dummyVideo.length}
+              like={dummyVideo.like}
             />
             <img className="video-overlay" src={three} alt="Three 이미지" />
           </div>
@@ -109,11 +132,15 @@ const ChallengeList = () => {
           </div>
           <div className="videos-grid">
             {dummyVideos.map((video) => (
-              <VideoBox_hart
+              <VideoBox_ch
                 key={video.id}
                 thumbnail={video.thumbnail}
                 title={video.title}
-                author={video.author}
+                nickname={video.nickname}
+                views={video.views}
+                uploadDate={video.uploadDate}
+                length={video.length}
+                like={video.like}
               />
             ))}
           </div>

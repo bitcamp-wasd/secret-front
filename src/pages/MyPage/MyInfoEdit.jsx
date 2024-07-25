@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
-import axiosInstance from "../../utils/axiosInstance";
+
 
 const MyInfoEdit = () => {
   const [nickname, setNickname] = useState("");

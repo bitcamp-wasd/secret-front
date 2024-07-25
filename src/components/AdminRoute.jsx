@@ -4,7 +4,7 @@ import { getUserRoleFromToken } from '../utils/jwtUtils';
 
 const AdminRoute = ({ element: Element }) => {
   const isAuthenticated = () => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     return !!accessToken;
   };
 
