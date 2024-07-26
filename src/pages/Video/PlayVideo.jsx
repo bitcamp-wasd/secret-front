@@ -11,17 +11,6 @@ import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
 
-// 날짜 포맷팅 헬퍼 함수
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const year = date.getFullYear().toString().slice(2);
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${year}.${month}.${day} ${hours}:${minutes}`;
-};
-
 const PlayVideo = () => {
   const { videoId } = useParams();
   const navigate = useNavigate();
@@ -38,6 +27,13 @@ const PlayVideo = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  // 날짜와 시간을 원하는 포맷으로 변환하는 함수
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = `${String(date.getFullYear()).slice(2)}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    return formattedDate;
+  };
 
   useEffect(() => {
     const fetchVideoData = async () => {
@@ -87,7 +83,12 @@ const PlayVideo = () => {
           params: { videoId: videoId, pageNumber: page }
         });
         if (response.data.length > 0) {
-          setComments(prevComments => [...prevComments, ...response.data]);
+          // 포맷팅된 댓글 데이터 생성
+          const formattedComments = response.data.map(comment => ({
+            ...comment,
+            createDate: formatDate(comment.createDate)
+          }));
+          setComments(prevComments => [...prevComments, ...formattedComments]);
           setHasMoreComments(response.data.length > 0); // 댓글이 있으면 계속 로드 가능
         } else {
           setHasMoreComments(false); // 더 이상 로드할 댓글이 없음
@@ -167,7 +168,7 @@ const PlayVideo = () => {
     }
 
     const now = new Date();
-    const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    const formattedDate = formatDate(now.toISOString()); // 현재 시간을 포맷팅
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
@@ -188,6 +189,8 @@ const PlayVideo = () => {
         comment: newComment,
         createDate: formattedDate,
       };
+
+      console.log(newCommentData);
 
       // 새 댓글을 맨 위에 추가
       setComments(prevComments => [newCommentData, ...prevComments]);
@@ -251,7 +254,6 @@ const PlayVideo = () => {
       alert("댓글 수정 중 오류가 발생했습니다.");
     }
   };
-
 
   const handleCancelEdit = () => {
     setEditCommentId(null);
@@ -401,7 +403,7 @@ const PlayVideo = () => {
                   <img src={grade} className="mr10" alt="grade" />
                   {comment.nickname}
                 </div>
-                <div className="flex align-center">{formatDate(comment.createDate)}</div>
+                <div className="flex align-center">{comment.createDate}</div>
               </div>
               <div className="comment-content mt10">
                 <div className="comment">

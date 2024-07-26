@@ -7,19 +7,15 @@ import VideoBox from "../../components/VideoBox_hart";
 import VideoBox2 from "../../components/VideoBox_hart2";
 import vs from "../../assets/images/vs.svg";
 
-
-
 const MyBettles = () => {
     const [battles, setBattles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [pageNumber, setPageNumber] = useState(0);
-
     const observer = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("Page number changed: ", pageNumber); // 페이지 번호 확인
         loadBattles(pageNumber);
     }, [pageNumber]);
 
@@ -30,8 +26,6 @@ const MyBettles = () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
             const response = await axiosInstance.get(`${apiUrl}/api/battle/auth/mybattle?pageNumber=${page}`);
-            console.log("API response:", response.data); // API 응답 확인
-
             const newBattles = response.data.content;
 
             setBattles((prevBattles) => [...prevBattles, ...newBattles]);
@@ -41,7 +35,6 @@ const MyBettles = () => {
                 setHasMore(false);
             }
         } catch (error) {
-            console.error("Error fetching battles:", error); // 오류 메시지 확인
             setLoading(false);
         }
     };
@@ -79,7 +72,7 @@ const MyBettles = () => {
     };
 
     return (
-        <Layout showFooter={false} bannerType="battle">
+        <Layout showFooter={false} bannerType="my">
             <div className="main-container-810">
                 <div className="videos-flex">
                     {battles.length === 0 && !loading && <p>배틀이 없습니다.</p>}
@@ -105,9 +98,7 @@ const MyBettles = () => {
                                         />
                                     </div>
                                 </div>
-
                                 <img src={vs} className="vs" alt="vs" />
-
                                 <div className="sub-battlebox-317">
                                     <div className="video-box">
                                         <VideoBox2

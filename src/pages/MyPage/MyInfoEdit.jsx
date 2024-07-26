@@ -6,7 +6,6 @@ import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
 
-
 const MyInfoEdit = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -26,10 +25,8 @@ const MyInfoEdit = () => {
         setNickname(userData.nickName);
         setLoading(false);
       } catch (error) {
-        console.error("Failed to fetch user data:", error);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -62,22 +59,17 @@ const MyInfoEdit = () => {
 
     if (valid) {
       try {
-        // 서버에 수정된 정보를 put으로 전송
         const response = await axiosInstance.put("/api/user/auth/editinfo", {
           nickName: nickname,
           password: password,
         });
-        console.log("Edit info successful:", response.data);
         navigate("/mypage/myinfo"); // 수정 완료 후 마이페이지로 이동
       } catch (error) {
         if (error.response && error.response.data.code === "DN") {
           setNicknameError("* 중복된 닉네임입니다.");
         } else if (error.response && error.response.data === "Invalid nickname") {
           setNicknameError("* 2~13자의 한글, 영문, 숫자만 가능합니다.");;
-          console.error("SignUp Error: 유효한 닉네임이 아닙니다"); 
         } else {
-          console.error("Failed to edit user info:", error);
-          // 실패 시 처리
         }
       }
     }
@@ -93,7 +85,6 @@ const MyInfoEdit = () => {
     );
   }
 
-
   return (
     <Layout showFooter={true} bannerType="my">
       <div className="main-box-810 mt123">
@@ -104,7 +95,6 @@ const MyInfoEdit = () => {
               <h2 className="ml8">내 정보</h2>
             </div>
           </div>
-
           <div className="info-box">
             <div className="info-item">
               <label>닉네임</label>
