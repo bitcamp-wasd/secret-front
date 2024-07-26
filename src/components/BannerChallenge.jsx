@@ -46,7 +46,11 @@ const BannerChallenge = () => {
         </div>
         <div className="ch-day">
           투표 : {challengeData ? formatDate(challengeData.voteEndDate) : "날짜를 불러오는 중..."} 까지
+          <span className="voting-status">
+            {challengeData ? challengeData.state : "상태를 불러오는 중..."}
+          </span>
         </div>
+
       </div>
     </div>
   );

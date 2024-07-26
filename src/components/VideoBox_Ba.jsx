@@ -32,7 +32,7 @@ const VideoBox = ({ thumbnail, title, author, views, uploadDate, length }) => {
         <div className="video-box">
             <img className="video-box-thumbnail" src={thumbnailUrl} alt={title} />
 
-            <div className="row-direction">
+            <div className="row-direction pdx30">
                 <div className="movie-small">
                     <span className="video-title">{title}</span>
                     <span className="video-author">{author}</span>
@@ -41,10 +41,10 @@ const VideoBox = ({ thumbnail, title, author, views, uploadDate, length }) => {
                             <span>조회수 {views}</span>
                         </li>
                         <li>
-                            <span>&#8226; {formattedUploadDate}</span>
+                            <span>{formattedUploadDate}</span>
                         </li>
                         <li>
-                            <span>&#8226; {formattedLength}</span>
+                            <span>{formattedLength}</span>
                         </li>
                     </ul>
                 </div>
