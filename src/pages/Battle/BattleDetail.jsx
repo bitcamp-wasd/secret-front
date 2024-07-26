@@ -182,6 +182,13 @@ const BattleDetail = () => {
 
     // 댓글 삭제
     const deleteComment = async (battleCommentId) => {
+        // 사용자에게 삭제 확인 메시지 표시
+        const userConfirmed = window.confirm("댓글을 삭제하겠습니까?");
+
+        if (!userConfirmed) {
+            return; // 사용자가 삭제를 취소한 경우 함수 종료
+        }
+
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete/${battleCommentId}`;
             const token = sessionStorage.getItem("accessToken");
