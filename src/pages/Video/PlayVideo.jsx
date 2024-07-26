@@ -30,6 +30,8 @@ const PlayVideo = () => {
   const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState("");
   const [animate, setAnimate] = useState(false);
   const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
   const [currentUserNickname, setCurrentUserNickname] = useState(null);
@@ -199,6 +201,63 @@ const PlayVideo = () => {
     }
   };
 
+  const handleEditComment = (commentId, commentText) => {
+    setEditCommentId(commentId);
+    setEditCommentText(commentText);
+  };
+
+  const handleEditCommentChange = (e) => {
+    setEditCommentText(e.target.value);
+  };
+
+  const handleEditCommentSubmit = async () => {
+    if (editCommentText.trim() === "") {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
+        comment: editCommentText
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        params: {
+          commentId: editCommentId
+        }
+      });
+
+      console.log('댓글 수정 성공');
+
+      // 댓글 수정 후 댓글 리스트 업데이트
+      setComments(prevComments => prevComments.map(comment =>
+        comment.commentId === editCommentId ? { ...comment, comment: editCommentText } : comment
+      ));
+      setEditCommentId(null);
+      setEditCommentText("");
+      alert("댓글이 수정되었습니다.");
+    } catch (error) {
+      console.error('댓글 수정 중 오류 발생:', error.response?.data || error.message);
+      alert("댓글 수정 중 오류가 발생했습니다.");
+    }
+  };
+
+
+  const handleCancelEdit = () => {
+    setEditCommentId(null);
+    setEditCommentText("");
+  };
+
   const handleDelete = async (commentId) => {
     const token = sessionStorage.getItem('accessToken');
     if (!token) {
@@ -345,11 +404,28 @@ const PlayVideo = () => {
                 <div className="flex align-center">{formatDate(comment.createDate)}</div>
               </div>
               <div className="comment-content mt10">
-                {comment.comment}
-                {currentUserNickname === comment.nickname && (
-                  <div className="comment-actions">
-                    <button className="button mod">수정</button>
-                    <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
+                {editCommentId === comment.commentId ? (
+                  <div>
+                    <textarea
+                      value={editCommentText}
+                      onChange={handleEditCommentChange}
+                      rows="3"
+                      placeholder="수정할 댓글을 입력하세요."
+                    />
+                    <div className="comment-actions">
+                      <button className="button mod" onClick={handleEditCommentSubmit}>수정</button>
+                      <button className="button del" onClick={handleCancelEdit}>취소</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    {comment.comment}
+                    {currentUserNickname === comment.nickname && (
+                      <div className="comment-actions">
+                        <button className="button mod" onClick={() => handleEditComment(comment.commentId, comment.comment)}>수정</button>
+                        <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
+                      </div>
+                    )}
                   </div>
                 )}
                 <div className="line"></div>
