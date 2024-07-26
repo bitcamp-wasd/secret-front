@@ -22,7 +22,7 @@ const MyComments = () => {
             params: { pageNumber: currentPage - 1 }
           });
         } else if (selectedTag === 'battle') {
-          response = await axiosInstance.get(`/api/battle/auth/myComments`, {
+          response = await axiosInstance.get(`/api/battle/auth/mycomment`, {
             params: { page: currentPage - 1 }
           });
         } 
