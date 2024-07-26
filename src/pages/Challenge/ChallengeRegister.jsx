@@ -6,9 +6,9 @@ import Layout from '../../components/Layout';
 import Button from '../../components/Button';
 import RegTag from '../../components/RegTag';
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 const challengeUploadUrl = `${API_URL}/api/challenge/auth/upload`;
+const bannerUrl = `${API_URL}/api/challenge/banner`;
 
 // 헬퍼 함수: 액세스 토큰을 가져옵니다.
 const getAccessToken = () => sessionStorage.getItem('accessToken');
@@ -24,12 +24,34 @@ const ChallengeRegister = () => {
     const [selectedTag, setSelectedTag] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [challengeId, setChallengeId] = useState(null);
 
     const videoPlayer = useRef(null);
     const fileInputRef = useRef();
     const thumbnailInputRef = useRef();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // challengeId를 가져오는 API 호출
+        const fetchChallengeId = async () => {
+            try {
+                const response = await axios.get(bannerUrl, {
+                    headers: {
+                        Authorization: `Bearer ${getAccessToken()}`,
+                    },
+                });
+                console.log('API Response:', response.data); // 전체 응답 데이터 출력
+                const id = response.data.challengeId; // 응답 구조에 맞게 challengeId 추출
+                console.log('Fetched challengeId:', id); // challengeId 출력
+                setChallengeId(id);
+            } catch (error) {
+                console.error('Error fetching challengeId:', error);
+            }
+        };
+
+        fetchChallengeId();
+    }, []);
 
     const getVideo = (e) => {
         if (e.target.files.length === 0) {
@@ -77,7 +99,6 @@ const ChallengeRegister = () => {
         upload();
     };
 
-    // 액세스 토큰을 리프레시 토큰을 사용하여 갱신하는 함수
     const refreshAccessToken = async () => {
         try {
             const response = await axios.post(`${API_URL}/api/token/refresh`, {
@@ -92,7 +113,7 @@ const ChallengeRegister = () => {
         }
     };
 
-    const upload = async () => {
+    const upload = async (config = null) => {
         let token = getAccessToken();
         if (!token) {
             alert('로그인 세션이 만료되었습니다. 다시 로그인 해주세요.');
@@ -100,20 +121,25 @@ const ChallengeRegister = () => {
             return;
         }
 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
+        if (!config) {
+            config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+        }
 
         const json = {
-            videoName: video.name,
-            thumbnailName: thumbnail.name,
+            video: video.name,
+            thumbnail: thumbnail.name,
             length: parseInt(videoPlayer.current.duration),
             category: selectedTag ? selectedTag.value.toLowerCase() : 'null',
             title: title,
             description: description,
+            challengeId: challengeId, // challengeId 추가
         };
+
+        console.log(json);
 
         try {
             const url = await axios.post(challengeUploadUrl, json, config).then((res) => res.data);
@@ -138,10 +164,8 @@ const ChallengeRegister = () => {
             alert('동영상 업로드를 시작합니다.');
 
         } catch (error) {
-            // 오류 처리: 인증 오류가 발생했을 때
             if (error.response && error.response.status === 401) {  // Unauthorized error
                 try {
-                    // 액세스 토큰 갱신 후 재시도
                     const newAccessToken = await refreshAccessToken();
                     token = newAccessToken;
                     const configWithNewToken = {
@@ -149,7 +173,6 @@ const ChallengeRegister = () => {
                             Authorization: `Bearer ${token}`,
                         },
                     };
-                    // 업로드 재시도
                     await upload(configWithNewToken);
                 } catch (refreshError) {
                     console.error('Error uploading after token refresh:', refreshError);

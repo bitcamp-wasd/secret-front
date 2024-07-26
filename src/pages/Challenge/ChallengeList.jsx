@@ -14,6 +14,7 @@ const ChallengeList = () => {
   const [showPreviousChallenges, setShowPreviousChallenges] = useState(false);
   const [challengeData, setChallengeData] = useState(null);
   const [previousChallenges, setPreviousChallenges] = useState([]);
+  const [videoList, setVideoList] = useState([]);
   const dropdownRef = useRef(null);
 
   const togglePreviousChallenges = () => {
@@ -21,6 +22,7 @@ const ChallengeList = () => {
   };
 
   const handleChallengeClick = (challenge) => {
+    console.log("Selected challengeId:", challenge.challengeId); // 콘솔 로그 추가
     setChallengeData(challenge);
     setShowPreviousChallenges(false);
   };
@@ -39,10 +41,12 @@ const ChallengeList = () => {
     };
   }, []);
 
+  // 최신 챌린지 데이터 요청
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/list`)
       .then((response) => {
         if (response.data.length > 0) {
+          // 응답 데이터에서 `_id` 필드를 사용
           setChallengeData(response.data[0]);
         }
       })
@@ -57,27 +61,26 @@ const ChallengeList = () => {
       .catch((error) => console.error("Error fetching previous challenges:", error));
   }, []);
 
+  useEffect(() => {
+    if (challengeData) {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/view`, {
+        params: { challengeId: challengeData.challengeId }
+      })
+        .then((response) => {
+          console.log("Fetched videos:", response.data);
+          setVideoList(response.data);
+        })
+        .catch((error) => console.error("Error fetching challenge videos:", error));
+    }
+  }, [challengeData]);
+
   const dummyVideo = {
     id: 1,
     title: `챌린지 Best`,
     thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
     nickname: "김융",
-    views: "1234",
-    uploadDate: "2일전",
-    length: "12:23",
-    like: "390"
+    cnt: '1234',
   };
-
-  const dummyVideos = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    title: `Video ${index + 1}`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
-    nickname: "김융",
-    views: "1234",
-    uploadDate: "2일전",
-    length: "12:23",
-    like: "390"
-  }));
 
   return (
     <Layout showFooter={false} bannerType="challenge">
@@ -112,10 +115,7 @@ const ChallengeList = () => {
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
               nickname={dummyVideo.nickname}
-              views={dummyVideo.views}
-              uploadDate={dummyVideo.uploadDate}
-              length={dummyVideo.length}
-              like={dummyVideo.like}
+              cnt={dummyVideo.cnt}
             />
             <img className="video-overlay" src={one} alt="One 이미지" />
           </div>
@@ -127,10 +127,7 @@ const ChallengeList = () => {
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
               nickname={dummyVideo.nickname}
-              views={dummyVideo.views}
-              uploadDate={dummyVideo.uploadDate}
-              length={dummyVideo.length}
-              like={dummyVideo.like}
+              cnt={dummyVideo.cnt}
             />
             <img className="video-overlay" src={two} alt="Two 이미지" />
           </div>
@@ -142,10 +139,7 @@ const ChallengeList = () => {
               thumbnail={dummyVideo.thumbnail}
               title={dummyVideo.title}
               nickname={dummyVideo.nickname}
-              views={dummyVideo.views}
-              uploadDate={dummyVideo.uploadDate}
-              length={dummyVideo.length}
-              like={dummyVideo.like}
+              cnt={dummyVideo.cnt}
             />
             <img className="video-overlay" src={three} alt="Three 이미지" />
           </div>
@@ -157,19 +151,20 @@ const ChallengeList = () => {
           <div className="row-direction space-between mb50">
             <Tag />
           </div>
-          <div className="videos-grid">
-            {dummyVideos.map((video) => (
-              <VideoBox_ch
-                key={video.id}
-                thumbnail={video.thumbnail}
-                title={video.title}
-                nickname={video.nickname}
-                views={video.views}
-                uploadDate={video.uploadDate}
-                length={video.length}
-                like={video.like}
-              />
-            ))}
+          <div className="videos-grid mb60">
+            {videoList.length > 0 ? (
+              videoList.map((video) => (
+                <VideoBox_ch
+                  key={video.videoId}
+                  thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
+                  title={video.title}
+                  nickname={video.nickname}
+                  cnt={video.cnt}
+                />
+              ))
+            ) : (
+              <p>첫 챌린지를 등록해보세요!</p>
+            )}
           </div>
         </div>
       </div>
