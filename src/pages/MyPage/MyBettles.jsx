@@ -29,7 +29,7 @@ const MyBettles = () => {
 
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
-            const response = await axiosInstance.get(`${apiUrl}/api/battle/auth/myBattle?pageNumber=${page}`);
+            const response = await axiosInstance.get(`${apiUrl}/api/battle/auth/mybattle?pageNumber=${page}`);
             console.log("API response:", response.data); // API 응답 확인
 
             const newBattles = response.data.content;

@@ -172,7 +172,11 @@ const BattleDetail = () => {
                 )
             );
 
-            cancelEditingComment(); // 수정 취소 처리
+            // 수정 취소 처리
+            cancelEditingComment();
+
+            // 댓글 수정 완료 알림
+            alert("댓글이 수정되었습니다.");
 
         } catch (error) {
             console.error("댓글 수정 실패:", error);
@@ -182,6 +186,13 @@ const BattleDetail = () => {
 
     // 댓글 삭제
     const deleteComment = async (battleCommentId) => {
+        // 사용자에게 삭제 확인 메시지 표시
+        const userConfirmed = window.confirm("댓글을 삭제하겠습니까?");
+
+        if (!userConfirmed) {
+            return; // 사용자가 삭제를 취소한 경우 함수 종료
+        }
+
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/delete/${battleCommentId}`;
             const token = sessionStorage.getItem("accessToken");
@@ -560,7 +571,7 @@ const BattleDetail = () => {
                             // 일반 댓글 UI
                             <div className="comment-item">
                                 <div className="comment-header">
-                                    <div className="flex align-center space-between">
+                                    <div className="flex align-center space-between mt10">
                                         <div className="flex align-center">
                                             <img src={grade} className="mr10" alt="grade" />
                                             <span>{comment.nickname}</span>

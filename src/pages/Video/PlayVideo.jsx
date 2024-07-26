@@ -11,17 +11,33 @@ import heart from "../../assets/images/heart.svg";
 import heart_fill from "../../assets/images/heart_fill.svg";
 import grade from "../../assets/images/grade.svg";
 
+// 날짜 포맷팅 헬퍼 함수
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear().toString().slice(2);
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${year}.${month}.${day} ${hours}:${minutes}`;
+};
+
 const PlayVideo = () => {
   const { videoId } = useParams();
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 얻기
+  const navigate = useNavigate();
   const [videoData, setVideoData] = useState(null);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState("");
   const [animate, setAnimate] = useState(false);
   const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
   const [currentUserNickname, setCurrentUserNickname] = useState(null);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [hasMoreComments, setHasMoreComments] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchVideoData = async () => {
@@ -64,10 +80,42 @@ const PlayVideo = () => {
       }
     };
 
+    const fetchComments = async (page = 0) => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/video/comment`, {
+          params: { videoId: videoId, pageNumber: page }
+        });
+        if (response.data.length > 0) {
+          setComments(prevComments => [...prevComments, ...response.data]);
+          setHasMoreComments(response.data.length > 0); // 댓글이 있으면 계속 로드 가능
+        } else {
+          setHasMoreComments(false); // 더 이상 로드할 댓글이 없음
+        }
+      } catch (error) {
+        console.error('댓글을 가져오는 중 오류 발생:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchVideoData();
     fetchLikeStatus();
     fetchCurrentUserNickname();
-  }, [videoId]);
+    fetchComments(pageNumber);
+  }, [videoId, pageNumber]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const bottom = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight;
+      if (bottom && hasMoreComments && !loading) {
+        setPageNumber(prevPage => prevPage + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasMoreComments, loading]);
 
   const handleHeartClick = async () => {
     const token = sessionStorage.getItem('accessToken');
@@ -104,29 +152,142 @@ const PlayVideo = () => {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (newComment.trim() === "") {
       alert("댓글을 입력해주세요.");
+      return;
+    }
+
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
       return;
     }
 
     const now = new Date();
     const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-    const newCommentData = {
-      id: comments.length + 1,
-      author: "새로운 유저",
-      content: newComment,
-      date: formattedDate,
-    };
-    setComments([...comments, newCommentData]);
-    setNewComment("");
-    setShowCommentPlaceholder(false);
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
+        videoId: videoId,
+        comment: newComment
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    alert("댓글이 등록되었습니다.");
+      console.log('댓글 등록 성공:', response.data);
+
+      const newCommentData = {
+        commentId: response.data.commentId,
+        nickname: currentUserNickname,
+        rankName: "16분음표",
+        comment: newComment,
+        createDate: formattedDate,
+      };
+
+      // 새 댓글을 맨 위에 추가
+      setComments(prevComments => [newCommentData, ...prevComments]);
+      setNewComment("");
+      setShowCommentPlaceholder(false);
+
+      alert("댓글이 등록되었습니다.");
+    } catch (error) {
+      console.error('댓글 등록 중 오류 발생:', error);
+      alert("댓글 등록 중 오류가 발생했습니다.");
+    }
   };
 
-  const handleDelete = async () => {
+  const handleEditComment = (commentId, commentText) => {
+    setEditCommentId(commentId);
+    setEditCommentText(commentText);
+  };
+
+  const handleEditCommentChange = (e) => {
+    setEditCommentText(e.target.value);
+  };
+
+  const handleEditCommentSubmit = async () => {
+    if (editCommentText.trim() === "") {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
+        comment: editCommentText
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        params: {
+          commentId: editCommentId
+        }
+      });
+
+      console.log('댓글 수정 성공');
+
+      // 댓글 수정 후 댓글 리스트 업데이트
+      setComments(prevComments => prevComments.map(comment =>
+        comment.commentId === editCommentId ? { ...comment, comment: editCommentText } : comment
+      ));
+      setEditCommentId(null);
+      setEditCommentText("");
+      alert("댓글이 수정되었습니다.");
+    } catch (error) {
+      console.error('댓글 수정 중 오류 발생:', error.response?.data || error.message);
+      alert("댓글 수정 중 오류가 발생했습니다.");
+    }
+  };
+
+
+  const handleCancelEdit = () => {
+    setEditCommentId(null);
+    setEditCommentText("");
+  };
+
+  const handleDelete = async (commentId) => {
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
+    const confirmDelete = window.confirm('정말로 이 댓글을 삭제하시겠습니까?');
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { commentIds: [commentId] }, // 삭제할 댓글 ID를 배열로 전달
+      });
+
+      console.log('댓글 삭제 성공');
+      setComments(prevComments => prevComments.filter(comment => comment.commentId !== commentId));
+      alert('댓글이 삭제되었습니다.');
+    } catch (error) {
+      console.error('댓글 삭제 중 오류 발생:', error);
+      alert('댓글 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleDeleteVideo = async () => {
     const token = sessionStorage.getItem('accessToken');
     if (!token) {
       if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
@@ -148,7 +309,7 @@ const PlayVideo = () => {
 
       console.log('비디오 삭제 성공:', response.data);
       alert('비디오가 삭제되었습니다.');
-      window.location.href = '/'; // 삭제 후 홈 페이지로 리다이렉트 (원하는 페이지로 수정 가능)
+      window.location.href = '/';
     } catch (error) {
       console.error('비디오 삭제 중 오류 발생:', error);
       alert('비디오 삭제 중 오류가 발생했습니다.');
@@ -156,7 +317,7 @@ const PlayVideo = () => {
   };
 
   const handleEdit = () => {
-    navigate(`/video/modify/${videoId}`); // 수정 페이지로 이동
+    navigate(`/video/modify/${videoId}`);
   };
 
   if (!videoData) {
@@ -211,8 +372,8 @@ const PlayVideo = () => {
           <div className="flex-end mt40 button-container">
             {currentUserNickname === videoData.nickname && (
               <>
-                <Button onClick={handleEdit}>수정</Button> {/* 수정 버튼 클릭 시 handleEdit 호출 */}
-                <Button onClick={handleDelete}>삭제</Button>
+                <Button onClick={handleEdit}>수정</Button>
+                <Button onClick={handleDeleteVideo}>삭제</Button>
               </>
             )}
           </div>
@@ -234,20 +395,46 @@ const PlayVideo = () => {
             <div className="comment-placeholder">첫 댓글을 남겨보세요!</div>
           )}
           {comments.map((comment) => (
-            <div key={comment.id}>
-              <div className="flex align-center space-between mt40">
+            <div key={comment.commentId}>
+              <div className="flex align-center space-between mt10">
                 <div className="flex align-center">
                   <img src={grade} className="mr10" alt="grade" />
-                  {comment.author}
+                  {comment.nickname}
                 </div>
-                <div className="flex align-center">{comment.date}</div>
+                <div className="flex align-center">{formatDate(comment.createDate)}</div>
               </div>
               <div className="comment-content mt10">
-                {comment.content}
-                <div className="line"></div>
+                <div className="comment">
+                  {editCommentId === comment.commentId ? (
+                    <div>
+                      <textarea
+                        value={editCommentText}
+                        onChange={handleEditCommentChange}
+                      />
+                      <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
+                        <button className="button save" onClick={handleEditCommentSubmit}>완료</button>
+                        <button className="button can" onClick={handleCancelEdit}>취소</button>
+                      </div>
+                    </div>
+
+                  ) : (
+                    <div>
+                      {comment.comment}
+                      {currentUserNickname === comment.nickname && (
+                        <div style={{ textAlign: 'right' }}>
+                          <button className="button mod" onClick={() => handleEditComment(comment.commentId, comment.comment)}>수정</button>
+                          <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="line"></div>
+                </div>
               </div>
             </div>
           ))}
+
+          {loading && <div>로딩 중...</div>} {/* 로딩 상태 표시 */}
         </div>
       </div>
     </Layout>

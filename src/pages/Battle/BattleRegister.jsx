@@ -27,6 +27,11 @@ const BattleRegister = () => {
             return;
         }
 
+        if (author1.trim() === author2.trim()) {
+            alert('두 URL은 서로 다르게 입력해야 합니다.');
+            return;
+        }
+
         const data = {
             url1: author1,
             url2: author2,

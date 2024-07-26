@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import axiosInstance from "../../utils/axiosInstance";
 
-const MyComments = () => {
+const DeleteComments = () => {
   const [comments, setComments] = useState([]);
   const [selectedComments, setSelectedComments] = useState([]);
   const [selectedTag, setSelectedTag] = useState('video');
@@ -20,9 +20,17 @@ const MyComments = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axiosInstance.get(`/api/${selectedTag}/auth/myComments`, {
-        params: { page: currentPage - 1 },
-      });
+      let response;
+      if (selectedTag === 'video') {
+        response = await axiosInstance.get(`/api/video/auth/mycomment`, {
+          params: { pageNumber: currentPage - 1 },
+        });
+      } else if (selectedTag === 'battle') {
+        response = await axiosInstance.get(`/api/battle/auth/mycomment`, {
+          params: { page: currentPage - 1 },
+        });
+      }
+
       const { content, totalPages } = response.data;
       setComments(content);
       setTotalPages(totalPages);
@@ -33,7 +41,7 @@ const MyComments = () => {
 
   const handleSelectAll = (event) => {
     if (event.target.checked) {
-      setSelectedComments(comments.map((comment) => comment.battleCommentId));
+      setSelectedComments(comments.map((comment) => comment.commentId || comment.battleCommentId));
     } else {
       setSelectedComments([]);
     }
@@ -41,22 +49,37 @@ const MyComments = () => {
 
   const handleSelectComment = (id) => {
     if (selectedComments.includes(id)) {
-      setSelectedComments(
-        selectedComments.filter((commentId) => commentId !== id)
-      );
+      setSelectedComments(selectedComments.filter((commentId) => commentId !== id));
     } else {
       setSelectedComments([...selectedComments, id]);
     }
   };
 
   const handleDelete = async () => {
+
+    if (!window.confirm("댓글을 삭제하시겠습니까? (삭제된 댓글은 복구되지 않습니다)")) {
+      return; // 취소 누르면 댓글 삭제 취소
+    }
+
     try {
-      await axiosInstance.delete(`/api/${selectedTag}/auth/myComments`, {
-        data: { battleCommentId: selectedComments },
+      let deleteUrl = '';
+      let deleteData = {};
+
+      if (selectedTag === 'video') {
+        deleteUrl = '/api/video/auth/comment';
+        deleteData = { commentIds: selectedComments };
+      } else if (selectedTag === 'battle') {
+        deleteUrl = '/api/battle/auth/mycomment';
+        deleteData = { battleCommentId: selectedComments };
+      }
+
+      await axiosInstance.delete(deleteUrl, {
+        data: deleteData,
         headers: {
           "Content-Type": "application/json",
         },
       });
+
       fetchComments(); // 댓글 삭제 후 새로고침
       setSelectedComments([]);
     } catch (error) {
@@ -126,11 +149,11 @@ const MyComments = () => {
             <span>작성일</span>
           </div>
           {comments.map((comment) => (
-            <div key={comment.battleCommentId} className="comment-row">
+            <div key={comment.commentId || comment.battleCommentId} className="comment-row">
               <input
                 type="checkbox"
-                checked={selectedComments.includes(comment.battleCommentId)}
-                onChange={() => handleSelectComment(comment.battleCommentId)}
+                checked={selectedComments.includes(comment.commentId || comment.battleCommentId)}
+                onChange={() => handleSelectComment(comment.commentId || comment.battleCommentId)}
               />
               <span>{comment.title}</span>
               <span>{comment.comment}</span>
@@ -176,4 +199,4 @@ const MyComments = () => {
   );
 };
 
-export default MyComments;
+export default DeleteComments;
