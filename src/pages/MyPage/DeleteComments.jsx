@@ -56,6 +56,11 @@ const DeleteComments = () => {
   };
 
   const handleDelete = async () => {
+
+    if (!window.confirm("댓글을 삭제하시겠습니까? (삭제된 댓글은 복구되지 않습니다)")) {
+      return; // 취소 누르면 댓글 삭제 취소
+    }
+
     try {
       let deleteUrl = '';
       let deleteData = {};
