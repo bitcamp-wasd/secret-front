@@ -564,6 +564,14 @@ footer {
   gap: 20px;
 }
 
+.banner-admin h2{
+  font-size: 40px;
+}
+
+.banner-admin h3{
+  font-weight: 300;
+}
+
 .banner-admin button {
   height: 40px;
   padding: 15px 35px;
