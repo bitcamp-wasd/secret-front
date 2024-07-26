@@ -5,19 +5,13 @@ import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import UserIcon from "../../assets/images/user_icon.svg";
 
-
 const MyInfo = () => {
-  const [userInfo, setUserInfo] = useState({
-    email: "초기이메일",
-    nickname: "초기닉네임",
-    point: 100
-  });
+  const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
-        //API 호출
         const response = await axiosInstance.get("/api/user/auth/myinfo");
         const userData = response.data;
         setUserInfo({
@@ -31,7 +25,6 @@ const MyInfo = () => {
 
       }
     };
-
     loadUserInfo();
   }, []);
 
@@ -55,11 +48,8 @@ const MyInfo = () => {
               <img src={UserIcon} alt="usericon" className="usericon" />
               <h2 className="ml8">내 정보</h2>
             </div>
-
             <Button size="tag" to="/mypage/myinfoedit">수정하기</Button>
-
           </div>
-
           <div className="info-box">
             <div className="info-item">
               <label>닉네임</label>
