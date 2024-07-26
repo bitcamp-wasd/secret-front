@@ -32,7 +32,7 @@ const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vo
         <div className="sub-battlebox-317 h320">
             <div className="video-box">
                 <img className="video-box-thumbnail" src={thumbnailUrl} alt={title} />
-                <div className="row-direction space-between">
+                <div className="row-direction space-between pdx30">
                     <div className="movie-small">
                         <span className="video-title">{title}</span>
                         <span className="video-author">{author}</span>
@@ -41,10 +41,10 @@ const VideoBox_hart = ({ thumbnail, title, author, views, uploadDate, length, vo
                                 <span>조회수 {views}회</span>
                             </li>
                             <li>
-                                <span>&#8226; {formattedUploadDate}</span>
+                                <span>{formattedUploadDate}</span>
                             </li>
                             <li>
-                                <span>&#8226; {formattedLength}</span>
+                                <span>{formattedLength}</span>
                             </li>
                             <li className="flex align-center">
                                 <img src={heart} className="mr10 f20 no-transform" alt="heart" />
