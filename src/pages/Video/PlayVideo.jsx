@@ -396,7 +396,7 @@ const PlayVideo = () => {
           )}
           {comments.map((comment) => (
             <div key={comment.commentId}>
-              <div className="flex align-center space-between mt40">
+              <div className="flex align-center space-between mt10">
                 <div className="flex align-center">
                   <img src={grade} className="mr10" alt="grade" />
                   {comment.nickname}
@@ -404,31 +404,32 @@ const PlayVideo = () => {
                 <div className="flex align-center">{formatDate(comment.createDate)}</div>
               </div>
               <div className="comment-content mt10">
-                {editCommentId === comment.commentId ? (
-                  <div>
-                    <textarea
-                      value={editCommentText}
-                      onChange={handleEditCommentChange}
-                      rows="3"
-                      placeholder="수정할 댓글을 입력하세요."
-                    />
-                    <div className="comment-actions">
-                      <button className="button mod" onClick={handleEditCommentSubmit}>수정</button>
-                      <button className="button del" onClick={handleCancelEdit}>취소</button>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    {comment.comment}
-                    {currentUserNickname === comment.nickname && (
-                      <div className="comment-actions">
-                        <button className="button mod" onClick={() => handleEditComment(comment.commentId, comment.comment)}>수정</button>
-                        <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
+                <div className="comment">
+                  {editCommentId === comment.commentId ? (
+                    <div>
+                      <textarea
+                        value={editCommentText}
+                        onChange={handleEditCommentChange}
+                      />
+                      <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
+                        <button className="button save" onClick={handleEditCommentSubmit}>완료</button>
+                        <button className="button can" onClick={handleCancelEdit}>취소</button>
                       </div>
-                    )}
-                  </div>
-                )}
-                <div className="line"></div>
+                    </div>
+
+                  ) : (
+                    <div>
+                      {comment.comment}
+                      {currentUserNickname === comment.nickname && (
+                        <div style={{ textAlign: 'right' }}>
+                          <button className="button mod" onClick={() => handleEditComment(comment.commentId, comment.comment)}>수정</button>
+                          <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="line"></div>
+                </div>
               </div>
             </div>
           ))}

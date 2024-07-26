@@ -172,7 +172,11 @@ const BattleDetail = () => {
                 )
             );
 
-            cancelEditingComment(); // 수정 취소 처리
+            // 수정 취소 처리
+            cancelEditingComment();
+
+            // 댓글 수정 완료 알림
+            alert("댓글이 수정되었습니다.");
 
         } catch (error) {
             console.error("댓글 수정 실패:", error);
@@ -567,7 +571,7 @@ const BattleDetail = () => {
                             // 일반 댓글 UI
                             <div className="comment-item">
                                 <div className="comment-header">
-                                    <div className="flex align-center space-between">
+                                    <div className="flex align-center space-between mt10">
                                         <div className="flex align-center">
                                             <img src={grade} className="mr10" alt="grade" />
                                             <span>{comment.nickname}</span>
