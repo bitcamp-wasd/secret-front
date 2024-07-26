@@ -125,6 +125,8 @@ const RegisterVideo = () => {
             description: description,
         };
 
+        console.log(json);
+
         try {
             const url = await axios.post(videoUploadUrl, json, config).then((res) => res.data);
 

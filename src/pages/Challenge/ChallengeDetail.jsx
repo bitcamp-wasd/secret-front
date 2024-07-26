@@ -1,44 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // useParams 훅을 사용하여 URL 파라미터를 추출
+import axios from 'axios';
 import '../../assets/css/style.css';
 import '../../assets/css/jun.css';
 import Layout from '../../components/Layout';
 import Button from '../../components/Button';
 import VideoPlay from '../../components/VideoPlay';
-import SheetMusic from "../../assets/images/Sheet_Music.svg";
-import heart from "../../assets/images/heart.svg";
-import heart_fill from "../../assets/images/heart_fill.svg"; // heart_fill 추가
-import grade from "../../assets/images/grade.svg";
-
+import heart from '../../assets/images/heart.svg';
+import heart_fill from '../../assets/images/heart_fill.svg';
+import grade from '../../assets/images/grade.svg';
 
 const ChallengeDetail = () => {
-    const dummyVideo = {
-        id: 1,
-        thumbnail: 'https://via.placeholder.com/810x455.6?text=Thumbnail+1',
-    }
-
+    const { videoId } = useParams(); // URL에서 videoId 추출
+    const [videoData, setVideoData] = useState(null);
     const [isHeartFilled, setIsHeartFilled] = useState(false);
-    const [likeCount, setLikeCount] = useState(2574); // 좋아요 개수를 위한 상태 추가
-    const [animate, setAnimate] = useState(false); // 애니메이션 상태 추가
-    const [comments, setComments] = useState([
-        // {
-        //     id: 1,
-        //     author: "김융",
-        //     content: "오 그래도 잘하시는데요?",
-        //     date: "24.06.01 17:01",
-        // },
-        // {
-        //     id: 2,
-        //     author: "병민",
-        //     content: "정말 멋진 연주네요!",
-        //     date: "24.06.01 17:15",
-        // },
-    ]);
+    const [likeCount, setLikeCount] = useState(0);
+    const [animate, setAnimate] = useState(false);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
 
+    useEffect(() => {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        axios.get(`${apiUrl}/api/challenge/watch?videoId=${videoId}`)
+            .then(response => {
+                const data = response.data;
+                setVideoData(data);
+                setLikeCount(data.cnt); // 초기 좋아요 수 설정
+            })
+            .catch(error => {
+                console.error("API 호출 중 오류 발생:", error);
+            });
+    }, [videoId]);
+
     const handleHeartClick = () => {
         setIsHeartFilled(!isHeartFilled);
-        setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1); // 좋아요 개수 증가/감소
+        setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1);
         setAnimate(true);
 
         setTimeout(() => {
@@ -57,62 +55,59 @@ const ChallengeDetail = () => {
 
             const newCommentData = {
                 id: comments.length + 1,
-                author: "새로운 유저", // 추후 DB에서 사용자 정보 받아와서 사용
+                author: "새로운 유저",
                 content: newComment,
                 date: formattedDate,
             };
             setComments([...comments, newCommentData]);
             setNewComment("");
-            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
+            setShowCommentPlaceholder(false);
 
             alert("댓글이 등록되었습니다.");
         }
     };
 
+    if (!videoData) {
+        return <div>로딩 중...</div>;
+    }
+
     return (
         <Layout>
-            {/* 동영상 */}
             <div className="main-container-810">
                 <div className="videos-flex mt90">
-                    <VideoPlay thumbnail={dummyVideo.thumbnail} />
+                    <VideoPlay thumbnail={videoData.thumbnailPath} />
                 </div>
 
-                {/* 정보 */}
                 <div className="play-infobox mt20">
                     <div className="flex align-center space-between">
-                        <div>캐논 변주곡</div>
-                        <div>#기타</div>
+                        <div>{videoData.title}</div>
+                        <div>#{videoData.category}</div>
                     </div>
                     <div className="flex align-center space-between mt10">
                         <div className="flex align-center">
-                            <img src={grade} className="mr10" />김융
+                            <img src={grade} className="mr10" />{videoData.nickname}
                         </div>
                         <div className="flex align-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
                             <img
                                 src={isHeartFilled ? heart_fill : heart}
-                                className={`mr10 ${animate ? "heart-animation" : ""}`} // 애니메이션 클래스 추가
+                                className={`mr10 ${animate ? "heart-animation" : ""}`}
                             />
-                            {likeCount}  {/* 좋아요 개수 표시 */}
+                            {likeCount}
                         </div>
                     </div>
                 </div>
 
-                {/* 설명 */}
                 <div className="video-info mt40">
                     <div className="video-info-title">
-                        <div>조회수 7500회</div>
-                        <div>24.05.26 17:14</div>
                     </div>
-                    <div className="video-info-content">기타로 연주한 캐논 변주곡입니다 부족한 실력이지만 열심히 했습니다.</div>
+                    <div className="video-info-content">{videoData.description}</div>
                 </div>
 
-                {/* 버튼 */}
                 <div className="flex-end mt40 button-container">
                     <Button>수정</Button>
                     <Button>삭제</Button>
                 </div>
 
-                {/* 댓글등록 */}
                 <div className="comment mt90">
                     <div>댓글 {comments.length}개</div>
                     <textarea
@@ -126,7 +121,6 @@ const ChallengeDetail = () => {
                     <Button onClick={handleCommentSubmit}>등록</Button>
                 </div>
 
-                {/* 댓글리스트 */}
                 {showCommentPlaceholder && comments.length === 0 && (
                     <div className="comment-placeholder">
                         첫 댓글을 남겨보세요!
@@ -149,7 +143,7 @@ const ChallengeDetail = () => {
                 ))}
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default ChallengeDetail;

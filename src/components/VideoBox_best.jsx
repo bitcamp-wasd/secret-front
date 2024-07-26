@@ -6,7 +6,7 @@ import defaultThumbnail from "../assets/images/defaultThumbnail.jpg";
 // .env 파일에서 클라우드 이미지 URL 가져오기
 const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
 
-const VideoBox_best = ({ thumbnail, title, nickname, like, views, uploadDate, length }) => {
+const VideoBox_best = ({ thumbnail, title, nickname, cnt }) => {
 
     // 동영상 길이를 "MM:SS" 형식으로 변환
     const formatLength = (length) => {
@@ -39,7 +39,7 @@ const VideoBox_best = ({ thumbnail, title, nickname, like, views, uploadDate, le
                         </li>
                         <li className="flex align-center">
                             {/* <img src={heart} className="f20 no-transform" alt="heart" /> */}
-                            <span className="likes-number">투표수 : {like}</span>
+                            <span className="likes-number">투표수 : {cnt}</span>
                         </li>
                     </ul>
                 </div>
