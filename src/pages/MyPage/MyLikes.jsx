@@ -5,14 +5,13 @@ import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox";
 
-
 const MyLikes = () => {
   const [videos, setVideos] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0); // 페이지 번호를 0부터 시작
+  const [pageNumber, setPageNumber] = useState(0); 
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  const observer = useRef(null); // Intersection Observer를 위한 useRef 사용
+  const observer = useRef(null); 
   const navigate = useNavigate(); 
 
   const fetchVideos = async (page) => {
@@ -35,50 +34,45 @@ const MyLikes = () => {
           );
           return [...prevVideos, ...uniqueNewVideos];
         });
-        setPageNumber(page + 1); // 다음 페이지 번호 설정
+        setPageNumber(page + 1); 
       }
     } catch (error) {
-      console.error("Failed to fetch videos:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Intersection Observer의 콜백 함수
   const handleObserver = (entries) => {
     const target = entries[0];
     if (target.isIntersecting && hasMore && !loading) {
-      fetchVideos(pageNumber); // 다음 페이지 로드
+      fetchVideos(pageNumber); 
     }
   };
 
   useEffect(() => {
-    fetchVideos(pageNumber); // 초기 로딩 시 첫 번째 페이지 로드
+    fetchVideos(pageNumber); 
   }, []);
 
   useEffect(() => {
-    // Intersection Observer 설정
     observer.current = new IntersectionObserver(handleObserver, {
-      root: null, // viewport를 기준으로 감시
+      root: null, 
       rootMargin: "0px",
-      threshold: 0.1, // 요소의 10% 이상이 뷰포트에 들어올 때 콜백 호출
+      threshold: 0.1, 
     });
 
     if (videos.length > 0) {
-      // videos 배열이 업데이트될 때마다 observer 연결
       observer.current.observe(document.querySelector(".videos-grid > div:last-child"));
     }
 
     return () => {
       if (observer.current) {
-        observer.current.disconnect(); // 컴포넌트가 언마운트될 때 observer 정리
+        observer.current.disconnect(); 
       }
     };
-  }, [videos]); // videos 배열의 변화를 감지하여 observer 연결
+  }, [videos]); 
 
-// 동영상 클릭 핸들러
 const handleVideoClick = (videoId) => {
-  navigate(`/video/play/${videoId}`); // PlayVideo 페이지로 네비게이션
+  navigate(`/video/play/${videoId}`); 
 };
 
   return (

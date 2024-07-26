@@ -5,13 +5,11 @@ import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import VideoBox from "../../components/VideoBox";
 
-
 const MyVideos = () => {
   const [videos, setVideos] = useState([]);
   const [pageNumber, setPageNumber] = useState(0); // 페이지 번호를 0부터 시작
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
   const observer = useRef(null); // Intersection Observer를 위한 useRef 사용
   const navigate = useNavigate(); 
 
@@ -38,7 +36,6 @@ const MyVideos = () => {
         setPageNumber(page + 1); // 다음 페이지 번호 설정
       }
     } catch (error) {
-      console.error("Failed to fetch videos:", error);
     } finally {
       setLoading(false);
     }
@@ -78,7 +75,7 @@ const MyVideos = () => {
 
 // 동영상 클릭 핸들러
 const handleVideoClick = (videoId) => {
-  navigate(`/video/play/${videoId}`); // PlayVideo 페이지로 네비게이션
+  navigate(`/video/play/${videoId}`); // PlayVideo 페이지로 이동
 };
 
   return (
