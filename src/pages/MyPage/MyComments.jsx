@@ -14,20 +14,27 @@ const MyComments = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (selectedTag) {
-      axiosInstance
-        .get(`/api/${selectedTag}/auth/myComments`, {
-          params: { page: currentPage - 1 },
-        })
-        .then((response) => {
-          const { content, totalPages } = response.data;
-          setComments(content);
-          setTotalPages(totalPages);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    }
+    const fetchComments = async () => {
+      try {
+        let response;
+        if (selectedTag === 'video') {
+          response = await axiosInstance.get(`/api/video/auth/mycomment`, {
+            params: { pageNumber: currentPage - 1 }
+          });
+        } else if (selectedTag === 'battle') {
+          response = await axiosInstance.get(`/api/battle/auth/myComments`, {
+            params: { page: currentPage - 1 }
+          });
+        } 
+        
+        const { content, totalPages } = response.data;
+        setComments(content);
+        setTotalPages(totalPages);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchComments();
   }, [selectedTag, currentPage]);
 
   const handleClick = (tag) => {
@@ -50,10 +57,11 @@ const MyComments = () => {
     }
   };
 
-  //댓글 클릭하면 해당 페이지로 리다ㅣ렉트
-  const handleCommentClick = (commentId) => {
-    if (selectedTag === 'battle') {
-      navigate(`/battle/detail/${commentId}`);
+  const handleCommentClick = (comment) => {
+    if (selectedTag === 'video') {
+      navigate(`/video/play/${comment.videoId}`);
+    } else if (selectedTag === 'battle') {
+      navigate(`/battle/detail/${comment.battleId}`);
     }
   };
 
@@ -87,15 +95,15 @@ const MyComments = () => {
           </div>
           {comments.map((comment) => (
             <div 
-              key={comment.battleCommentId} 
+              key={comment.commentId || comment.battleCommentId} 
               className="comment-row"
-              onClick={() => handleCommentClick(comment.battleId)}
+              onClick={() => handleCommentClick(comment)}
               style={{ cursor: 'pointer' }}
-              >
+            >
               <span></span>
-              <span>{comment.title}</span>
+              <span>{comment.title || '제목 없음'}</span>
               <span>{comment.comment}</span>
-              <span>{comment.createDate}</span>
+              <span>{new Date(comment.createDate).toLocaleDateString()}</span>
             </div>
           ))}
           <div className="flex flex-end mt20">

@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import Button from "../../components/Button";
 import axiosInstance from "../../utils/axiosInstance";
 
-const MyComments = () => {
+const DeleteComments = () => {
   const [comments, setComments] = useState([]);
   const [selectedComments, setSelectedComments] = useState([]);
   const [selectedTag, setSelectedTag] = useState('video');
@@ -176,4 +176,4 @@ const MyComments = () => {
   );
 };
 
-export default MyComments;
+export default DeleteComments;
