@@ -1,14 +1,16 @@
 import React from 'react';
 import "../assets/css/style.css";
-import Button from './Button';
+import admin from "../assets/images/admin.svg";
 
 const BannerAdmin = () => {
   return (
     <div className="banner">
-      <h1>관리자 페이지입니다</h1>
-      <div className='banner-admin'>
-      <Button>챌린지 업데이트</Button>
-      <Button>배틀 업데이트</Button>     
+      <div className='banner-admin align-center'>
+      <img src={admin} alt="Admin" />
+      <h2>관리자</h2>
+      </div>
+      <div className='banner-admin mt20'>
+      <h3>현재 주간 챌린지를 설정할 수 있습니다</h3>
       </div>
     </div>
   );
