@@ -141,6 +141,7 @@ const BattleDetail = () => {
         setEditingCommentText(""); // 수정 중인 댓글 내용 초기화
     };
 
+
     // 댓글 수정 함수
     const updateComment = async (commentId) => {
         try {
@@ -370,18 +371,21 @@ const BattleDetail = () => {
 
     // 댓글 등록 함수
     const postComment = async () => {
-        try {
-            // 입력된 댓글이 없는 경우 처리
-            if (newComment.trim() === "") {
-                alert("댓글을 입력해주세요.");
-                return;
-            }
+        if (newComment.trim() === "") {
+            alert("댓글을 입력해주세요.");
+            return;
+        }
 
+        if (newComment.length > 255) {
+            alert("댓글은 255자를 초과할 수 없습니다.");
+            return; // 길이가 초과하면 댓글 등록을 막음
+        }
+
+        try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/comment`;
             const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
-                // 로그인되지 않았을 경우, 로그인 페이지로 이동하도록 설정
                 if (window.confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?")) {
                     window.location.href = "/login";
                 }
@@ -398,29 +402,19 @@ const BattleDetail = () => {
                 }
             );
 
-            // 댓글 등록 후 UI 업데이트
-            // console.log("댓글 등록 완료:", response.data);
-
-            // 기존 댓글 목록 갱신을 위해 다시 불러오기
             fetchCommentList(0); // 첫 페이지부터 다시 불러옵니다.
-
-            // 새로운 댓글 입력 상태 초기화
             setNewComment("");
-            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
-
-            // 무한 스크롤 관련 상태 초기화
-            setPageNumber(0); // 페이지 번호 초기화
-            setIsLastPage(false); // 마지막 페이지 상태 초기화
-
-            // 총 댓글 수 업데이트
+            setShowCommentPlaceholder(false);
+            setPageNumber(0);
+            setIsLastPage(false);
             setTotalComments((prevCount) => prevCount + 1);
 
             alert("댓글이 등록되었습니다.");
         } catch (error) {
             console.error("댓글 등록 실패:", error);
-            // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
         }
     };
+
 
     // textarea 클릭 시
     const handleTextareaClick = () => {
@@ -444,8 +438,14 @@ const BattleDetail = () => {
     };
 
     const handleCommentChange = (e) => {
-        setNewComment(e.target.value); // 댓글 입력 상태 업데이트
+        const input = e.target.value;
+        if (input.length > 255) {
+            alert("댓글은 255자를 초과할 수 없습니다.");
+            return; // 길이가 초과하면 상태 업데이트를 막음
+        }
+        setNewComment(input); // 댓글 입력 상태 업데이트
     };
+
 
     if (!battle) {
         return <p>Loading...</p>; // 배틀 정보를 가져오는 중일 때 로딩 상태 표시
@@ -581,10 +581,12 @@ const BattleDetail = () => {
                                         </div>
                                     </div>
                                     <div className="comment-content mt10">
-                                        <div style={{ overflow: 'hidden' }}>
-                                            <span style={{ float: 'left' }}>{comment.comment}</span>
+                                        <div className="comment-wrapper">
+                                            <div className="comment-text">
+                                                {comment.comment}
+                                            </div>
                                             {comment.nickname === getCurrentUserNickname() && (
-                                                <div style={{ float: 'right' }}>
+                                                <div className="comment-actions">
                                                     <button className="button mod" onClick={() => startEditingComment(comment.battleCommentId, comment.comment)}>수정</button>
                                                     <button className="button del" onClick={() => deleteComment(comment.battleCommentId)}>삭제</button>
                                                 </div>

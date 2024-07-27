@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
-import Tag from "../../components/Tag";
+import Tag from "../../components/Tagch"; // 수정된 Tag 컴포넌트
 import VideoBox_ch from "../../components/VideoBox_ch";
 import VideoBox_best from "../../components/VideoBox_best";
 import chbest from "../../assets/images/chbest.svg";
@@ -16,6 +16,11 @@ const ChallengeList = () => {
   const [challengeData, setChallengeData] = useState(null);
   const [previousChallenges, setPreviousChallenges] = useState([]);
   const [videoList, setVideoList] = useState([]);
+  const [topVideos, setTopVideos] = useState([]); // 상위 3개의 비디오
+  const [filters, setFilters] = useState({
+    sort: "uploadDate",
+    category: []
+  });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -24,7 +29,6 @@ const ChallengeList = () => {
   };
 
   const handleChallengeClick = (challenge) => {
-    console.log("Selected challengeId:", challenge.challengeId);
     setChallengeData(challenge);
     setShowPreviousChallenges(false);
   };
@@ -71,18 +75,39 @@ const ChallengeList = () => {
         params: { challengeId: challengeData.challengeId }
       })
         .then((response) => {
-          setVideoList(response.data);
+          const filteredAndSortedVideos = applyFiltersAndSort(response.data, filters);
+          setVideoList(filteredAndSortedVideos);
+          setTopVideos(getTopThreeVideos(response.data)); // 상위 3개 비디오 설정
         })
         .catch((error) => console.error("Error fetching challenge videos:", error));
     }
-  }, [challengeData]);
+  }, [challengeData, filters]);
 
-  const dummyVideo = {
-    id: 1,
-    title: `챌린지 Best`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+1`,
-    nickname: "김융",
-    cnt: '1234',
+  // 필터링 및 정렬 함수
+  const applyFiltersAndSort = (videos, filters) => {
+    return videos
+      .filter(video => filters.category.length === 0 || filters.category.includes(video.category))
+      .sort((a, b) => {
+        if (filters.sort === "views") {
+          return b.cnt - a.cnt;
+        } else if (filters.sort === "video.likeCount") {
+          return b.cnt - a.cnt;
+        } else {
+          return new Date(b.uploadDate) - new Date(a.uploadDate);
+        }
+      });
+  };
+
+  // 상위 3개 비디오를 반환하는 함수
+  const getTopThreeVideos = (videos) => {
+    return videos
+      .sort((a, b) => b.cnt - a.cnt)
+      .slice(0, 3);
+  };
+
+  // Tag 컴포넌트에서 필터를 업데이트하는 함수
+  const handleTagClick = (newFilters) => {
+    setFilters(newFilters);
   };
 
   return (
@@ -109,50 +134,31 @@ const ChallengeList = () => {
       <div className="challenge-container">
         <div className="best-challenge">
           <img src={chbest} alt="챌린지 베스트 이미지" />
-          <div className="text-overlay">{challengeData ? `${challengeData.title}` : <div className="spinner"></div>} <br />챌린지 BEST3</div>
-        </div>
-        <div className="sub-box-300">
-          <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_best
-              key={dummyVideo.id}
-              thumbnail={dummyVideo.thumbnail}
-              title={dummyVideo.title}
-              nickname={dummyVideo.nickname}
-              cnt={dummyVideo.cnt}
-            />
-            <img className="video-overlay" src={one} alt="One 이미지" />
+          <div className="text-overlay">
+            {challengeData ? `${challengeData.title}` : <div className="spinner"></div>}
+            <br />
+            챌린지 BEST3
           </div>
         </div>
-        <div className="sub-box-300">
-          <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_best
-              key={dummyVideo.id}
-              thumbnail={dummyVideo.thumbnail}
-              title={dummyVideo.title}
-              nickname={dummyVideo.nickname}
-              cnt={dummyVideo.cnt}
-            />
-            <img className="video-overlay" src={two} alt="Two 이미지" />
+        {topVideos.map((video, index) => (
+          <div className="sub-box-300" key={video.videoId} onClick={() => handleVideoClick(video.videoId)}>
+            <div className="video-box-ch" style={{ position: "relative" }}>
+              <VideoBox_best
+                thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
+                title={video.title}
+                nickname={video.nickname}
+                cnt={video.cnt}
+              />
+              <img className="video-overlay" src={[one, two, three][index]} alt={`Best ${index + 1} 이미지`} />
+            </div>
           </div>
-        </div>
-        <div className="sub-box-300">
-          <div className="video-box-ch" style={{ position: "relative" }}>
-            <VideoBox_best
-              key={dummyVideo.id}
-              thumbnail={dummyVideo.thumbnail}
-              title={dummyVideo.title}
-              nickname={dummyVideo.nickname}
-              cnt={dummyVideo.cnt}
-            />
-            <img className="video-overlay" src={three} alt="Three 이미지" />
-          </div>
-        </div>
+        ))}
       </div>
 
       <div className="main-container-1150 mt80">
         <div className="mr10 ml10">
           <div className="row-direction space-between mb50">
-            <Tag />
+            <Tag onTagClick={handleTagClick} /> {/* Tag 컴포넌트와 핸들러 연결 */}
           </div>
           <div className="videos-grid mb60">
             {videoList.length > 0 ? (

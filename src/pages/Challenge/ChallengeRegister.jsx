@@ -96,6 +96,8 @@ const ChallengeRegister = () => {
             return;
         }
 
+        alert('동영상 업로드를 시작합니다.');
+
         upload();
     };
 
@@ -161,10 +163,6 @@ const ChallengeRegister = () => {
                 },
             });
 
-
-
-            alert('동영상 업로드를 시작합니다.');
-
         } catch (error) {
             if (error.response && error.response.status === 401) {  // Unauthorized error
                 try {
@@ -190,7 +188,7 @@ const ChallengeRegister = () => {
     useEffect(() => {
         if (progress === 100) {
             setTimeout(() => {
-                navigate('/');
+                navigate('/challenge/list');
             }, 5000); // 5초 후 페이지 이동
         }
     }, [progress, navigate]);
@@ -259,7 +257,7 @@ const ChallengeRegister = () => {
                 <div style={{ width: '50%', margin: 'auto', textAlign: 'center' }}>
                     <progress value={progress} max={100}></progress>
                     <div style={{ marginBottom: '10px', color: 'gray' }}>업로드: {progress}%</div>
-                    {progress === 100 && <div style={{ color: 'green' }}>전송 완료! 5초 후 메인페이지로 이동합니다.</div>}
+                    {progress === 100 && <div style={{ color: 'green' }}>전송 완료! 5초 후 챌린지페이지로 이동합니다.</div>}
                 </div>
 
                 <div className="justify-center mt40">
