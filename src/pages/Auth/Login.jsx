@@ -38,10 +38,8 @@ const Login = () => {
         const { accessToken, refreshToken, expirationTime } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
         sessionStorage.setItem("refreshToken", refreshToken);
-        sessionStorage.setItem(
-          "tokenExpiration",
-          Date.now() + expirationTime * 1000
-        );
+        sessionStorage.setItem("tokenExpiration", expirationTime);
+        sessionStorage.setItem("tokenIssuedAt", new Date().getTime());
 
         // 메인 페이지로 이동
         navigate("/");
