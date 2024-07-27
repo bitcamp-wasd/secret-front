@@ -323,7 +323,7 @@ const PlayVideo = () => {
   };
 
   if (!videoData) {
-    return <div>로딩 중...</div>;
+    return <div className="spinner"></div>;
   }
 
   const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.video}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;

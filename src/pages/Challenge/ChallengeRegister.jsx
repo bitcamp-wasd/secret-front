@@ -147,6 +147,8 @@ const ChallengeRegister = () => {
             const videoPresignedUrl = url['videoPresignedUrl'];
             const thumbnailPresignedUrl = url['thumbnailPresignedUrl'];
 
+            await axios.put(thumbnailPresignedUrl, thumbnail);
+
             await axios.put(videoPresignedUrl, video, {
                 onUploadProgress: (progressEvent) => {
                     let percentage = (progressEvent.loaded * 100) / progressEvent.total;
@@ -159,7 +161,7 @@ const ChallengeRegister = () => {
                 },
             });
 
-            await axios.put(thumbnailPresignedUrl, thumbnail);
+
 
             alert('동영상 업로드를 시작합니다.');
 

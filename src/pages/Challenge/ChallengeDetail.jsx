@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // useParams 훅을 사용하여 URL 파라미터를 추출
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../../assets/css/style.css';
 import '../../assets/css/jun.css';
@@ -11,61 +11,301 @@ import heart_fill from '../../assets/images/heart_fill.svg';
 import grade from '../../assets/images/grade.svg';
 
 const ChallengeDetail = () => {
-    const { videoId } = useParams(); // URL에서 videoId 추출
+    const { videoId } = useParams();
     const [videoData, setVideoData] = useState(null);
+    const [challengeId, setChallengeId] = useState(null);
     const [isHeartFilled, setIsHeartFilled] = useState(false);
-    const [likeCount, setLikeCount] = useState(0);
     const [animate, setAnimate] = useState(false);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
+    const [hasVoted, setHasVoted] = useState(false);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingCommentText, setEditingCommentText] = useState("");
+
+    const observer = useRef();
 
     useEffect(() => {
         const apiUrl = process.env.REACT_APP_API_URL;
 
-        axios.get(`${apiUrl}/api/challenge/watch?videoId=${videoId}`)
-            .then(response => {
-                const data = response.data;
-                setVideoData(data);
-                setLikeCount(data.cnt); // 초기 좋아요 수 설정
-            })
-            .catch(error => {
-                console.error("API 호출 중 오류 발생:", error);
-            });
-    }, [videoId]);
+        const fetchData = async () => {
+            try {
+                const videoResponse = await axios.get(`${apiUrl}/api/challenge/watch?videoId=${videoId}`);
+                const videoData = videoResponse.data;
+                setVideoData(videoData);
+                setIsHeartFilled(videoData.hasVoted);
+                setHasVoted(videoData.hasVoted);
 
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled);
-        setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1);
+                const commentsResponse = await axios.get(`${apiUrl}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+                setComments(commentsResponse.data);
+                setShowCommentPlaceholder(commentsResponse.data.length === 0);
+
+            } catch (error) {
+                console.error("API 호출 중 오류 발생:", error);
+            }
+        };
+
+        fetchData();
+    }, [videoId, pageNumber]);
+
+    const handleHeartClick = async () => {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        if (hasVoted) {
+            alert('이미 투표하였습니다.');
+            return;
+        }
+
+        setIsHeartFilled(true);
         setAnimate(true);
+        setHasVoted(true);
+
+        try {
+            const requestData = {
+                challengeId: challengeId,
+                challengeListId: videoId,
+            };
+
+            console.log('요청 데이터:', requestData);
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/vote`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log('좋아요 요청 성공:', response.data);
+
+            const videoResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/watch?videoId=${videoId}`);
+            const updatedVideoData = videoResponse.data;
+            setVideoData(updatedVideoData);
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+                console.error('서버 상태 코드:', error.response.status);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+
+            setIsHeartFilled(false);
+            setHasVoted(false);
+            alert('좋아요 요청 중 오류가 발생했습니다.');
+        }
 
         setTimeout(() => {
             setAnimate(false);
-        }, 300); // 애니메이션 지속 시간과 동일하게 설정
+        }, 500);
     };
 
     const handleCommentChange = (e) => {
         setNewComment(e.target.value);
     };
 
-    const handleCommentSubmit = () => {
-        if (newComment.trim() !== "") {
-            const now = new Date();
-            const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    const handleCommentSubmit = async () => {
+        if (newComment.trim() === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
 
-            const newCommentData = {
-                id: comments.length + 1,
-                author: "새로운 유저",
-                content: newComment,
-                date: formattedDate,
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        try {
+            const requestData = {
+                videoId: videoId,
+                comment: newComment,
             };
-            setComments([...comments, newCommentData]);
+
+            await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+            setComments(commentsResponse.data);
             setNewComment("");
             setShowCommentPlaceholder(false);
-
             alert("댓글이 등록되었습니다.");
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+                console.error('서버 상태 코드:', error.response.status);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+            alert('댓글 등록 중 오류가 발생했습니다.');
         }
     };
+
+    const handleCommentDelete = async (commentId) => {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        if (window.confirm('이 댓글을 삭제하시겠습니까?')) {
+            try {
+                await axios.delete(
+                    `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment/${commentId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setComments(comments.filter(comment => comment.commentId !== commentId));
+                alert('댓글이 삭제되었습니다.');
+            } catch (error) {
+                if (error.response) {
+                    console.error('서버 응답 오류:', error.response.data);
+                    console.error('서버 상태 코드:', error.response.status);
+                } else if (error.request) {
+                    console.error('요청 오류:', error.request);
+                } else {
+                    console.error('에러 발생:', error.message);
+                }
+                alert('댓글 삭제 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
+    const handleEditClick = (commentId, currentText) => {
+        setEditingCommentId(commentId);
+        setEditingCommentText(currentText);
+    };
+
+    const handleEditCommentChange = (e) => {
+        setEditingCommentText(e.target.value);
+    };
+
+    const handleEditCommentSubmit = async () => {
+        if (editingCommentText.trim() === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
+
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        try {
+            const requestData = {
+                comment: editingCommentText,
+            };
+
+            await axios.patch(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment?commentId=${editingCommentId}`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+            setComments(commentsResponse.data);
+            setEditingCommentId(null);
+            setEditingCommentText("");
+            alert("댓글이 수정되었습니다.");
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+            alert('댓글 수정 중 오류가 발생했습니다.');
+        }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${String(date.getFullYear()).slice(2)}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    };
+
+    const loadMoreComments = async () => {
+        if (loading) return;
+
+        setLoading(true);
+
+        try {
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber + 1}&pageSize=10`);
+            if (commentsResponse.data.length > 0) {
+                setComments(prevComments => [...prevComments, ...commentsResponse.data]);
+                setPageNumber(prevPageNumber => prevPageNumber + 1);
+            }
+        } catch (error) {
+            console.error("댓글 로딩 중 오류 발생:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const lastCommentElementRef = useRef();
+
+    useEffect(() => {
+        const observerCallback = (entries) => {
+            const [entry] = entries;
+            if (entry.isIntersecting && !loading) {
+                loadMoreComments();
+            }
+        };
+
+        const observerInstance = new IntersectionObserver(observerCallback, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        });
+
+        if (lastCommentElementRef.current) {
+            observerInstance.observe(lastCommentElementRef.current);
+        }
+
+        return () => {
+            if (lastCommentElementRef.current) {
+                observerInstance.unobserve(lastCommentElementRef.current);
+            }
+        };
+    }, [loading]);
 
     if (!videoData) {
         return <div>로딩 중...</div>;
@@ -92,14 +332,12 @@ const ChallengeDetail = () => {
                                 src={isHeartFilled ? heart_fill : heart}
                                 className={`mr10 ${animate ? "heart-animation" : ""}`}
                             />
-                            {likeCount}
+                            {videoData.cnt}
                         </div>
                     </div>
                 </div>
 
                 <div className="video-info mt40">
-                    <div className="video-info-title">
-                    </div>
                     <div className="video-info-content">{videoData.description}</div>
                 </div>
 
@@ -126,21 +364,50 @@ const ChallengeDetail = () => {
                         첫 댓글을 남겨보세요!
                     </div>
                 )}
-                {comments.map((comment) => (
-                    <div key={comment.id}>
+
+                {comments.map((comment, index) => (
+                    <div key={comment.commentId} ref={comments.length === index + 1 ? lastCommentElementRef : null}>
                         <div className="flex align-center space-between mt40">
                             <div className="flex align-center">
                                 <img src={grade} className="mr10" />
-                                {comment.author}
+                                {comment.nickname}
                             </div>
-                            <div className="flex align-center">{comment.date}</div>
+                            <div className="flex align-center">
+                                {formatDate(comment.createdAt)}
+                            </div>
                         </div>
                         <div className="comment-content mt10">
-                            {comment.content}
-                            <div className="line"></div>
+                            {editingCommentId === comment.commentId ? (
+                                <div className="comment">
+                                    <textarea
+                                        value={editingCommentText}
+                                        onChange={handleEditCommentChange}
+                                    />
+                                    <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
+                                        <button className="button save" onClick={handleEditCommentSubmit}>완료</button>
+                                        <button className="button can" onClick={() => {
+                                            setEditingCommentId(null);
+                                            setEditingCommentText("");
+                                        }}>취소</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    {comment.comment}
+                                    <div style={{ textAlign: 'right' }}>
+                                        <button className="button mod" onClick={() => handleEditClick(comment.commentId, comment.comment)}>수정</button>
+                                        <button className="button del" onClick={() => handleCommentDelete(comment.commentId)}>삭제</button>
+                                    </div>
+                                    <div className="line"></div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
+
+                {loading && (
+                    <div className="loading">Loading...</div>
+                )}
             </div>
         </Layout>
     );
