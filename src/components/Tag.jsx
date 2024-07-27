@@ -39,7 +39,7 @@ const Tag = ({ onTagClick }) => {
     } else if (tag.id >= 3 && tag.id <= 6) {
       const categoryName = tag.englishName; // 영어 이름으로 수정
       const index = newSelected.category.indexOf(categoryName);
-      
+
       if (index === -1) {
         newSelected.category = [...newSelected.category, categoryName];
       } else {

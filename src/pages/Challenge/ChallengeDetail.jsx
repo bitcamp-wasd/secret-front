@@ -112,7 +112,21 @@ const ChallengeDetail = () => {
     };
 
     const handleCommentChange = (e) => {
-        setNewComment(e.target.value);
+        const value = e.target.value;
+        if (value.length > 255) {
+            alert("댓글은 255자 이하로 입력해주세요.");
+            return;
+        }
+        setNewComment(value);
+    };
+
+    const handleEditCommentChange = (e) => {
+        const value = e.target.value;
+        if (value.length > 255) {
+            alert("댓글은 255자 이하로 입력해주세요.");
+            return;
+        }
+        setEditingCommentText(value);
     };
 
     const handleCommentSubmit = async () => {
@@ -176,9 +190,13 @@ const ChallengeDetail = () => {
 
         if (window.confirm('이 댓글을 삭제하시겠습니까?')) {
             try {
+                // 서버가 배열 형식으로 댓글 ID를 받는다고 가정
                 await axios.delete(
-                    `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment/${commentId}`,
+                    `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment`,
                     {
+                        data: {
+                            commentIds: [commentId]  // 배열 형태로 삭제할 댓글 ID 전달
+                        },
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -204,10 +222,6 @@ const ChallengeDetail = () => {
     const handleEditClick = (commentId, currentText) => {
         setEditingCommentId(commentId);
         setEditingCommentText(currentText);
-    };
-
-    const handleEditCommentChange = (e) => {
-        setEditingCommentText(e.target.value);
     };
 
     const handleEditCommentSubmit = async () => {
@@ -311,11 +325,21 @@ const ChallengeDetail = () => {
         return <div>로딩 중...</div>;
     }
 
+    // textarea 클릭 시
+    const handleTextareaClick = () => {
+        const token = sessionStorage.getItem('accessToken');
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+        }
+    };
+    const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.video}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
     return (
         <Layout>
             <div className="main-container-810">
                 <div className="videos-flex mt90">
-                    <VideoPlay thumbnail={videoData.thumbnailPath} />
+                    <VideoPlay thumbnail={videoData.thumbnail} title={videoData.title} videoUrl={videoUrl} />
                 </div>
 
                 <div className="play-infobox mt20">
@@ -353,6 +377,7 @@ const ChallengeDetail = () => {
                         placeholder="댓글을 입력하세요."
                         value={newComment}
                         onChange={handleCommentChange}
+                        onClick={handleTextareaClick}
                     />
                 </div>
                 <div className="flex-end mt10 button-container">
@@ -392,9 +417,11 @@ const ChallengeDetail = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <div>
-                                    {comment.comment}
-                                    <div style={{ textAlign: 'right' }}>
+                                <div className="comment-wrapper">
+                                    <div className="comment-text">
+                                        {comment.comment}
+                                    </div>
+                                    <div className="comment-actions">
                                         <button className="button mod" onClick={() => handleEditClick(comment.commentId, comment.comment)}>수정</button>
                                         <button className="button del" onClick={() => handleCommentDelete(comment.commentId)}>삭제</button>
                                     </div>

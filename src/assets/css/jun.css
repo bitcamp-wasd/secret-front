@@ -788,3 +788,20 @@ progress::-webkit-progress-value {
 .video-info-content {
     width: 810px;
 }
+
+.comment-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-text {
+    flex: 1;
+    margin-right: 10px;
+    /* Adjust if needed */
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+}
