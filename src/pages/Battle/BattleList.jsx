@@ -139,7 +139,7 @@ const BattleList = () => {
                         </div>
                     ))}
                 </div>
-                {loading && <p>배틀을 불러오는 중입니다.</p>}
+                {loading && <div className="spinner"></div>}
             </div>
         </Layout>
     );

@@ -383,6 +383,10 @@
         width: 100%;
     }
 
+    .video-info-content {
+        width: 100% !important;
+    }
+
     .comments-grid {
         width: 580px;
         margin-left: 10px;
@@ -779,4 +783,8 @@ progress::-webkit-progress-value {
     /* 필요에 따라 강조할 수 있음 */
     margin-left: 8px;
     /* 텍스트 간격 조정 */
+}
+
+.video-info-content {
+    width: 810px;
 }

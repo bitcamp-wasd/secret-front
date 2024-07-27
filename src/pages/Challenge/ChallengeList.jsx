@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Layout from "../../components/Layout";
 import Tag from "../../components/Tag";
@@ -16,15 +17,20 @@ const ChallengeList = () => {
   const [previousChallenges, setPreviousChallenges] = useState([]);
   const [videoList, setVideoList] = useState([]);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const togglePreviousChallenges = () => {
     setShowPreviousChallenges(!showPreviousChallenges);
   };
 
   const handleChallengeClick = (challenge) => {
-    console.log("Selected challengeId:", challenge.challengeId); // 콘솔 로그 추가
+    console.log("Selected challengeId:", challenge.challengeId);
     setChallengeData(challenge);
     setShowPreviousChallenges(false);
+  };
+
+  const handleVideoClick = (videoId) => {
+    navigate(`/challenge/detail/${videoId}`);
   };
 
   useEffect(() => {
@@ -41,12 +47,10 @@ const ChallengeList = () => {
     };
   }, []);
 
-  // 최신 챌린지 데이터 요청
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/list`)
       .then((response) => {
         if (response.data.length > 0) {
-          // 응답 데이터에서 `_id` 필드를 사용
           setChallengeData(response.data[0]);
         }
       })
@@ -67,7 +71,6 @@ const ChallengeList = () => {
         params: { challengeId: challengeData.challengeId }
       })
         .then((response) => {
-          console.log("Fetched videos:", response.data);
           setVideoList(response.data);
         })
         .catch((error) => console.error("Error fetching challenge videos:", error));
@@ -106,7 +109,7 @@ const ChallengeList = () => {
       <div className="challenge-container">
         <div className="best-challenge">
           <img src={chbest} alt="챌린지 베스트 이미지" />
-          <div className="text-overlay">{challengeData ? `${challengeData.title}` : "제목을 불러오는 중..."} <br />챌린지 BEST3</div>
+          <div className="text-overlay">{challengeData ? `${challengeData.title}` : <div className="spinner"></div>} <br />챌린지 BEST3</div>
         </div>
         <div className="sub-box-300">
           <div className="video-box-ch" style={{ position: "relative" }}>
@@ -154,13 +157,18 @@ const ChallengeList = () => {
           <div className="videos-grid mb60">
             {videoList.length > 0 ? (
               videoList.map((video) => (
-                <VideoBox_ch
+                <div
                   key={video.videoId}
-                  thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
-                  title={video.title}
-                  nickname={video.nickname}
-                  cnt={video.cnt}
-                />
+                  onClick={() => handleVideoClick(video.videoId)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <VideoBox_ch
+                    thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
+                    title={video.title}
+                    nickname={video.nickname}
+                    cnt={video.cnt}
+                  />
+                </div>
               ))
             ) : (
               <p>첫 챌린지를 등록해보세요!</p>
