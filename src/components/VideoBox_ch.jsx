@@ -6,10 +6,11 @@ import defaultThumbnail from "../assets/images/defaultThumbnail.jpg";
 // .env 파일에서 클라우드 이미지 URL 가져오기
 const cloudImageUrl = process.env.REACT_APP_CLOUD_IMAGE_URL;
 
-const VideoBox_best = ({ thumbnail, title, nickname, cnt }) => {
+const VideoBox_ch = ({ thumbnail, title, nickname, cnt }) => {
 
+    console.log(thumbnail);
     const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
-    // console.log(thumbnailUrl);
+    console.log(thumbnailUrl)
 
     return (
         <div className="video-box mt20">
@@ -32,4 +33,4 @@ const VideoBox_best = ({ thumbnail, title, nickname, cnt }) => {
     );
 };
 
-export default VideoBox_best;
+export default VideoBox_ch;

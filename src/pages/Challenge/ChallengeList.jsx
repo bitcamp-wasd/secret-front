@@ -52,10 +52,16 @@ const ChallengeList = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/list`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/banner`)
       .then((response) => {
-        if (response.data.length > 0) {
-          setChallengeData(response.data[0]);
+
+        console.log('respponse:data:');
+        console.log(response.data);
+        console.log(response.data.challengeId);
+        if (response.data) {
+         
+          setChallengeData(response.data);
+          
         }
       })
       .catch((error) => console.error("Error fetching challenge data:", error));
@@ -70,11 +76,15 @@ const ChallengeList = () => {
   }, []);
 
   useEffect(() => {
-    if (challengeData) {
+    if (challengeData !== null) {
+      console.log('challengeData:');
+      console.log(challengeData);
+
       axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/view`, {
-        params: { challengeId: challengeData.challengeId }
+        params: { challengeId: challengeData.challengeId}
       })
         .then((response) => {
+          console.log(response.data);
           const filteredAndSortedVideos = applyFiltersAndSort(response.data, filters);
           setVideoList(filteredAndSortedVideos);
           setTopVideos(getTopThreeVideos(response.data)); // 상위 3개 비디오 설정
@@ -144,7 +154,7 @@ const ChallengeList = () => {
           <div className="sub-box-300" key={video.videoId} onClick={() => handleVideoClick(video.videoId)}>
             <div className="video-box-ch" style={{ position: "relative" }}>
               <VideoBox_best
-                thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
+                thumbnail={video.thumbnailPath}
                 title={video.title}
                 nickname={video.nickname}
                 cnt={video.cnt}
@@ -169,7 +179,7 @@ const ChallengeList = () => {
                   style={{ cursor: 'pointer' }}
                 >
                   <VideoBox_ch
-                    thumbnail={`${process.env.REACT_APP_ASSET_URL}/${video.thumbnailPath}`}
+                    thumbnail={`${video.thumbnailPath}`}
                     title={video.title}
                     nickname={video.nickname}
                     cnt={video.cnt}
