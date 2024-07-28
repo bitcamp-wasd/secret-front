@@ -22,7 +22,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
   };
 
   const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
-
+  console.log(thumbnailUrl);
   return (
     <div className="video-box mt20">
       <div className="thumbnail-container">
@@ -37,7 +37,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
               <span>조회수 {views}</span>
             </li>
             <li>
-              <span>&#8226; {uploadDate ? formatDate(uploadDate) : "날짜 없음"}</span>
+              <span> {uploadDate ? formatDate(uploadDate) : "날짜 없음"}</span>
             </li>
             <li>
               <span className="nickname">{nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname}</span>

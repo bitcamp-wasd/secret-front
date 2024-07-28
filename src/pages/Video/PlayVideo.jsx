@@ -159,6 +159,12 @@ const PlayVideo = () => {
       return;
     }
 
+    // 댓글 길이 검증
+    if (newComment.length > 255) {
+      alert("댓글은 최대 255자까지 입력할 수 있습니다.");
+      return;
+    }
+
     const token = sessionStorage.getItem('accessToken');
     if (!token) {
       if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
@@ -203,6 +209,7 @@ const PlayVideo = () => {
       alert("댓글 등록 중 오류가 발생했습니다.");
     }
   };
+
 
   const handleEditComment = (commentId, commentText) => {
     setEditCommentId(commentId);
@@ -323,8 +330,19 @@ const PlayVideo = () => {
   };
 
   if (!videoData) {
-    return <div>로딩 중...</div>;
+    return <div className="spinner"></div>;
   }
+
+  // textarea 클릭 시
+  const handleTextareaClick = () => {
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) {
+      if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+    }
+  };
+
 
   const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.video}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
 
@@ -387,6 +405,7 @@ const PlayVideo = () => {
               placeholder="댓글을 입력하세요."
               value={newComment}
               onChange={handleCommentChange}
+              onClick={handleTextareaClick}
             />
           </div>
           <div className="flex-end mt10 button-container">
@@ -420,10 +439,12 @@ const PlayVideo = () => {
                     </div>
 
                   ) : (
-                    <div>
-                      {comment.comment}
+                    <div className="comment-wrapper">
+                      <div className="comment-text">
+                        {comment.comment}
+                      </div>
                       {currentUserNickname === comment.nickname && (
-                        <div style={{ textAlign: 'right' }}>
+                        <div className="comment-actions">
                           <button className="button mod" onClick={() => handleEditComment(comment.commentId, comment.comment)}>수정</button>
                           <button className="button del" onClick={() => handleDelete(comment.commentId)}>삭제</button>
                         </div>

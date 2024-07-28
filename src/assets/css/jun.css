@@ -30,6 +30,7 @@
 }
 
 .video-info-title {
+    width: 810px;
     display: flex;
     justify-content: space-between;
     padding: 9px 15px 9px 15px;
@@ -378,6 +379,14 @@
 
 @media (max-width: 900px) {
 
+    .video-info-title {
+        width: 100%;
+    }
+
+    .video-info-content {
+        width: 100% !important;
+    }
+
     .comments-grid {
         width: 580px;
         margin-left: 10px;
@@ -502,7 +511,7 @@
         width: 400px;
         margin-left: 10px;
         margin-right: 10px;
-      }
+    }
 
     .title {
         font-size: 18px;
@@ -567,7 +576,7 @@
         width: 300px;
         margin-left: 10px;
         margin-right: 10px;
-      }
+    }
 
     .button {
         font-size: 16px;
@@ -760,4 +769,39 @@ progress::-webkit-progress-value {
     width: 50px;
     height: 35px;
     font-size: 16px;
+}
+
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.voting-status {
+    color: #ffe500;
+    font-weight: bold;
+    /* 필요에 따라 강조할 수 있음 */
+    margin-left: 8px;
+    /* 텍스트 간격 조정 */
+}
+
+.video-info-content {
+    width: 810px;
+}
+
+.comment-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-text {
+    flex: 1;
+    margin-right: 10px;
+    /* Adjust if needed */
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
 }

@@ -1,118 +1,397 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../../assets/css/style.css';
 import '../../assets/css/jun.css';
 import Layout from '../../components/Layout';
 import Button from '../../components/Button';
 import VideoPlay from '../../components/VideoPlay';
-import SheetMusic from "../../assets/images/Sheet_Music.svg";
-import heart from "../../assets/images/heart.svg";
-import heart_fill from "../../assets/images/heart_fill.svg"; // heart_fill 추가
-import grade from "../../assets/images/grade.svg";
-
+import heart from '../../assets/images/heart.svg';
+import heart_fill from '../../assets/images/heart_fill.svg';
+import grade from '../../assets/images/grade.svg';
 
 const ChallengeDetail = () => {
-    const dummyVideo = {
-        id: 1,
-        thumbnail: 'https://via.placeholder.com/810x455.6?text=Thumbnail+1',
-    }
-
+    const { videoId } = useParams();
+    const [videoData, setVideoData] = useState(null);
+    const [challengeId, setChallengeId] = useState(null);
     const [isHeartFilled, setIsHeartFilled] = useState(false);
-    const [likeCount, setLikeCount] = useState(2574); // 좋아요 개수를 위한 상태 추가
-    const [animate, setAnimate] = useState(false); // 애니메이션 상태 추가
-    const [comments, setComments] = useState([
-        // {
-        //     id: 1,
-        //     author: "김융",
-        //     content: "오 그래도 잘하시는데요?",
-        //     date: "24.06.01 17:01",
-        // },
-        // {
-        //     id: 2,
-        //     author: "병민",
-        //     content: "정말 멋진 연주네요!",
-        //     date: "24.06.01 17:15",
-        // },
-    ]);
+    const [animate, setAnimate] = useState(false);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [showCommentPlaceholder, setShowCommentPlaceholder] = useState(true);
+    const [hasVoted, setHasVoted] = useState(false);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingCommentText, setEditingCommentText] = useState("");
 
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled);
-        setLikeCount(prevCount => isHeartFilled ? prevCount - 1 : prevCount + 1); // 좋아요 개수 증가/감소
+    const observer = useRef();
+
+    useEffect(() => {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const fetchData = async () => {
+            try {
+                const videoResponse = await axios.get(`${apiUrl}/api/challenge/watch?videoId=${videoId}`);
+                const videoData = videoResponse.data;
+                setVideoData(videoData);
+                setChallengeId(videoData.challengeId);
+
+                const commentsResponse = await axios.get(`${apiUrl}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+                setComments(commentsResponse.data);
+                setShowCommentPlaceholder(commentsResponse.data.length === 0);
+
+                // 투표 여부 확인
+                const token = sessionStorage.getItem('accessToken');
+                if (token) {
+                    const voteCheckRequestData = {
+                        challengeId: videoData.challengeId,
+                        challengeListId: videoId,
+                    };
+                    const voteCheckResponse = await axios.post(
+                        `${apiUrl}/api/challenge/auth/vote/check`,
+                        voteCheckRequestData,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    const hasVoted = voteCheckResponse.data;
+                    setIsHeartFilled(hasVoted);
+                    setHasVoted(hasVoted);
+                }
+            } catch (error) {
+                console.error("API 호출 중 오류 발생:", error);
+            }
+        };
+
+        fetchData();
+    }, [videoId, pageNumber]);
+
+    const handleHeartClick = async () => {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        if (hasVoted) {
+            alert('이미 투표하였습니다.');
+            return;
+        }
+
+        setIsHeartFilled(true);
         setAnimate(true);
+        setHasVoted(true);
+
+        try {
+            const requestData = {
+                challengeId: challengeId,
+                challengeListId: videoId,
+            };
+
+            console.log('요청 데이터:', requestData);
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/vote`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log('투표 요청 성공:', response.data);
+
+            const videoResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/watch?videoId=${videoId}`);
+            const updatedVideoData = videoResponse.data;
+            setVideoData(updatedVideoData);
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+                console.error('서버 상태 코드:', error.response.status);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+
+            setIsHeartFilled(false);
+            setHasVoted(false);
+            alert('좋아요 요청 중 오류가 발생했습니다.');
+        }
 
         setTimeout(() => {
             setAnimate(false);
-        }, 300); // 애니메이션 지속 시간과 동일하게 설정
+        }, 500);
     };
 
     const handleCommentChange = (e) => {
-        setNewComment(e.target.value);
+        const value = e.target.value;
+        if (value.length > 255) {
+            alert("댓글은 255자 이하로 입력해주세요.");
+            return;
+        }
+        setNewComment(value);
     };
 
-    const handleCommentSubmit = () => {
-        if (newComment.trim() !== "") {
-            const now = new Date();
-            const formattedDate = `${now.getFullYear().toString().slice(2)}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    const handleEditCommentChange = (e) => {
+        const value = e.target.value;
+        if (value.length > 255) {
+            alert("댓글은 255자 이하로 입력해주세요.");
+            return;
+        }
+        setEditingCommentText(value);
+    };
 
-            const newCommentData = {
-                id: comments.length + 1,
-                author: "새로운 유저", // 추후 DB에서 사용자 정보 받아와서 사용
-                content: newComment,
-                date: formattedDate,
+    const handleCommentSubmit = async () => {
+        if (newComment.trim() === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
+
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        try {
+            const requestData = {
+                videoId: videoId,
+                comment: newComment,
             };
-            setComments([...comments, newCommentData]);
-            setNewComment("");
-            setShowCommentPlaceholder(false); // 댓글이 추가되었으므로 플레이스홀더 숨김
 
+            await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+            setComments(commentsResponse.data);
+            setNewComment("");
+            setShowCommentPlaceholder(false);
             alert("댓글이 등록되었습니다.");
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+                console.error('서버 상태 코드:', error.response.status);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+            alert('댓글 등록 중 오류가 발생했습니다.');
         }
     };
 
+    const handleCommentDelete = async (commentId) => {
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        if (window.confirm('이 댓글을 삭제하시겠습니까?')) {
+            try {
+                // 서버가 배열 형식으로 댓글 ID를 받는다고 가정
+                await axios.delete(
+                    `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment`,
+                    {
+                        data: {
+                            commentIds: [commentId]  // 배열 형태로 삭제할 댓글 ID 전달
+                        },
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setComments(comments.filter(comment => comment.commentId !== commentId));
+                alert('댓글이 삭제되었습니다.');
+            } catch (error) {
+                if (error.response) {
+                    console.error('서버 응답 오류:', error.response.data);
+                    console.error('서버 상태 코드:', error.response.status);
+                } else if (error.request) {
+                    console.error('요청 오류:', error.request);
+                } else {
+                    console.error('에러 발생:', error.message);
+                }
+                alert('댓글 삭제 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
+    const handleEditClick = (commentId, currentText) => {
+        setEditingCommentId(commentId);
+        setEditingCommentText(currentText);
+    };
+
+    const handleEditCommentSubmit = async () => {
+        if (editingCommentText.trim() === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
+
+        const token = sessionStorage.getItem('accessToken');
+
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+            return;
+        }
+
+        try {
+            const requestData = {
+                comment: editingCommentText,
+            };
+
+            await axios.patch(
+                `${process.env.REACT_APP_API_URL}/api/challenge/auth/comment?commentId=${editingCommentId}`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
+            setComments(commentsResponse.data);
+            setEditingCommentId(null);
+            setEditingCommentText("");
+            alert("댓글이 수정되었습니다.");
+        } catch (error) {
+            if (error.response) {
+                console.error('서버 응답 오류:', error.response.data);
+            } else if (error.request) {
+                console.error('요청 오류:', error.request);
+            } else {
+                console.error('에러 발생:', error.message);
+            }
+            alert('댓글 수정 중 오류가 발생했습니다.');
+        }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${String(date.getFullYear()).slice(2)}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    };
+
+    const loadMoreComments = async () => {
+        if (loading) return;
+
+        setLoading(true);
+
+        try {
+            const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber + 1}&pageSize=10`);
+            if (commentsResponse.data.length > 0) {
+                setComments(prevComments => [...prevComments, ...commentsResponse.data]);
+                setPageNumber(prevPageNumber => prevPageNumber + 1);
+            }
+        } catch (error) {
+            console.error("댓글 로딩 중 오류 발생:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const lastCommentElementRef = useRef();
+    
+
+    useEffect(() => {
+        const observerCallback = (entries) => {
+            const [entry] = entries;
+            if (entry.isIntersecting && !loading) {
+                loadMoreComments();
+            }
+        };
+
+        const observerInstance = new IntersectionObserver(observerCallback, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        });
+
+        if (lastCommentElementRef.current) {
+            observerInstance.observe(lastCommentElementRef.current);
+        }
+
+        return () => {
+            if (lastCommentElementRef.current) {
+                observerInstance.unobserve(lastCommentElementRef.current);
+            }
+        };
+    }, [loading]);
+
+    if (!videoData) {
+        return <div>로딩 중...</div>;
+    }
+
+    // textarea 클릭 시
+    const handleTextareaClick = () => {
+        const token = sessionStorage.getItem('accessToken');
+        if (!token) {
+            if (window.confirm('로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?')) {
+                window.location.href = '/login';
+            }
+        }
+    };
+    console.log(videoData);
+    console.log(videoData.video);
+    const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.videoPath}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
     return (
         <Layout>
-            {/* 동영상 */}
             <div className="main-container-810">
                 <div className="videos-flex mt90">
-                    <VideoPlay thumbnail={dummyVideo.thumbnail} />
+                    <VideoPlay thumbnail={videoData.thumbnail} title={videoData.title} videoUrl={videoUrl} />
                 </div>
 
-                {/* 정보 */}
                 <div className="play-infobox mt20">
                     <div className="flex align-center space-between">
-                        <div>캐논 변주곡</div>
-                        <div>#기타</div>
+                        <div>{videoData.title}</div>
+                        <div>#{videoData.category}</div>
                     </div>
                     <div className="flex align-center space-between mt10">
                         <div className="flex align-center">
-                            <img src={grade} className="mr10" />김융
+                            <img src={grade} className="mr10" />{videoData.nickname}
                         </div>
                         <div className="flex align-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
                             <img
                                 src={isHeartFilled ? heart_fill : heart}
-                                className={`mr10 ${animate ? "heart-animation" : ""}`} // 애니메이션 클래스 추가
+                                className={`mr10 ${animate ? "heart-animation" : ""}`}
                             />
-                            {likeCount}  {/* 좋아요 개수 표시 */}
+                            {videoData.cnt}
                         </div>
                     </div>
                 </div>
 
-                {/* 설명 */}
                 <div className="video-info mt40">
-                    <div className="video-info-title">
-                        <div>조회수 7500회</div>
-                        <div>24.05.26 17:14</div>
-                    </div>
-                    <div className="video-info-content">기타로 연주한 캐논 변주곡입니다 부족한 실력이지만 열심히 했습니다.</div>
+                    <div className="video-info-content">{videoData.description}</div>
                 </div>
 
-                {/* 버튼 */}
                 <div className="flex-end mt40 button-container">
                     <Button>수정</Button>
                     <Button>삭제</Button>
                 </div>
 
-                {/* 댓글등록 */}
                 <div className="comment mt90">
                     <div>댓글 {comments.length}개</div>
                     <textarea
@@ -120,36 +399,67 @@ const ChallengeDetail = () => {
                         placeholder="댓글을 입력하세요."
                         value={newComment}
                         onChange={handleCommentChange}
+                        onClick={handleTextareaClick}
                     />
                 </div>
                 <div className="flex-end mt10 button-container">
                     <Button onClick={handleCommentSubmit}>등록</Button>
                 </div>
 
-                {/* 댓글리스트 */}
                 {showCommentPlaceholder && comments.length === 0 && (
                     <div className="comment-placeholder">
                         첫 댓글을 남겨보세요!
                     </div>
                 )}
-                {comments.map((comment) => (
-                    <div key={comment.id}>
+
+                {comments.map((comment, index) => (
+                    <div key={comment.commentId} ref={comments.length === index + 1 ? lastCommentElementRef : null}>
                         <div className="flex align-center space-between mt40">
                             <div className="flex align-center">
                                 <img src={grade} className="mr10" />
-                                {comment.author}
+                                {comment.nickname}
                             </div>
-                            <div className="flex align-center">{comment.date}</div>
+                            <div className="flex align-center">
+                                {formatDate(comment.createdAt)}
+                            </div>
                         </div>
                         <div className="comment-content mt10">
-                            {comment.content}
-                            <div className="line"></div>
+                            {editingCommentId === comment.commentId ? (
+                                <div className="comment">
+                                    <textarea
+                                        value={editingCommentText}
+                                        onChange={handleEditCommentChange}
+                                    />
+                                    <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
+                                        <button className="button save" onClick={handleEditCommentSubmit}>완료</button>
+                                        <button className="button can" onClick={() => {
+                                            setEditingCommentId(null);
+                                            setEditingCommentText("");
+                                        }}>취소</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="comment-wrapper">
+                                    <div className="comment-text">
+                                        {comment.comment}
+                                    </div>
+                                    <div className="comment-actions">
+                                        <button className="button mod" onClick={() => handleEditClick(comment.commentId, comment.comment)}>수정</button>
+                                        <button className="button del" onClick={() => handleCommentDelete(comment.commentId)}>삭제</button>
+                                    </div>
+                                    <div className="line"></div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
+
+                {loading && (
+                    <div className="loading">Loading...</div>
+                )}
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default ChallengeDetail;

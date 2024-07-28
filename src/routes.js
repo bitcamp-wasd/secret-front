@@ -45,7 +45,7 @@ const routes = [
   { path: "/video/modify/:videoId", element: <PrivateRoute element={<ModifyVideo />} /> },
   { path: "/video/play/:videoId", element: <PlayVideo /> },
   { path: "/challenge/list", element: <ChallengeList /> },
-  { path: "/challenge/detail", element: <ChallengeDetail /> },
+  { path: "/challenge/detail/:videoId", element: <ChallengeDetail /> },
   { path: "/challenge/register", element: <PrivateRoute element={<ChallengeRegister />} /> },
   { path: "/battle/list", element: <BattleList /> },
   { path: "/battle/detail/:battleId", element: <BattleDetail /> },
