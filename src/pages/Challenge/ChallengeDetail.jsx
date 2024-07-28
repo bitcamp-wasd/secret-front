@@ -35,13 +35,32 @@ const ChallengeDetail = () => {
                 const videoResponse = await axios.get(`${apiUrl}/api/challenge/watch?videoId=${videoId}`);
                 const videoData = videoResponse.data;
                 setVideoData(videoData);
-                setIsHeartFilled(videoData.hasVoted);
-                setHasVoted(videoData.hasVoted);
+                setChallengeId(videoData.challengeId);
 
                 const commentsResponse = await axios.get(`${apiUrl}/api/challenge/comment?videoId=${videoId}&pageNumber=${pageNumber}&pageSize=10`);
                 setComments(commentsResponse.data);
                 setShowCommentPlaceholder(commentsResponse.data.length === 0);
 
+                // 투표 여부 확인
+                const token = sessionStorage.getItem('accessToken');
+                if (token) {
+                    const voteCheckRequestData = {
+                        challengeId: videoData.challengeId,
+                        challengeListId: videoId,
+                    };
+                    const voteCheckResponse = await axios.post(
+                        `${apiUrl}/api/challenge/auth/vote/check`,
+                        voteCheckRequestData,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    const hasVoted = voteCheckResponse.data;
+                    setIsHeartFilled(hasVoted);
+                    setHasVoted(hasVoted);
+                }
             } catch (error) {
                 console.error("API 호출 중 오류 발생:", error);
             }
@@ -86,7 +105,7 @@ const ChallengeDetail = () => {
                     },
                 }
             );
-            console.log('좋아요 요청 성공:', response.data);
+            console.log('투표 요청 성공:', response.data);
 
             const videoResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/challenge/watch?videoId=${videoId}`);
             const updatedVideoData = videoResponse.data;
@@ -295,6 +314,7 @@ const ChallengeDetail = () => {
     };
 
     const lastCommentElementRef = useRef();
+    
 
     useEffect(() => {
         const observerCallback = (entries) => {
@@ -334,7 +354,9 @@ const ChallengeDetail = () => {
             }
         }
     };
-    const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.video}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
+    console.log(videoData);
+    console.log(videoData.video);
+    const videoUrl = `https://ralnmjht3939.edge.naverncp.com/hls/3of~20qtSk4YcLxE52rCqA__/video/music/${videoData.videoPath}_AVC_,HD_1Pass_30fps,SD_1Pass_30fps,SD_1Pass_30fps_1,.mp4.smil/master.m3u8`;
     return (
         <Layout>
             <div className="main-container-810">
