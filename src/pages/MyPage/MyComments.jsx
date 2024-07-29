@@ -25,7 +25,11 @@ const MyComments = () => {
           response = await axiosInstance.get(`/api/battle/auth/mycomment`, {
             params: { page: currentPage - 1 }
           });
-        } 
+        }  else if (selectedTag === 'challenge') {
+          response = await axiosInstance.get(`/api/challenge/auth/mycomment`, {
+            params: { pageNumber: currentPage - 1 }
+          });
+        }
         
         const { content, totalPages } = response.data;
         setComments(content);
@@ -62,6 +66,8 @@ const MyComments = () => {
       navigate(`/video/play/${comment.videoId}`);
     } else if (selectedTag === 'battle') {
       navigate(`/battle/detail/${comment.battleId}`);
+    } else if (selectedTag === 'challenge') {
+      navigate(`/challenge/detail/${comment.videoId}`); 
     }
   };
 
@@ -95,7 +101,7 @@ const MyComments = () => {
           </div>
           {comments.map((comment) => (
             <div 
-              key={comment.commentId || comment.battleCommentId} 
+              key={comment.commentId || comment.challengeCommentId || comment.battleCommentId} 
               className="comment-row"
               onClick={() => handleCommentClick(comment)}
               style={{ cursor: 'pointer' }}

@@ -22,7 +22,7 @@ const VideoBox = ({ thumbnail, title, views, uploadDate, length, nickname }) => 
   };
 
   const thumbnailUrl = thumbnail ? `${cloudImageUrl}${thumbnail}` : defaultThumbnail;
-  console.log(thumbnailUrl);
+  
   return (
     <div className="video-box mt20">
       <div className="thumbnail-container">
