@@ -1,55 +1,46 @@
 import React, { useState, useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from 'react-router-dom';
 import "../../assets/css/style.css";
 import Layout from '../../components/Layout';
-import VideoBox_hart from '../../components/VideoBox_hart';
-
+import VideoBox_ch from '../../components/VideoBox_ch';
 
 const MyChallenges = () => {
-  // 더미 데이터 생성
-  const allVideos = Array.from({ length: 100 }, (_, index) => ({
-    id: index + 1,
-    title: `Video ${index + 1} 내 챌린지 페이지에요.`,
-    thumbnail: `https://via.placeholder.com/276x155.25?text=Thumbnail+${index + 1}`,
-    author: "홍길동",
-  }));
-
-  const [visibleVideos, setVisibleVideos] = useState(12);
-  const [videos, setVideos] = useState(allVideos.slice(0, visibleVideos));
-
-  const loadMoreVideos = () => {
-    setVisibleVideos((prevVisibleVideos) => {
-      const newVisibleVideos = prevVisibleVideos + 12;
-      setVideos(allVideos.slice(0, newVisibleVideos));
-      return newVisibleVideos;
-    });
-  };
-
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 50) {
-      loadMoreVideos();
-    }
-  };
+  const [videos, setVideos] = useState([]);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const fetchVideos = async () => {
+      try {
+        const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/api/challenge/post/auth/myposts`);
+        setVideos(response.data); 
+      } catch (error) {
+        console.error("Error fetching challenge videos:", error);
+      }
+    };
+
+    fetchVideos();
   }, []);
+
+  const handleVideoClick = (_id) => {
+    navigate(`/challenge/detail/${_id}`); 
+  };
 
   return (
     <Layout showFooter={false} bannerType="my">
-      <div className="main-container-1150 mt80">
-
-
+      <div className="main-container-1150 mt40">
         <div className="row-direction space-between mb50">
         </div>
         <div className="videos-grid">
           {videos.map((video) => (
-            <VideoBox_hart
-              key={video.id}
-              thumbnail={video.thumbnail}
-              title={video.title}
-              author={video.author}
+            <div key={video.videoId} onClick={() => handleVideoClick(video._id)} style={{ cursor: 'pointer' }}>
+            <VideoBox_ch
+            thumbnail={`${video.thumbnailPath}`}
+            title={video.title}
+            nickname={video.nickname}
+            cnt={video.cnt}
             />
+            </div>
           ))}
         </div>
       </div>

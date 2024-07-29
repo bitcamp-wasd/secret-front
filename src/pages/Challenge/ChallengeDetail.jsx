@@ -133,7 +133,7 @@ const ChallengeDetail = () => {
     const handleCommentChange = (e) => {
         const value = e.target.value;
         if (value.length > 255) {
-            alert("댓글은 255자 이하로 입력해주세요.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return;
         }
         setNewComment(value);
@@ -142,7 +142,7 @@ const ChallengeDetail = () => {
     const handleEditCommentChange = (e) => {
         const value = e.target.value;
         if (value.length > 255) {
-            alert("댓글은 255자 이하로 입력해주세요.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return;
         }
         setEditingCommentText(value);
@@ -314,7 +314,7 @@ const ChallengeDetail = () => {
     };
 
     const lastCommentElementRef = useRef();
-    
+
 
     useEffect(() => {
         const observerCallback = (entries) => {
@@ -387,10 +387,10 @@ const ChallengeDetail = () => {
                     <div className="video-info-content">{videoData.description}</div>
                 </div>
 
-                <div className="flex-end mt40 button-container">
+                {/* <div className="flex-end mt40 button-container">
                     <Button>수정</Button>
                     <Button>삭제</Button>
-                </div>
+                </div> */}
 
                 <div className="comment mt90">
                     <div>댓글 {comments.length}개</div>

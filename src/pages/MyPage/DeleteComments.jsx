@@ -25,11 +25,15 @@ const DeleteComments = () => {
         response = await axiosInstance.get(`/api/video/auth/mycomment`, {
           params: { pageNumber: currentPage - 1 },
         });
+      } else if (selectedTag === 'challenge') {
+        response = await axiosInstance.get(`/api/challenge/auth/mycomment`, {
+          params: { pageNumber: currentPage - 1 }
+        });
       } else if (selectedTag === 'battle') {
         response = await axiosInstance.get(`/api/battle/auth/mycomment`, {
           params: { page: currentPage - 1 },
         });
-      }
+      } 
 
       const { content, totalPages } = response.data;
       setComments(content);
@@ -41,7 +45,7 @@ const DeleteComments = () => {
 
   const handleSelectAll = (event) => {
     if (event.target.checked) {
-      setSelectedComments(comments.map((comment) => comment.commentId || comment.battleCommentId));
+      setSelectedComments(comments.map((comment) => comment.commentId || comment.challengeId || comment.battleCommentId));
     } else {
       setSelectedComments([]);
     }
@@ -67,6 +71,9 @@ const DeleteComments = () => {
 
       if (selectedTag === 'video') {
         deleteUrl = '/api/video/auth/comment';
+        deleteData = { commentIds: selectedComments };
+      } else if (selectedTag === 'challenge') {
+        deleteUrl = '/api/challenge/auth/comment';
         deleteData = { commentIds: selectedComments };
       } else if (selectedTag === 'battle') {
         deleteUrl = '/api/battle/auth/mycomment';
@@ -149,11 +156,11 @@ const DeleteComments = () => {
             <span>작성일</span>
           </div>
           {comments.map((comment) => (
-            <div key={comment.commentId || comment.battleCommentId} className="comment-row">
+            <div key={comment.commentId || comment.challengeCommentId || comment.battleCommentId} className="comment-row">
               <input
                 type="checkbox"
-                checked={selectedComments.includes(comment.commentId || comment.battleCommentId)}
-                onChange={() => handleSelectComment(comment.commentId || comment.battleCommentId)}
+                checked={selectedComments.includes(comment.commentId || comment.challengeCommentId || comment.battleCommentId)}
+                onChange={() => handleSelectComment(comment.commentId || comment.challengeCommentId || comment.battleCommentId)}
               />
               <span>{comment.title}</span>
               <span>{comment.comment}</span>
