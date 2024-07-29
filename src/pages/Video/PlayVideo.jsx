@@ -150,8 +150,13 @@ const PlayVideo = () => {
   };
 
   const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
+    if (e.target.value.length <= 255) {
+      setNewComment(e.target.value);
+    } else {
+      alert("댓글은 최대 255자까지 입력할 수 있습니다.");
+    }
   };
+
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === "") {
@@ -211,14 +216,20 @@ const PlayVideo = () => {
   };
 
 
+
   const handleEditComment = (commentId, commentText) => {
     setEditCommentId(commentId);
     setEditCommentText(commentText);
   };
 
   const handleEditCommentChange = (e) => {
-    setEditCommentText(e.target.value);
+    if (e.target.value.length <= 255) {
+      setEditCommentText(e.target.value);
+    } else {
+      alert("댓글은 최대 255자까지 입력할 수 있습니다.");
+    }
   };
+
 
   const handleEditCommentSubmit = async () => {
     if (editCommentText.trim() === "") {

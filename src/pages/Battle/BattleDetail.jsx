@@ -144,6 +144,11 @@ const BattleDetail = () => {
 
     // 댓글 수정 함수
     const updateComment = async (commentId) => {
+        if (editingCommentText.length > 255) {
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
+            return; // 길이가 초과하면 댓글 수정 요청을 막음
+        }
+
         try {
             const apiUrl = `${process.env.REACT_APP_API_URL}/api/battle/auth/${battleId}/update/${commentId}`;
             const token = sessionStorage.getItem("accessToken");
@@ -184,6 +189,17 @@ const BattleDetail = () => {
             // 오류 처리: 예를 들어 사용자에게 알림을 표시할 수 있습니다.
         }
     };
+
+    // 수정 중인 댓글의 텍스트 변경 핸들러
+    const handleEditingCommentChange = (e) => {
+        const input = e.target.value;
+        if (input.length > 255) {
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
+            return; // 길이가 초과하면 상태 업데이트를 막음
+        }
+        setEditingCommentText(input); // 수정 중인 댓글 텍스트 상태 업데이트
+    };
+
 
     // 댓글 삭제
     const deleteComment = async (battleCommentId) => {
@@ -377,7 +393,7 @@ const BattleDetail = () => {
         }
 
         if (newComment.length > 255) {
-            alert("댓글은 255자를 초과할 수 없습니다.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return; // 길이가 초과하면 댓글 등록을 막음
         }
 
@@ -440,7 +456,7 @@ const BattleDetail = () => {
     const handleCommentChange = (e) => {
         const input = e.target.value;
         if (input.length > 255) {
-            alert("댓글은 255자를 초과할 수 없습니다.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return; // 길이가 초과하면 상태 업데이트를 막음
         }
         setNewComment(input); // 댓글 입력 상태 업데이트
@@ -560,7 +576,7 @@ const BattleDetail = () => {
                             <div className="comment">
                                 <textarea
                                     value={editingCommentText}
-                                    onChange={(e) => setEditingCommentText(e.target.value)}
+                                    onChange={handleEditingCommentChange}
                                 />
                                 <div className="button-container mt10 mb10" style={{ textAlign: 'right' }}>
                                     <button className="button save" onClick={() => updateComment(comment.battleCommentId)}>완료</button>
