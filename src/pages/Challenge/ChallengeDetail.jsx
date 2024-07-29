@@ -314,7 +314,7 @@ const ChallengeDetail = () => {
     };
 
     const lastCommentElementRef = useRef();
-    
+
 
     useEffect(() => {
         const observerCallback = (entries) => {
@@ -387,10 +387,10 @@ const ChallengeDetail = () => {
                     <div className="video-info-content">{videoData.description}</div>
                 </div>
 
-                <div className="flex-end mt40 button-container">
+                {/* <div className="flex-end mt40 button-container">
                     <Button>수정</Button>
                     <Button>삭제</Button>
-                </div>
+                </div> */}
 
                 <div className="comment mt90">
                     <div>댓글 {comments.length}개</div>
