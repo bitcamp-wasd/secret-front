@@ -93,7 +93,7 @@ const BattleList = () => {
                     {battles.map((battle) => (
                         <div
                             key={battle.battleId}
-                            className="battle-container mt80"
+                            className="battle-container mt60"
                             onClick={() => handleClick(battle.battleId)}
                             style={{ cursor: 'pointer' }}
                         >
@@ -131,7 +131,7 @@ const BattleList = () => {
                                 </div>
                             </div>
                             <div className="video-info">
-                                <div className="video-info-title">
+                                <div className="video-info-title mb20">
                                     <div>{battle.title}</div>
                                     <div>조회수 {battle.views}회 종료일 {formatDate(battle.endDate)}</div>
                                 </div>
