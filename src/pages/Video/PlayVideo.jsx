@@ -178,9 +178,6 @@ const PlayVideo = () => {
       return;
     }
 
-    const now = new Date();
-    const formattedDate = formatDate(now.toISOString()); // 현재 시간을 포맷팅
-
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/video/auth/comment`, {
         videoId: videoId,
@@ -193,18 +190,8 @@ const PlayVideo = () => {
 
       console.log('댓글 등록 성공:', response.data);
 
-      const newCommentData = {
-        commentId: response.data.commentId,
-        nickname: currentUserNickname,
-        rankName: "16분음표",
-        comment: newComment,
-        createDate: formattedDate,
-      };
-
-      console.log(newCommentData);
-
-      // 새 댓글을 맨 위에 추가
-      setComments(prevComments => [newCommentData, ...prevComments]);
+      // 댓글 등록 후 최신 댓글 목록을 가져옵니다.
+      await fetchComments(0); // 0 페이지로 호출하여 최신 댓글을 가져옵니다.
       setNewComment("");
       setShowCommentPlaceholder(false);
 
@@ -214,6 +201,33 @@ const PlayVideo = () => {
       alert("댓글 등록 중 오류가 발생했습니다.");
     }
   };
+
+  const fetchComments = async (page = 0) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/video/comment`, {
+        params: { videoId: videoId, pageNumber: page }
+      });
+      if (response.data.length > 0) {
+        // 포맷팅된 댓글 데이터 생성
+        const formattedComments = response.data.map(comment => ({
+          ...comment,
+          createDate: formatDate(comment.createDate)
+        }));
+        setComments(prevComments => [...prevComments, ...formattedComments]);
+        setHasMoreComments(response.data.length > 0); // 댓글이 있으면 계속 로드 가능
+      } else {
+        setHasMoreComments(false); // 더 이상 로드할 댓글이 없음
+      }
+    } catch (error) {
+      console.error('댓글을 가져오는 중 오류 발생:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
 
 
 
