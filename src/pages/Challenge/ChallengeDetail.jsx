@@ -133,7 +133,7 @@ const ChallengeDetail = () => {
     const handleCommentChange = (e) => {
         const value = e.target.value;
         if (value.length > 255) {
-            alert("댓글은 255자 이하로 입력해주세요.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return;
         }
         setNewComment(value);
@@ -142,7 +142,7 @@ const ChallengeDetail = () => {
     const handleEditCommentChange = (e) => {
         const value = e.target.value;
         if (value.length > 255) {
-            alert("댓글은 255자 이하로 입력해주세요.");
+            alert("댓글은 최대 255자까지 입력할 수 있습니다.");
             return;
         }
         setEditingCommentText(value);
