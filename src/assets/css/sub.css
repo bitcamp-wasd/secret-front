@@ -296,6 +296,14 @@
   border-bottom: 1px solid var(--box-border-color);
 }
 
+/*글자수 많아지면 생략*/
+.comment-row span {
+  width: 90%;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
 /*댓글 페이지 페이지네이션*/
 .mycomments-pagenation{
   display: flex;
