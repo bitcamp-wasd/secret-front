@@ -74,7 +74,7 @@ const DeleteComments = () => {
         deleteData = { commentIds: selectedComments };
       } else if (selectedTag === 'challenge') {
         deleteUrl = '/api/challenge/auth/comment';
-        deleteData = { challengeCommentIds: selectedComments };
+        deleteData = { commentIds: selectedComments };
       } else if (selectedTag === 'battle') {
         deleteUrl = '/api/battle/auth/mycomment';
         deleteData = { battleCommentId: selectedComments };
