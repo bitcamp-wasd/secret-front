@@ -1,0 +1,359 @@
+/*로그인 화면 로고*/
+.auth-site-logo{
+  display: flex;
+  width: 100%;
+  margin-top: 25px;
+  justify-content: center;
+}
+
+
+/*로그인 화면의 사이트명*/
+.auth-site-name {
+  display: flex;
+  width: 100%;
+  margin: 25px 0 62px 0;
+  justify-content: center;
+}
+
+.auth-site-name h1{
+  font-size: 40px;
+}
+
+
+/*로그인 박스 내부 요소 스타일*/
+
+.auth-box-info {
+  display: flex;
+  flex-direction: column;
+  width: 520px;
+}
+
+.auth-box-info-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
+  margin-bottom: 30px; /* 기본 간격 */
+}
+
+.auth-box-info input {
+  width: 320px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: 20px;
+}
+
+.auth-code-input {
+  flex: 1;
+}
+
+.auth-error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 5px;
+  position: absolute; /* 절대 위치 설정 */
+  top: -35px; /* 이메일 input 상단으로 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+
+.auth-box-info-social2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  cursor: pointer;
+  
+  
+}
+
+
+.auth-box-info-social img {
+  max-width: 300px;
+  width: 300px;
+  max-height: 40px;
+  height: 40px;
+ object-fit: cover; /*이미지 비율 유지하며 박스에 맞게*/
+}
+
+.auth-box-info-signup{
+  display: flex;
+  justify-content: end;
+  padding-right: 105px;
+}
+
+/*확인버튼 바뀌는 클래스*/
+.button-confirmed {
+  height: 40px;
+  background-color: #EDEDED;
+  color: #818181;
+}
+
+/*placeholder스타일*/
+.signup-button-box ::placeholder{
+  text-align: center;
+  
+}
+
+.auth-box-info-item ::placeholder{
+  text-align: center;
+}
+
+.signup-button-box{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px; /* input과 버튼 사이의 간격 */
+  width: 100%;
+  
+  
+}
+
+.signup-error-message {
+  color: red;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+  position: absolute; /* 절대 위치 설정 */
+  top: 42px; /* 이메일 input 상단으로 위치 조정 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/*내정보 css*/
+
+.myinfo-box {
+  display: flex;
+  flex-direction: column;
+  width: 810px;
+  gap: 31px;
+}
+
+.myinfo-headline {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px black;
+  padding-bottom: 15px;
+}
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  font-size: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* 중복 경고 메시지 위치 설정을 위해 relative 추가 */
+}
+
+.info-item label {
+  width: 22%;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.info-content {
+  margin-left: 18px;
+}
+
+.info-item {
+  font-size: inherit;
+}
+
+.info-item input {
+  width: 40%;
+  background: white;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  padding: 8px 17px;
+  font-size: inherit;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 180px;
+  position: absolute;
+  /* 절대 위치 설정 */
+  bottom: -24px;
+}
+
+/*랭크 팝업*/
+.rank-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+
+}
+
+.rank-content-box {
+  width: 84%;
+
+}
+
+.rank-content-box-headline {
+  display: flex;
+  width: calc(100%);
+
+  border-bottom: solid 1px black;
+  margin-top: 8%;
+  padding-left: 5%;
+  padding-bottom: 1%;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.rank-content-box-headline-title {
+  width: 19%;
+  font-size: 24px;
+  font-weight: 700;
+
+}
+
+.rank-content-box-headline-detail {
+  width: 60%;
+
+}
+
+.rank-content-box-grid-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+}
+
+.rank-content-box-grid {
+  width: 70%;
+  display: grid;
+  padding-top: 3%;
+  grid-template-columns: 1.2fr 2.8fr 9fr 10.4fr;
+  border-bottom: solid 0.5px gainsboro;
+  font-size: 20px;
+}
+
+.rank-content-box-grid img {
+  height: 100%;
+  object-fit: cover;
+  /*이미지 비율 유지하며 박스에 맞게*/
+}
+
+/*내정보-댓글*/
+
+/*댓글 카테고리*/
+.comments-tag button {
+  padding: 20px !important;
+  margin: 7px 30px 7px 0px;
+  background-color: rgba(255, 229, 0, 0.3);
+}
+
+.comments-tag button:first-child {
+  margin-left: 0;
+}
+
+.comments-tag button:last-child {
+  margin-right: 0;
+}
+
+.comments-grid {
+  width: 790px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.comments-header {
+  display: grid;
+  height: 50px;
+  align-items: center;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  background: rgba(255, 229, 0, 0.3);
+  color: var(--black);
+  border-top: solid 2px black;
+  border-bottom: solid 1px black;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.comment-row {
+  display: grid;
+  height: 40px;
+  grid-template-columns: 0.5fr 3fr 6fr 1.5fr;
+  align-items: center;
+  border-bottom: 1px solid var(--box-border-color);
+}
+
+/*글자수 많아지면 생략*/
+.comment-row span {
+  width: 90%;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+/*댓글 페이지 페이지네이션*/
+.mycomments-pagenation{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  
+  margin: 20px 0px 30px 0px;
+}
+
+.mycomments-pagination button {
+  padding: 5px 10px;
+  margin: 0 3px;
+  background-color: #fff;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.mycomments-pagination button.active {
+  border: solid 1px rgba(0,0,255,0.3);
+  border-radius: 7px;
+  color: blue;
+}
+
+.mycomments-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/*메인동영상 리스트에서 사용하는 태그의 오른쪽 기능(업로드,검색) 스타일*/
+.tag-main-right {
+  display: flex;
+  align-items: center;
+  
+}
+
+.tag-main-right input {
+width: 200px;
+border: solid 2px #FFE500;
+border-radius: 15px;
+padding: 8px 17px;
+margin-left: 25px;
+font-size: inherit;
+text-align: center;
+background-image: url('../../assets/images/search.svg');
+background-size: auto;
+background-repeat: no-repeat;
+background-position: left 12px center;
+
+}
+
+.tag-main-right button{
+  padding: 10px !important;
+}
